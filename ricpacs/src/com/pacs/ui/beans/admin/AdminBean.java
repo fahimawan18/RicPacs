@@ -7,6 +7,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import com.iac.web.util.FacesUtils;
+import com.pacs.bll.admin.AdminBll;
+import com.pacs.dal.dao.ApplicationUsers;
+import com.pacs.ui.beans.UserBean;
 import com.pacs.utils.Environment;
 import com.pacs.utils.MessageConstants;
 import com.pacs.utils.MessageUtils;
@@ -25,7 +28,7 @@ public class AdminBean
 	private String newPassword = "";
 	private String newPasswordAgain = "";
 	
-	private WfPlanner selectedClient;
+	
 	private String scannedFileType;
 	
 	
@@ -36,7 +39,7 @@ public class AdminBean
 		toAddUser = new ApplicationUsers();
 		toSearchUser = new ApplicationUsers();
 		this.usersList = new ArrayList<ApplicationUsers>();
-		this.selectedClient = new WfPlanner();
+		
 	}
 	
 	public String addNewUser()
@@ -142,19 +145,7 @@ public class AdminBean
 		return "";
 	}
 	
-	
-	public List<String> completeSections(String query){
-		AddPlannerBll bll =new AddPlannerBll();
-		return bll.getAllSections();
 		
-	}
-	
-	public List<String> completeAppointments(String query){
-		AddPlannerBll bll =new AddPlannerBll();
-		return bll.getAllAppointments();
-		
-	}
-	
 	public ApplicationUsers getToAddUser() {
 		return toAddUser;
 	}
@@ -202,12 +193,5 @@ public class AdminBean
 		this.scannedFileType = scannedFileType;
 	}
 
-	public WfPlanner getSelectedClient() {
-		return selectedClient;
-	}
-
-	public void setSelectedClient(WfPlanner selectedClient) {
-		this.selectedClient = selectedClient;
-	}
 
 }

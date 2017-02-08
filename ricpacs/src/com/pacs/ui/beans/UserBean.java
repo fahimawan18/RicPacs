@@ -1,12 +1,14 @@
 package com.pacs.ui.beans;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.dcm4chex.archive.tools.Pwd2Hash;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -15,10 +17,13 @@ import org.hibernate.criterion.Restrictions;
 import org.jasypt.util.text.StrongTextEncryptor;
 
 import com.iac.web.util.FacesUtils;
+import com.pacs.dal.UserDal;
+import com.pacs.dal.dao.ApplicationUsers;
 import com.pacs.utils.Environment;
 import com.pacs.utils.HibernateUtilsAnnot;
 import com.pacs.utils.MessageConstants;
 import com.pacs.utils.MessageUtils;
+import com.pacs.utils.NavigationConstants;
 
 
 @ManagedBean (name = "userBean" )
@@ -49,7 +54,7 @@ public class UserBean
 		KEY_CURRENT_USER = "currentUser";
 		
 		this.loggedUserString = "";
-		System.out.println("In Login Action, value of username is =" + this.toSearchUser.getUserName());
+		System.out.println("In Login Action, value of username is =" + this.toSearchUser.getUserId());
 		String password = this.toSearchUser.getPassword();
 		if (password == null || password.trim().length() == 0 ) 
 		{
@@ -61,16 +66,12 @@ public class UserBean
 		{
 			try{
 			UserDal dal = new UserDal();
-			ApplicationUsers currentUser = dal.localLogin(this.toSearchUser.getUserName());
+			ApplicationUsers currentUser = dal.localLogin(this.toSearchUser.getUserId());
 			
-			if(currentUser!=null && currentUser.getId()!=null && currentUser.getId()>0)
+			if(currentUser!=null && currentUser.getUserId()!=null && currentUser.getUserId().trim().length()>0)
 			{
-				StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
-//				String myEncryptionPassword = "1";
-				textEncryptor.setPassword(MessageConstants.Constants.PASSWORD_KEY);
-				String myEncryptedText = currentUser.getPassword();
-				String plainText = textEncryptor.decrypt(myEncryptedText);
-				if(plainText.equals(this.toSearchUser.getPassword()))
+				String hashedPassword = computeHashedPassword(this.toSearchUser.getPassword());
+				if(hashedPassword.equals(currentUser.getPassword()))
 				{
 					FacesUtils.putIntoSession(KEY_CURRENT_USER, currentUser);
 					System.out.println(KEY_CURRENT_USER);
@@ -79,9 +80,9 @@ public class UserBean
 					this.loggedUserString = ((ApplicationUsers) FacesUtils.getFromSession(KEY_CURRENT_USER))
 							.getLoggedUserString();
 					System.out.println(this.loggedUserString);
-					if(currentUser.getSection().equals(MessageConstants.Constants.DISPLAY_UNIT) )
-						return (( PageNavigationBean )FacesUtils.getManagedBean( "navBean" ) ).navDisplayPage();
-					else
+//					if(currentUser.getSection().equals(MessageConstants.Constants.DISPLAY_UNIT) )
+//						return (( PageNavigationBean )FacesUtils.getManagedBean( "navBean" ) ).navDisplayPage();
+//					else
 						return (( PageNavigationBean )FacesUtils.getManagedBean( "navBean" ) ).navHomePage();
 				}
 				else 
@@ -98,7 +99,13 @@ public class UserBean
 				MessageUtils.error(MessageConstants.Messages.INVALID_USERNAME);
 				return  "";
 			}
-			}catch(Exception e)
+			}
+			catch(UnsupportedEncodingException e)
+			{
+				MessageUtils.error("Error!" + e.getMessage());
+				return "";
+			}
+			catch(Exception e)
 			{
 				MessageUtils.error("Error!" + e.getMessage());
 				return "";
@@ -107,6 +114,14 @@ public class UserBean
 		}
 
 		//return NavigationConstants.HOME_NAVIGATION;
+	}
+	
+	private String computeHashedPassword(String userPassword)throws UnsupportedEncodingException, Exception
+	{
+		String hashedPassword="";
+		byte[] hash = Pwd2Hash.createHash(userPassword);
+		hashedPassword = javax.xml.bind.DatatypeConverter.printBase64Binary(hash);
+		return hashedPassword;
 	}
 	
 	public String searchUser()
@@ -119,7 +134,7 @@ public class UserBean
 			session = HibernateUtilsAnnot.currentSession();
 			
 			Criteria cr = session.createCriteria(ApplicationUsers.class);
-			cr.add(Restrictions.eq("userName", this.toSearchUser.getUserName()));
+			cr.add(Restrictions.eq("userName", this.toSearchUser.getUserId()));
 			ApplicationUsers appUser = (ApplicationUsers)cr.uniqueResult();
 			
 			

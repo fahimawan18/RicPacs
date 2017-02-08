@@ -9,11 +9,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import com.iac.web.util.FacesUtils;
-import com.plan.dal.dao.WfAttendedBy;
-import com.plan.ui.beans.admin.CriteriaBean;
-import com.plan.ui.beans.wf.AddPlannerBean;
-import com.plan.utils.MessageConstants;
-import com.plan.utils.NavigationConstants;
+import com.pacs.ui.beans.admin.CriteriaBean;
+import com.pacs.utils.MessageConstants;
+import com.pacs.utils.NavigationConstants;
 
 /**
  * @author 
@@ -38,7 +36,7 @@ public class PageNavigationBean implements Serializable
 
 	public String navHomePage() {
 		System.out.println("PageNavigationBean defaultPage.xhtml");
-		(( AddPlannerBean )FacesUtils.getManagedBean( "addPlannerBean" ) ).searchCurrentCmts();
+//		(( AddPlannerBean )FacesUtils.getManagedBean( "addPlannerBean" ) ).searchCurrentCmts();
 		pageName = NavigationConstants.HOME_NAVIGATION;
 //		pageTitle = MessageConstants.Constants.PageTitles.HOME_PAGE;
 		cb.setPageTitle(MessageConstants.Constants.PageTitles.HOME_PAGE);
@@ -47,7 +45,7 @@ public class PageNavigationBean implements Serializable
 	
 	public String navDisplayPage() {
 		System.out.println("PageNavigationBean displayPage.xhtml");
-		(( AddPlannerBean )FacesUtils.getManagedBean( "addPlannerBean" ) ).searchCurrentCmts();
+//		(( AddPlannerBean )FacesUtils.getManagedBean( "addPlannerBean" ) ).searchCurrentCmts();
 		pageName = NavigationConstants.DISPLAY_NAVIGATION;
 //		pageTitle = MessageConstants.Constants.PageTitles.HOME_PAGE;
 		cb.setPageTitle(MessageConstants.Constants.PageTitles.HOME_PAGE);
@@ -62,55 +60,6 @@ public class PageNavigationBean implements Serializable
 		return pageName;
 	}
 
-	public String navAddPlanner() {
-		System.out.println("PageNavigationBean navAddPlanner");
-		FacesUtils.resetManagedBean("addPlannerBean");
-		pageName = NavigationConstants.ADD_PLAN_NAVIGATION;
-//		pageTitle = MessageConstants.Constants.PageTitles.REGISTER_CLIENT;
-		cb.setPageTitle(MessageConstants.Constants.PageTitles.ADD_PLAN);
-		return pageName;
-	}
-	
-	public String navUpdatePlanner() 
-	{
-		FacesUtils.resetManagedBean("addPlannerBean");
-		pageName = NavigationConstants.UPDATE_CLIENT_NAVIGATION;
-//		pageTitle = MessageConstants.Constants.PageTitles.UPDATE_CLIENT;
-		cb.setPageTitle(MessageConstants.Constants.PageTitles.UPDATE_PLAN);
-		return pageName;
-	}
-	
-	public String navUpdatePlannerDetails() 
-	{
-		System.out.println("PageNavigationBean .... navUpdatePlannerDetails");
-		pageName = NavigationConstants.UPDATE_PLAN_DETAILS_NAVIGATION;
-		AddPlannerBean bean = (( AddPlannerBean )FacesUtils.getManagedBean( "addPlannerBean" ) );
-		bean.getAttendedByList().setTarget(bean.getToAddPlan().getAttendedBy());
-		
-//		for (WfAttendedBy attendedBy : bean.getToAddPlan().getAttendedBy()) {
-//			System.out.println("Adding in target .... " + attendedBy.getName());
-//			bean.getAttendedByList().getTarget().add(attendedBy.getName());
-//		}
-		
-		cb.setPageTitle(MessageConstants.Constants.PageTitles.UPDATE_PLAN);
-		return pageName;
-	}
-	
-	
-	public String navAdvanceSearchDetails() 
-	{
-		pageName = NavigationConstants.ADVANCE_SEARCH_DETAILS_NAVIGATION;
-		cb.setPageTitle(MessageConstants.Constants.PageTitles.ADV_SEARCH);
-		return pageName;
-	}
-	
-	public String navAdvanceSearch() 
-	{
-		FacesUtils.resetManagedBean("advSearchBean");
-		pageName = NavigationConstants.SEARCH_NAVIGATION;
-		cb.setPageTitle(MessageConstants.Constants.PageTitles.ADV_SEARCH);
-		return pageName;
-	}
 	
 	
 	

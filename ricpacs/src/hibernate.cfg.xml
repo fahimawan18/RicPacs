@@ -13,7 +13,7 @@
   <!--  property name="hibernate.hbm2ddl.auto">create</property -->
   
   
-  <!-- <mapping class="com.plan.dal.dao.ApplicationUsers"/> -->
+  <mapping class="com.pacs.dal.dao.ApplicationUsers"/>
   
  </session-factory>
 </hibernate-configuration>

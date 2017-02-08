@@ -12,6 +12,9 @@ import org.primefaces.showcase.domain.Theme;
 import org.primefaces.showcase.service.ThemeService;
 
 import com.iac.web.util.FacesUtils;
+import com.pacs.bll.admin.AdminBll;
+import com.pacs.dal.dao.ApplicationUsers;
+import com.pacs.ui.beans.UserBean;
  
 @ManagedBean(name = "themeSwitcherView")
 @SessionScoped
@@ -39,14 +42,14 @@ public class ThemeSwitcherView {
     	System.out.println("Inside init @PostConstruct " );
         themes = service.getThemes();
        
-        this.selectedTheme = ((UserBean)FacesUtils.getManagedBean("userBean")).getCurrentUser().getTheme();
+//        this.selectedTheme = ((UserBean)FacesUtils.getManagedBean("userBean")).getCurrentUser().getTheme();
     }
      
     public void saveTheme(){
     	ApplicationUsers currentUser =  ((UserBean)FacesUtils.getManagedBean("userBean")).getCurrentUser();
     	System.out.println("Saving theme >>>>>>>>>>>>>>>>>>>>>>>>>>> " + this.getSelectedTheme());
 //    	System.out.println("Setting theme >>>>>>>>>>>>>>>>>>>>>>>>>>> " + this.getSelTheme().getName());
-    	currentUser.setTheme(this.getSelectedTheme());
+//    	currentUser.setTheme(this.getSelectedTheme());
     	List<ApplicationUsers> userList = new ArrayList<ApplicationUsers>();
     	userList.add(currentUser);
     	new AdminBll().updateUsers(userList);

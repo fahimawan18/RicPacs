@@ -63,7 +63,7 @@ public final class MessageConstants {
 		
 		public static final class PageTitles 
 		{			
-			public static final String HOME_PAGE = "Upcoming IHD - CMTs";
+			public static final String HOME_PAGE = "RIC PACS Solution - WELCOME";
 			public static final String ADD_PLAN = "Add New IHD / CMT";
 			public static final String UPDATE_PLAN = "Update Existing IHD/CMT";
 			public static final String UPLOAD_SCANNED = "Upload Scanned Files";

@@ -27,7 +27,7 @@
 
           <fieldset class="clearfix">
           <div align="center"><p:graphicImage name="images/calendar.gif" style="border-radius: 8px 8px 8px 8px; color: #606468;"></p:graphicImage></div>
-			<p><span class="fontawesome-user"></span><p:inputText  value="#{userBean.toSearchUser.userName}" label="Username" placeholder="Username" style="color:white;" /></p> <!-- JS because of IE support; better: placeholder="Username" -->
+			<p><span class="fontawesome-user"></span><p:inputText  value="#{userBean.toSearchUser.userId}" label="Username" placeholder="Username" style="color:white;" /></p> <!-- JS because of IE support; better: placeholder="Username" -->
             <p><span class="fontawesome-lock"></span><p:password  value="#{userBean.toSearchUser.password}" label="Password" placeholder="Password" style="color:white;"/> </p> <!-- JS because of IE support; better: placeholder="Password" -->
             <p><h:commandButton value="Sign In" action="#{userBean.loginAction}"/>
            </p>
