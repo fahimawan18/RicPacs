@@ -25,7 +25,7 @@ public class NavigationConstants {
 	public static String ADVANCE_SEARCH_DETAILS_NAVIGATION = "/pages/search/advanceSearchDetails.xhtml?faces-redirect=true";
 	
 		
-	public static String SEARCH_NAVIGATION = "/pages/search/advanceSearch.xhtml?faces-redirect=true";
+	public static String SEARCH_NAVIGATION = "/pages/search/searchData.xhtml?faces-redirect=true";
 	
 	
 	public static String CONTACTUS_NAVIGATION = "/pages/contactUs.xhtml?faces-redirect=true";

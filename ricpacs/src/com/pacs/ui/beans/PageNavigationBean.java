@@ -62,7 +62,15 @@ public class PageNavigationBean implements Serializable
 
 	
 	
-	
+	public String navSearchPatientPage() 
+	{
+		System.out.println("PageNavigationBean search/searchData.xhtml");
+		FacesUtils.resetManagedBean("searchBean");
+		
+		pageName = NavigationConstants.SEARCH_NAVIGATION;
+		cb.setPageTitle(MessageConstants.Constants.PageTitles.SEARCH);
+		return pageName;
+	}
 
 	public String navAdminAddUsersPage() {
 		System.out.println("PageNavigationBean admin/addUsers.xhtml");

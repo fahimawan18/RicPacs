@@ -1,0 +1,97 @@
+
+	<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		template="/pages/includes/templatePage.xhtml">
+
+		<ui:define name="content">
+
+<h:form>
+ 
+				 	
+  	<p:panel id="panel2"  header="#{crit.pageTitle}" style="text-align: center;">
+					<p:panelGrid style="margin-top:20px; width: 70%; margin: 0 auto"
+					columns="4">
+					
+					
+					<p:outputLabel value="Patient Name"></p:outputLabel>
+ 					 <p:inputText value="#{searchBean.toSearchPatient.patName}"></p:inputText> 
+
+					<p:outputLabel value="Patient ID"></p:outputLabel>
+ 					 <p:inputText value="#{searchBean.toSearchPatient.patId}"></p:inputText>
+ 					 
+ 					 <p:outputLabel value="Patient Issuer"></p:outputLabel>
+ 					 <p:inputText value="#{searchBean.toSearchPatient.patIdIssuer}"></p:inputText>
+ 					
+ 					
+					
+    				<p:outputLabel value="Study Date / Time From:" />
+				    <p:calendar id="datetimeFrom" value="#{searchBean.dateFrom}" pattern="dd/MM/yyyy HH:mm" />
+				    <p:outputLabel value="Study Date / Time To:" />
+				    <p:calendar id="datetimeTo" value="#{searchBean.dateTo}" pattern="dd/MM/yyyy HH:mm" />
+ 					
+ 					<p:outputLabel value="Location:" rendered="false"/>
+    				<p:autoComplete id="locAuto" dropdown="true"  rendered="false"
+    				value="#{advSearchBean.toSearchPlan.location}" 
+    				completeMethod="#{addPlannerBean.completeLocations}" /> 	
+				</p:panelGrid>
+				</p:panel>
+ 
+ 
+ 
+  	<p:commandButton value="Search" icon="fa fa-fw fa-search" update="tbl1"
+  	action="#{searchBean.searchPatientsData}"/>
+  	
+  	<br/>
+  	
+  	<p:dataTable value="#{searchBean.patientsList}" var="cmt"
+					paginatorPosition="top" editable="true" rows="12" paginator="true"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					id="tbl1">
+
+					
+					<p:column headerText="Name" sortBy="#{cmt.patName}">
+				            <h:outputText value="#{cmt.patName}" />
+				        </p:column>
+				        
+				        
+					<p:column headerText="Id" width="10px" sortBy="#{cmt.patId}">
+				            <h:outputText value="#{cmt.patId}" />
+				    </p:column>
+				    
+				    <p:column headerText="Issuer" >
+				            <h:outputText value="#{cmt.patIdIssuer}" />
+				        </p:column>
+				 
+				        <p:column filterBy="#{cmt.eventTime}" rendered="false"
+				         headerText="Date - Time" filterMatchMode="contains" sortBy="#{cmt.eventTime}">
+
+				            <h:outputText value="#{cmt.eventTime}" >
+				            	<f:convertDateTime pattern="dd/MM/yyyy HH:mm"></f:convertDateTime>
+				            </h:outputText>
+				        </p:column>
+				 
+				        
+				        
+				        <p:column rendered="false" 
+				        filterBy="#{cmt.insertBy.section}" 
+				        filterMatchMode="in" sortBy="#{cmt.insertBy.section}">
+				            <f:facet name="filter">
+				                <p:selectCheckboxMenu label="Section" onchange="PF('cmtsTable').filter()" panelStyle="width:125px" scrollHeight="150">
+				                    <f:selectItems value="#{addPlannerBean.allSections}" />
+				                </p:selectCheckboxMenu>
+				            </f:facet>
+				            <h:outputText value="#{cmt.insertBy.section}" />
+				        </p:column>
+				</p:dataTable>
+				
+				
+				<br/>
+				
+				
+</h:form>
+</ui:define>
+	</ui:composition>
+

@@ -85,7 +85,7 @@ public final class MessageConstants {
 			
 			public static final String PRINT_REPORT = "Print Report";
 			
-			public static final String ADV_SEARCH = "Advanced Search";
+			public static final String SEARCH = "Search Data";
 			
 			public static final String ADMIN = "Admin Tasks";
 			
