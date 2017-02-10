@@ -13,6 +13,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.pacs.dal.dao.Patient;
+import com.pacs.dal.dao.Study;
 import com.pacs.utils.HibernateUtilsAnnot;
 
 public class SearchBll 
@@ -45,7 +46,7 @@ public class SearchBll
 				}
 				if(toSearchPatient.getPatName()!=null && toSearchPatient.getPatName().trim().length()>0)
 				{
-					cr.add(Restrictions.ilike("patName", toSearchPatient.getPatName()));
+					cr.add(Restrictions.ilike("patName", toSearchPatient.getPatName(),MatchMode.ANYWHERE));
 				}
 				if(toSearchPatient.getPatIdIssuer()!=null && toSearchPatient.getPatIdIssuer().trim().length()>0)
 				{
@@ -57,12 +58,24 @@ public class SearchBll
 			list = cr.list();
 			for(Patient c:list)
 			{
-//				Hibernate.initialize(c.getAttendedBy());
+				Hibernate.initialize(c.getStudiesFk());
 //				
 //				Hibernate.initialize(c.getTrackReport());
 				
 			}
-	
+
+			for(Patient c:list)
+			{
+				System.out.println("Studies list size ="+c.getStudiesFk().size());
+				
+			}
+			for(Study c:((Patient)list.get(0)).getStudiesFk())
+			{
+				System.out.println("Studies modality ="+c.getModsInStudy());
+				
+			}	
+
+			
 		}
 		catch(HibernateException e)
 		{

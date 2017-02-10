@@ -28,10 +28,10 @@ public class SearchBean
 	{
 		// TODO Auto-generated constructor stub
 		this.toSearchPatient = new Patient();
-		Calendar calendar = Calendar.getInstance();		
-		this.dateFrom = calendar.getTime();
-		calendar.add(Calendar.MONTH, 1);
+		Calendar calendar = Calendar.getInstance();	
 		this.dateTo =calendar.getTime();
+		calendar.add(Calendar.MONTH, -1);
+		this.dateFrom = calendar.getTime();
 	}
 
 

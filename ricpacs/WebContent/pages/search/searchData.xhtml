@@ -19,12 +19,11 @@
 					<p:outputLabel value="Patient Name"></p:outputLabel>
  					 <p:inputText value="#{searchBean.toSearchPatient.patName}"></p:inputText> 
 
-					<p:outputLabel value="Patient ID"></p:outputLabel>
- 					 <p:inputText value="#{searchBean.toSearchPatient.patId}"></p:inputText>
- 					 
- 					 <p:outputLabel value="Patient Issuer"></p:outputLabel>
+					<p:outputLabel value="Patient ID / Issuer"></p:outputLabel>
+					<h:panelGroup>
+ 					 <p:inputText value="#{searchBean.toSearchPatient.patId}"></p:inputText> /
  					 <p:inputText value="#{searchBean.toSearchPatient.patIdIssuer}"></p:inputText>
- 					
+ 					</h:panelGroup>
  					
 					
     				<p:outputLabel value="Study Date / Time From:" />
@@ -63,8 +62,59 @@
 				    
 				    <p:column headerText="Issuer" >
 				            <h:outputText value="#{cmt.patIdIssuer}" />
-				        </p:column>
-				 
+				    </p:column>
+				    
+				    <p:column headerText="Study Details" >
+				    	<p:dataTable var="study" value="#{cmt.studiesFk}">
+    					   	<p:column headerText="Date/Time">
+            					<h:outputText value="#{study.studyDateTime}"/>
+        					</p:column>
+        					
+        					<p:column headerText="ID">
+            					<h:outputText value="#{study.studyId}"/>
+        					</p:column>
+        					
+        					<p:column headerText="Accession No">
+            					<h:outputText value="#{study.accessionNo}"/>
+        					</p:column>
+        					
+        					<p:column headerText="Modality">
+            					<h:outputText value="#{study.modsInStudy}"/>
+        					</p:column>
+        					
+        					<p:column headerText="Description">
+            					<h:outputText value="#{study.studyDesc}"/>
+        					</p:column>
+        					
+    					</p:dataTable>
+				    </p:column>
+				    
+				     <p:column headerText="Series Details" >
+				    	<p:dataTable var="ser" value="#{cmt.studiesFk}">
+    					   	<p:column headerText="Date/Time">
+            					<h:outputText value="#{study.studyDateTime}"/>
+        					</p:column>
+        					
+        					<p:column headerText="ID">
+            					<h:outputText value="#{study.studyId}"/>
+        					</p:column>
+        					
+        					<p:column headerText="Accession No">
+            					<h:outputText value="#{study.accessionNo}"/>
+        					</p:column>
+        					
+        					<p:column headerText="Modality">
+            					<h:outputText value="#{study.modsInStudy}"/>
+        					</p:column>
+        					
+        					<p:column headerText="Description">
+            					<h:outputText value="#{study.studyDesc}"/>
+        					</p:column>
+        					
+    					</p:dataTable>
+				    </p:column>
+				    
+				   
 				        <p:column filterBy="#{cmt.eventTime}" rendered="false"
 				         headerText="Date - Time" filterMatchMode="contains" sortBy="#{cmt.eventTime}">
 

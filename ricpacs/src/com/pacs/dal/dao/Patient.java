@@ -1,12 +1,17 @@
 package com.pacs.dal.dao;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,9 +26,9 @@ public class Patient
 	@Column(name = "pk")
 	private Integer id;
 	
-	
-	@Column(name="merge_fk")
-	private Integer mergeFk;
+	@ManyToOne 
+	@JoinColumn (name = "merge_fk")
+	private Patient mergeFk;
 	
 	@Column(name="pat_id")
 	private String patId;
@@ -72,6 +77,10 @@ public class Patient
 	@Column(name= "pat_attrs")
 	private byte[] patAttrs;
 	
+	@OneToMany(mappedBy = "patientFk" , cascade = CascadeType.ALL)
+//	@OrderBy("id DESC")
+	private  List<Study> studiesFk;
+	
 	public Patient() 
 	{
 		// TODO Auto-generated constructor stub
@@ -83,14 +92,6 @@ public class Patient
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getMergeFk() {
-		return mergeFk;
-	}
-
-	public void setMergeFk(Integer mergeFk) {
-		this.mergeFk = mergeFk;
 	}
 
 	public String getPatId() {
@@ -211,6 +212,22 @@ public class Patient
 
 	public void setPatAttrs(byte[] patAttrs) {
 		this.patAttrs = patAttrs;
+	}
+
+	public List<Study> getStudiesFk() {
+		return studiesFk;
+	}
+
+	public void setStudiesFk(List<Study> studiesFk) {
+		this.studiesFk = studiesFk;
+	}
+
+	public Patient getMergeFk() {
+		return mergeFk;
+	}
+
+	public void setMergeFk(Patient mergeFk) {
+		this.mergeFk = mergeFk;
 	}
 	
 	

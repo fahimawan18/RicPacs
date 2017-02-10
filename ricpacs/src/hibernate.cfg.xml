@@ -15,6 +15,12 @@
   
   <mapping class="com.pacs.dal.dao.ApplicationUsers"/>
   <mapping class="com.pacs.dal.dao.Patient"/>
+  <mapping class="com.pacs.dal.dao.Study"/>
+  <mapping class="com.pacs.dal.dao.Series"/>
+  <mapping class="com.pacs.dal.dao.Mpps"/>
+  <mapping class="com.pacs.dal.dao.Code"/>
+  <mapping class="com.pacs.dal.dao.Issuer"/>
+  
   
  </session-factory>
 </hibernate-configuration>
