@@ -55,7 +55,7 @@
         				Patients Data
  
         				<p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="ui-icon-calculator" />
-        				<p:columnToggler datasource="tbl1" trigger="toggler" />
+        				<p:columnToggler datasource="tbl1" trigger="toggler" rendered="false"/>
     				</f:facet>
 					<p:column headerText="Name" sortBy="#{cmt.patName}">
 				            <h:outputText value="#{cmt.patName}" />

@@ -24,13 +24,14 @@ public class CriteriaBean
 	private String maxFileSize;
  
 	private String pageTitle;
-	
+	private String weasisPath;
 	public CriteriaBean() 
 	{
 		// TODO Auto-generated constructor stub
 		this.twoOptionsList = new ArrayList<SelectItem>();
 		this.threeOptionsList = new ArrayList<SelectItem>();
 		this.negPosOptionsList = new ArrayList<SelectItem>();
+		this.weasisPath = Environment.getWeasisServerPath();
 
 	}
 	
@@ -123,6 +124,20 @@ public class CriteriaBean
 
 	public void setThreeOptionsList(List<SelectItem> threeOptionsList) {
 		this.threeOptionsList = threeOptionsList;
+	}
+
+
+
+
+	public String getWeasisPath() {
+		return weasisPath;
+	}
+
+
+
+
+	public void setWeasisPath(String weasisPath) {
+		this.weasisPath = weasisPath;
 	}
 	
 	

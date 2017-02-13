@@ -32,9 +32,9 @@ public class Environment
 		return getProperty("defaultPassword");
 	}
 	
-	public static String getPhotoNameFormat()
+	public static String getWeasisServerPath()
 	{
-		return getProperty("photoNameFormat");
+		return getProperty("weasisServerPath");
 	}
 	
 	public static String getBarCodePrinterName()

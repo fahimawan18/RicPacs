@@ -32,7 +32,12 @@
             					<h:outputText value="#{study.studyDesc}"/>
         					</p:column>
         					
-        					<p:column headerText="Study Details" > 
+        					<p:column headerText="Weasis">
+	            				<a href="http://localhost:8080/weasis-pacs-connector/viewer?studyUID=#{study.studyIuid}">Open Web Viewer</a>
+	            				<a href="#{crit.weasisPath}#{study.studyIuid}">Open Web Viewer</a>
+        					</p:column>
+        					
+        					<p:column headerText="Series Details" > 
 				            <h:commandLink action="#{searchBean.viewSeriesDetails}"
 				            target="_blank" rendered="true">
 				            View Details

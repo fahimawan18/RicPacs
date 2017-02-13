@@ -48,6 +48,7 @@ public class SearchBean
 
 //	Business Methods
 	
+	
 	public void testMethod()
 	{
 		System.out.println("In test method");
