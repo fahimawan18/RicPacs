@@ -58,22 +58,13 @@ public class SearchBll
 			list = cr.list();
 			for(Patient c:list)
 			{
-				Hibernate.initialize(c.getStudiesFk());
-//				
-//				Hibernate.initialize(c.getTrackReport());
-				
+				Hibernate.initialize(c.getStudiesFk());				
+				for(Study s:c.getStudiesFk())
+				{
+					Hibernate.initialize(s.getSeriesFk());
+				}
 			}
-
-			for(Patient c:list)
-			{
-				System.out.println("Studies list size ="+c.getStudiesFk().size());
-				
-			}
-			for(Study c:((Patient)list.get(0)).getStudiesFk())
-			{
-				System.out.println("Studies modality ="+c.getModsInStudy());
-				
-			}	
+			
 
 			
 		}

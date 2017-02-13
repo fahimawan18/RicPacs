@@ -10,6 +10,9 @@ import javax.faces.bean.SessionScoped;
 
 import com.pacs.bll.search.SearchBll;
 import com.pacs.dal.dao.Patient;
+import com.pacs.dal.dao.Series;
+import com.pacs.dal.dao.Study;
+import com.pacs.utils.NavigationConstants;
 
 
 @ManagedBean(name="searchBean")
@@ -21,7 +24,12 @@ public class SearchBean
 	private Date dateFrom;
 	private Date dateTo;
 	
+	private String testValue;
+	private Patient selectedPatient;
+	private Study selectedStudy;
 	private List<Patient> patientsList = new ArrayList<Patient>();
+	private List<Study> studiesList = new ArrayList<Study>();
+	private List<Series> seriesList = new ArrayList<Series>();
 	
 	
 	public SearchBean() 
@@ -32,10 +40,45 @@ public class SearchBean
 		this.dateTo =calendar.getTime();
 		calendar.add(Calendar.MONTH, -1);
 		this.dateFrom = calendar.getTime();
+		this.testValue = "";
+		this.selectedPatient = new Patient();
+		this.selectedStudy = new Study();
 	}
 
 
 //	Business Methods
+	
+	public void testMethod()
+	{
+		System.out.println("In test method");
+		this.testValue = this.testValue+" ,,,,";
+//		this.studiesList.clear();
+//		this.studiesList.addAll(this.selectedPatient.getStudiesFk());
+//		
+//		return testValue;
+	}
+	
+	public String viewStudyDetails()
+	{
+		System.out.println("In viewStudyDetails method");
+		
+		this.studiesList.clear();
+		this.studiesList.addAll(this.selectedPatient.getStudiesFk());
+		
+//		return "/pages/search/details/studyDetails.xhtml?faces-redirect=true";
+		return NavigationConstants.STUDY_DETAILS_NAVIGATION;
+	}
+
+	public String viewSeriesDetails()
+	{
+		System.out.println("In viewSeriesDetails method");
+		
+		this.seriesList.clear();
+		this.seriesList.addAll(this.selectedStudy.getSeriesFk());
+		
+		return NavigationConstants.SERIES_DETAILS_NAVIGATION;
+	}
+	
 	public String searchPatientsData()
 	{
 		SearchBll bll = new SearchBll();
@@ -100,6 +143,56 @@ public class SearchBean
 
 	public void setPatientsList(List<Patient> patientsList) {
 		this.patientsList = patientsList;
+	}
+
+
+	public String getTestValue() {
+		return testValue;
+	}
+
+
+	public void setTestValue(String testValue) {
+		this.testValue = testValue;
+	}
+
+
+	public Patient getSelectedPatient() {
+		return selectedPatient;
+	}
+
+
+	public void setSelectedPatient(Patient selectedPatient) {
+		this.selectedPatient = selectedPatient;
+	}
+
+
+	public List<Study> getStudiesList() {
+		return studiesList;
+	}
+
+
+	public void setStudiesList(List<Study> studiesList) {
+		this.studiesList = studiesList;
+	}
+
+
+	public Study getSelectedStudy() {
+		return selectedStudy;
+	}
+
+
+	public void setSelectedStudy(Study selectedStudy) {
+		this.selectedStudy = selectedStudy;
+	}
+
+
+	public List<Series> getSeriesList() {
+		return seriesList;
+	}
+
+
+	public void setSeriesList(List<Series> seriesList) {
+		this.seriesList = seriesList;
 	}
 	
 	

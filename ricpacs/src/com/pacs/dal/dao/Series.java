@@ -37,8 +37,8 @@ public class Series
 	@Column(name="series_iuid")
 	private String seriesIuid;
 	
-	@Column(name="study_no")
-	private String studyNo;
+	@Column(name="series_no")
+	private String seriesNo;
 	
 	@Column(name="modality")
 	private String modality;
@@ -168,15 +168,6 @@ public class Series
 	public void setSeriesIuid(String seriesIuid) {
 		this.seriesIuid = seriesIuid;
 	}
-
-	public String getStudyNo() {
-		return studyNo;
-	}
-
-	public void setStudyNo(String studyNo) {
-		this.studyNo = studyNo;
-	}
-
 	public String getModality() {
 		return modality;
 	}
@@ -391,5 +382,13 @@ public class Series
 
 	public void setSeriesAttrs(byte[] seriesAttrs) {
 		this.seriesAttrs = seriesAttrs;
+	}
+
+	public String getSeriesNo() {
+		return seriesNo;
+	}
+
+	public void setSeriesNo(String seriesNo) {
+		this.seriesNo = seriesNo;
 	}
 }
