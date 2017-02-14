@@ -54,7 +54,9 @@
 					<f:facet name="header">
         				Patients Data
  
-        				<p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="ui-icon-calculator" />
+        				<p:commandButton rendered="false"
+        				id="toggler" type="button" value="Columns" 
+        				style="float:right" icon="ui-icon-calculator" />
         				<p:columnToggler datasource="tbl1" trigger="toggler" rendered="false"/>
     				</f:facet>
 					<p:column headerText="Name" sortBy="#{cmt.patName}">
@@ -62,7 +64,7 @@
 				        </p:column>
 				        
 				        
-					<p:column headerText="Id" width="10px" sortBy="#{cmt.patId}">
+					<p:column headerText="ID" width="10px" sortBy="#{cmt.patId}">
 				            <h:outputText value="#{cmt.patId}" />
 				    </p:column>
 				    
