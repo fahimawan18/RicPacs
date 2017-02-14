@@ -1,0 +1,68 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		template="/pages/includes/templatePageMini.xhtml">
+
+		<ui:define name="content">
+
+<h:form>    
+    <p:panelGrid columns="1" style="margin-top:20px; width: 100%; margin: 0 auto" 
+    >
+   
+   <p:dataTable var="study" value="#{searchBean.studiesList}" >
+    					   	<p:column headerText="Date/Time">
+            					<h:outputText value="#{study.studyDateTime}"/>
+        					</p:column>
+        					
+        					<p:column headerText="ID">
+            					<h:outputText value="#{study.studyId}"/>
+        					</p:column>
+        					
+        					<p:column headerText="Accession No">
+            					<h:outputText value="#{study.accessionNo}"/>
+        					</p:column>
+        					
+        					<p:column headerText="Modality">
+            					<h:outputText value="#{study.modsInStudy}"/>
+        					</p:column>
+        					
+        					<p:column headerText="Description">
+            					<h:outputText value="#{study.studyDesc}"/>
+        					</p:column>
+        					
+        					<p:column headerText="Weasis">
+	            				<a href="http://localhost:8080/weasis-pacs-connector/viewer?studyUID=#{study.studyIuid}">Open Web Viewer</a>
+	            				<a href="#{crit.weasisPath}#{study.studyIuid}">Open Web Viewer</a>
+        					</p:column>
+        					
+        					<p:column headerText="Series Details" > 
+				            <h:commandLink action="#{searchBean.viewSeriesDetails}"
+				            target="_blank" rendered="true">
+				            View Details
+				            <f:setPropertyActionListener value="#{study}" target="#{searchBean.selectedStudy}">
+    						</f:setPropertyActionListener>
+				            </h:commandLink>
+				            
+				          
+				   		 </p:column>
+        					
+        					
+        					
+    					</p:dataTable>
+   
+					
+		
+		</p:panelGrid>
+   </h:form>
+
+<script type="text/javascript">    
+function popupwindow(url, title) 
+{      
+    window.open(url , title, "toolbar=no, scrollbars=yes, resizable=yes, top=170, left=170, width=800, height=600");        
+}    
+</script>
+</ui:define>
+	</ui:composition>
+

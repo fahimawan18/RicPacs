@@ -46,11 +46,17 @@
   	<br/>
   	
   	<p:dataTable value="#{searchBean.patientsList}" var="cmt"
+  	
 					paginatorPosition="top" editable="true" rows="12" paginator="true"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					id="tbl1">
 
-					
+					<f:facet name="header">
+        				Patients Data
+ 
+        				<p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="ui-icon-calculator" />
+        				<p:columnToggler datasource="tbl1" trigger="toggler" rendered="false"/>
+    				</f:facet>
 					<p:column headerText="Name" sortBy="#{cmt.patName}">
 				            <h:outputText value="#{cmt.patName}" />
 				        </p:column>
@@ -65,53 +71,31 @@
 				    </p:column>
 				    
 				    <p:column headerText="Study Details" >
-				    	<p:dataTable var="study" value="#{cmt.studiesFk}">
-    					   	<p:column headerText="Date/Time">
-            					<h:outputText value="#{study.studyDateTime}"/>
-        					</p:column>
-        					
-        					<p:column headerText="ID">
-            					<h:outputText value="#{study.studyId}"/>
-        					</p:column>
-        					
-        					<p:column headerText="Accession No">
-            					<h:outputText value="#{study.accessionNo}"/>
-        					</p:column>
-        					
-        					<p:column headerText="Modality">
-            					<h:outputText value="#{study.modsInStudy}"/>
-        					</p:column>
-        					
-        					<p:column headerText="Description">
-            					<h:outputText value="#{study.studyDesc}"/>
-        					</p:column>
-        					
-    					</p:dataTable>
-				    </p:column>
-				    
-				     <p:column headerText="Series Details" >
-				    	<p:dataTable var="ser" value="#{cmt.studiesFk}">
-    					   	<p:column headerText="Date/Time">
-            					<h:outputText value="#{study.studyDateTime}"/>
-        					</p:column>
-        					
-        					<p:column headerText="ID">
-            					<h:outputText value="#{study.studyId}"/>
-        					</p:column>
-        					
-        					<p:column headerText="Accession No">
-            					<h:outputText value="#{study.accessionNo}"/>
-        					</p:column>
-        					
-        					<p:column headerText="Modality">
-            					<h:outputText value="#{study.modsInStudy}"/>
-        					</p:column>
-        					
-        					<p:column headerText="Description">
-            					<h:outputText value="#{study.studyDesc}"/>
-        					</p:column>
-        					
-    					</p:dataTable>
+				            <h:commandLink  
+				            actionListener="#{searchBean.testMethod}"
+				            action="/pages/search/details/studyDetails.xhtml"
+				            target="_blank" rendered="false">
+				            View Details-
+				            <f:setPropertyActionListener value="#{cmt}" target="#{searchBean.selectedPatient}">
+    					</f:setPropertyActionListener>
+				            </h:commandLink>
+				            
+				            <h:commandLink action="#{searchBean.viewStudyDetails}"
+				            
+				            target="_blank" rendered="true">
+				            View Details
+				            <f:setPropertyActionListener value="#{cmt}" 
+				            target="#{searchBean.selectedPatient}">
+    					</f:setPropertyActionListener>
+				            </h:commandLink>
+				            
+				          <p:commandLink id="link" rendered="false" 
+				          actionListener="#{searchBean.testMethod}" 
+   						 oncomplete="popupwindow('details/studyDetails.jsf', 'newwindow');" >  
+    					<h:outputText value="View Details" />
+    					<f:setPropertyActionListener value="#{cmt}" target="#{searchBean.selectedPatient}">
+    					</f:setPropertyActionListener>
+						</p:commandLink>
 				    </p:column>
 				    
 				   
@@ -122,26 +106,21 @@
 				            	<f:convertDateTime pattern="dd/MM/yyyy HH:mm"></f:convertDateTime>
 				            </h:outputText>
 				        </p:column>
-				 
-				        
-				        
-				        <p:column rendered="false" 
-				        filterBy="#{cmt.insertBy.section}" 
-				        filterMatchMode="in" sortBy="#{cmt.insertBy.section}">
-				            <f:facet name="filter">
-				                <p:selectCheckboxMenu label="Section" onchange="PF('cmtsTable').filter()" panelStyle="width:125px" scrollHeight="150">
-				                    <f:selectItems value="#{addPlannerBean.allSections}" />
-				                </p:selectCheckboxMenu>
-				            </f:facet>
-				            <h:outputText value="#{cmt.insertBy.section}" />
-				        </p:column>
+			
 				</p:dataTable>
-				
 				
 				<br/>
 				
 				
+				
 </h:form>
+
+<script type="text/javascript">    
+function popupwindow(url, title) 
+{      
+    window.open(url , title, "toolbar=no, scrollbars=yes, resizable=yes, top=170, left=170, width=800, height=600");        
+}    
+</script>
 </ui:define>
 	</ui:composition>
 
