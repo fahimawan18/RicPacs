@@ -1,8 +1,10 @@
 package com.pacs.bll.admin;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dcm4chex.archive.tools.Pwd2Hash;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -130,18 +132,27 @@ public class AdminBll
 		{
 			session = HibernateUtilsAnnot.currentSession();
 			tx = session.beginTransaction();
-			
-//			StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
-//			textEncryptor.setPassword(MessageConstants.Constants.PASSWORD_KEY);
-//			String myEncryptedText = textEncryptor.encrypt(newPassword);
-//			user.setPassword(myEncryptedText);
-//			user.setProfileStatus(MessageConstants.Constants.PROFILE_CURRENT);
-			
+			String hashedPassword = computeHashedPassword(newPassword);
+//			System.out.println("typed password ="+newPassword);
+//			System.out.println("hashed password ="+hashedPassword);
+			user.setPassword(hashedPassword);
 			session.update(user);
 			
 			tx.commit();
 		}
 		catch(HibernateException e)
+		{
+			e.printStackTrace();
+			tx.rollback();
+			return false;
+		}
+		catch(UnsupportedEncodingException e)
+		{
+			e.printStackTrace();
+			tx.rollback();
+			return false;
+		}
+		catch(Exception e)
 		{
 			e.printStackTrace();
 			tx.rollback();
@@ -153,6 +164,14 @@ public class AdminBll
 		}
 		
 		return true;
+	}
+	
+	private String computeHashedPassword(String userPassword)throws UnsupportedEncodingException, Exception
+	{
+		String hashedPassword="";
+		byte[] hash = Pwd2Hash.createHash(userPassword);
+		hashedPassword = javax.xml.bind.DatatypeConverter.printBase64Binary(hash);
+		return hashedPassword;
 	}
 	
 

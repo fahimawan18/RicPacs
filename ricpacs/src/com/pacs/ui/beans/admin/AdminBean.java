@@ -125,20 +125,17 @@ public class AdminBean
 		
 		if(!newPassword.equals(newPasswordAgain))
 		{
-//			FacesUtils.addErrorMessage("Login credentials", "Passwords do not match");
 			MessageUtils.error("Passwords do not match");
 			return "";
 		}
 		
 		if(bll.changePassword(currentUser,newPassword))
 		{
-//			FacesUtils.addInfoMessage("Login credentials", MessageConstants.Messages.UPDATE_SUCCESS);
 			MessageUtils.info(MessageConstants.Messages.UPDATE_SUCCESS);
-			return NavigationConstants.HOME_NAVIGATION;			
+			return "";//NavigationConstants.HOME_NAVIGATION;			
 		}
 		else
 		{
-//			FacesUtils.addErrorMessage("Login credentials", MessageConstants.Messages.UPDATE_FAILURE);
 			MessageUtils.error(MessageConstants.Messages.UPDATE_FAILURE);
 		}
 
