@@ -41,8 +41,12 @@ public class ThemeSwitcherView {
     public void init() {
     	System.out.println("Inside init @PostConstruct " );
         themes = service.getThemes();
-       
-//        this.selectedTheme = ((UserBean)FacesUtils.getManagedBean("userBean")).getCurrentUser().getTheme();
+       ApplicationUsers currentUser = ((UserBean)FacesUtils.getManagedBean("userBean")).getCurrentUser();
+       if(currentUser!=null && currentUser.getTheme()!=null){
+    	   this.selectedTheme = currentUser.getTheme();
+       }else
+    	   this.selectedTheme = "start";
+        //this.selectedTheme = ((UserBean)FacesUtils.getManagedBean("userBean")).getCurrentUser().getTheme();
     }
      
     public void saveTheme(){

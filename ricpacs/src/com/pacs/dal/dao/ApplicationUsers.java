@@ -19,6 +19,10 @@ public class ApplicationUsers
 	@Column(name="passwd")
 	private String password;
 	
+	@Column(name="THEME", insertable=false)
+	private String theme;
+	
+	
 	public ApplicationUsers() 
 	{
 		// TODO Auto-generated constructor stub
@@ -47,6 +51,15 @@ public class ApplicationUsers
 		this.password = password;
 	}
 	
+	
+	public String getTheme() {
+		return theme;
+	}
+
+
+	public void setTheme(String theme) {
+		this.theme = theme;
+	}
 	
 	
 

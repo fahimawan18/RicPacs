@@ -26,18 +26,17 @@
 				
 
 				<f:facet name="right" >
-				<h:panelGrid columns="3" columnClasses="verticalAlign">
+				<h:panelGrid columns="4" columnClasses="verticalAlign">
 					 <p:outputLabel value="#{userBean.loggedUserString}"></p:outputLabel>
-					<p:themeSwitcher 
-					id="basic" style="width:100px;" rendered="false" 
-					value="#{themeSwitcherView.selectedTheme}" label="Theme Selection">
+					 <p:spacer width="5"></p:spacer>
+					<p:themeSwitcher id="basic" style="width:100px;" 
+					value="#{themeSwitcherView.selectedTheme}" label="Theme Selection" >
             			<f:selectItems value="#{themeSwitcherView.themes}" var="theme" itemLabel="#{theme.displayName}" itemValue="#{theme.name}"></f:selectItems>
             			<p:ajax listener="#{themeSwitcherView.saveTheme}" />
         			</p:themeSwitcher>
-    				<p:commandButton icon="fa fa-fw fa-power-off" title="Logout"  value="Logout"
-    					action="#{userBean.logoutUser}" ajax="highlight">
-					
-					</p:commandButton>
+    				
+					<p:commandButton icon="fa fa-fw fa-power-off" title="Logout" 
+    					action="#{userBean.logoutUser}" ajax="highlight"></p:commandButton>
 					</h:panelGrid>
 						</f:facet>
 				

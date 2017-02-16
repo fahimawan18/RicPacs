@@ -6,7 +6,7 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 <title>RIC - PACS</title>
-  
+  <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.ico']}"></link>
 	<link rel="stylesheet" href="css/font-awesome.min.css"></link>
   	<link rel="stylesheet" href="css/normalize.min.css"></link>
 
@@ -16,7 +16,8 @@
       body {
   font-family: "Open Sans", sans-serif;
   height: 100vh;
-  background: url("insignia.jpg") 50% fixed;
+  background: url(#{request.contextPath}/resources/images/insignia.jpg) 50% fixed;
+  /*background: url("insignia.jpg") 50% fixed;*/
   background-size: cover;
 }
 
