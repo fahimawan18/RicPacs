@@ -202,7 +202,8 @@ footer a, footer a:link {
 </h:head>
 <h:body>
 	<div class="wrapper">
-  	<h:form class="login"  >
+  	<h:form class="login" id="loginForm" >
+  	 <p:focus context="loginForm"/>
   		<h:messages style="color:red !important;" severity="info, error, fatal" id="messag"
   			showDetail="true" autoUpdate="true" closable="true" />
   		<div align="center">
