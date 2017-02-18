@@ -15,6 +15,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.jasypt.util.text.StrongTextEncryptor;
+import org.primefaces.showcase.view.misc.ThemeSwitcherView;
 
 import com.iac.web.util.FacesUtils;
 import com.pacs.dal.UserDal;
@@ -80,6 +81,12 @@ public class UserBean
 					this.loggedUserString = ((ApplicationUsers) FacesUtils.getFromSession(KEY_CURRENT_USER))
 							.getLoggedUserString();
 					System.out.println(this.loggedUserString);
+					
+					
+					(( ThemeSwitcherView )FacesUtils.getManagedBean( "themeSwitcherView" ))
+						.setSelectedTheme(currentUser.getTheme());
+				    	  
+					
 //					if(currentUser.getSection().equals(MessageConstants.Constants.DISPLAY_UNIT) )
 //						return (( PageNavigationBean )FacesUtils.getManagedBean( "navBean" ) ).navDisplayPage();
 //					else
@@ -178,12 +185,15 @@ public class UserBean
 	public String logoutUser()  
 	{
 		System.out.println("Logging out");
-		UserBean.KEY_CURRENT_USER = null;
+//		UserBean.KEY_CURRENT_USER = null;
+//		FacesUtils.resetManagedBean("themeSwitcherView");
+		FacesUtils.resetManagedBean("themeSwitcherView");
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 //		FacesContext.getCurrentInstance().getExternalContext().redirect("logout.xhtml");
 		this.checkSession = false;
 		//return ((PageNavigationBean)FacesUtils.getManagedBean("navBean")).navLogOut();
-		return "/pages/login.xhtml?faces-redirect=true";
+		return "/index.jsf";
+//		return "/pages/login.xhtml?faces-redirect=true";
 		
 	}
 	

@@ -59,6 +59,33 @@ public class AdminBll
 		return true;
 	}
 	
+	public boolean updateUsers(ApplicationUsers user)
+	{
+		Session session = null;
+		Transaction tx = null;
+		System.out.println("In update User Method bll" + user.getTheme());
+		try
+		{
+			session = HibernateUtilsAnnot.currentSession();
+			tx = session.beginTransaction();
+			
+			session.update(user);
+			
+			tx.commit();
+		}
+		catch(HibernateException e)
+		{
+			e.printStackTrace();
+			tx.rollback();
+			return false;
+		}
+		finally
+		{
+			HibernateUtilsAnnot.closeSession();
+		}
+		
+		return true;
+	}
 	public boolean updateUsers(List<ApplicationUsers> usersList)
 	{
 		Session session = null;

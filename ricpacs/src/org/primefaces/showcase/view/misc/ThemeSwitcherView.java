@@ -41,10 +41,18 @@ public class ThemeSwitcherView {
     public void init() {
     	System.out.println("Inside init @PostConstruct " );
         themes = service.getThemes();
-       ApplicationUsers currentUser = ((UserBean)FacesUtils.getManagedBean("userBean")).getCurrentUser();
-       if(currentUser!=null && currentUser.getTheme()!=null){
-    	   this.selectedTheme = currentUser.getTheme();
-       }else
+        UserBean bean = ((UserBean)FacesUtils.getManagedBean("userBean"));
+        if(bean!=null)
+       {
+        	ApplicationUsers currentUser = bean.getCurrentUser();
+       
+	       if(currentUser!=null && currentUser.getTheme()!=null){
+	    	   this.selectedTheme = currentUser.getTheme();
+	       }
+	       else
+	    	   this.selectedTheme = "start";
+       }
+        else
     	   this.selectedTheme = "start";
         //this.selectedTheme = ((UserBean)FacesUtils.getManagedBean("userBean")).getCurrentUser().getTheme();
     }
@@ -54,9 +62,10 @@ public class ThemeSwitcherView {
     	System.out.println("Saving theme >>>>>>>>>>>>>>>>>>>>>>>>>>> " + this.getSelectedTheme());
 //    	System.out.println("Setting theme >>>>>>>>>>>>>>>>>>>>>>>>>>> " + this.getSelTheme().getName());
 //    	currentUser.setTheme(this.getSelectedTheme());
-    	List<ApplicationUsers> userList = new ArrayList<ApplicationUsers>();
-    	userList.add(currentUser);
-    	new AdminBll().updateUsers(userList);
+//    	List<ApplicationUsers> userList = new ArrayList<ApplicationUsers>();
+//    	userList.add(currentUser);
+    	currentUser.setTheme(this.getSelectedTheme());
+    	new AdminBll().updateUsers(currentUser);
     }
     
     
@@ -69,7 +78,12 @@ public class ThemeSwitcherView {
     }
 
 	public String getSelectedTheme() {
-//		System.out.println("Inside selectedTheme getter " + selectedTheme );
+//		ApplicationUsers currentUser = ((UserBean)FacesUtils.getManagedBean("userBean")).getCurrentUser();
+//	       if(currentUser!=null && currentUser.getTheme()!=null){
+//	    	   this.selectedTheme = currentUser.getTheme();
+//	       }else
+//	    	   this.selectedTheme = "start";
+		System.out.println("Inside selectedTheme getter " + selectedTheme );
 //		this.selectedTheme = ((UserBean)FacesUtils.getManagedBean("userBean")).getCurrentUser().getTheme();
 		return selectedTheme;
 	}
