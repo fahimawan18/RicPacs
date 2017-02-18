@@ -12,11 +12,7 @@
     >
    
    <p:dataTable var="study" value="#{searchBean.studiesList}" >
-    					   	<p:column headerText="Date/Time">
-            					<h:outputText value="#{study.studyDateTime}"/>
-        					</p:column>
-        					
-        					<p:column headerText="ID">
+    					   	<p:column headerText="Study ID">
             					<h:outputText value="#{study.studyId}"/>
         					</p:column>
         					
@@ -28,11 +24,19 @@
             					<h:outputText value="#{study.modsInStudy}"/>
         					</p:column>
         					
+        					
+        					<p:column headerText="Study Date/Time" >
+				            <h:outputText value="#{study.studyDateTime}" >
+				            	<f:convertDateTime pattern="dd/MM/yyyy HH:mm"></f:convertDateTime>				            
+				            </h:outputText>
+				   			</p:column>
+				   			
         					<p:column headerText="Description">
             					<h:outputText value="#{study.studyDesc}"/>
         					</p:column>
         					
-        					<p:column headerText="Weasis">
+        					
+        					<p:column headerText="View Image">
 	            				
 	            				<a href="#{crit.weasisPath}#{study.studyIuid}">Open Web Viewer</a>
         					</p:column>

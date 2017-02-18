@@ -19,9 +19,25 @@
         							<p:column headerText="AET">
             							<h:outputText value="#{ser.srcAet}"/>
         							</p:column>
+        							
+        							<p:column headerText="Body Part">
+            							<h:outputText value="#{ser.bodyPart}"/>
+        							</p:column>
+        							        							
+        							<p:column headerText="Laterality">
+            							<h:outputText value="#{ser.laterality}"/>
+        							</p:column>
         					
         							<p:column headerText="Modality">
             							<h:outputText value="#{ser.modality}"/>
+        							</p:column>
+        							
+        							<p:column headerText="Dept">
+            							<h:outputText value="#{ser.department}"/>
+        							</p:column>
+        							
+        							<p:column headerText="Description">
+            							<h:outputText value="#{ser.seriesDesc}"/>
         							</p:column>
         					
     							</p:dataTable>

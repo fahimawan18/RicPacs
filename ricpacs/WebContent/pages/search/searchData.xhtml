@@ -72,6 +72,16 @@
 				            <h:outputText value="#{cmt.patIdIssuer}" />
 				    </p:column>
 				    
+				    <p:column headerText="Birth Date" >
+				            <h:outputText value="#{cmt.patBirthdate}" >
+				            	<f:convertDateTime pattern="dd/MM/yyyy HH:mm"></f:convertDateTime>				            
+				            </h:outputText>
+				    </p:column>
+				    
+				    <p:column headerText="Sex" >
+				            <h:outputText value="#{cmt.patSex}" />
+				    </p:column>
+				    
 				    <p:column headerText="Study Details" >
 				            <h:commandLink  
 				            actionListener="#{searchBean.testMethod}"
