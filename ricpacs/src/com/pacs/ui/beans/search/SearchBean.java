@@ -12,6 +12,8 @@ import com.pacs.bll.search.SearchBll;
 import com.pacs.dal.dao.Patient;
 import com.pacs.dal.dao.Series;
 import com.pacs.dal.dao.Study;
+import com.pacs.utils.MessageConstants;
+import com.pacs.utils.MessageUtils;
 import com.pacs.utils.NavigationConstants;
 
 
@@ -21,6 +23,7 @@ public class SearchBean
 {
 	
 	private Patient toSearchPatient;
+	private Study toSearchStudy;
 	private Date dateFrom;
 	private Date dateTo;
 	
@@ -30,12 +33,14 @@ public class SearchBean
 	private List<Patient> patientsList = new ArrayList<Patient>();
 	private List<Study> studiesList = new ArrayList<Study>();
 	private List<Series> seriesList = new ArrayList<Series>();
+	private List<Study> studiesListMain = new ArrayList<Study>();
 	
 	
 	public SearchBean() 
 	{
 		// TODO Auto-generated constructor stub
 		this.toSearchPatient = new Patient();
+		this.toSearchStudy = new Study();
 		Calendar calendar = Calendar.getInstance();	
 		this.dateTo =calendar.getTime();
 		calendar.add(Calendar.MONTH, -1);
@@ -99,6 +104,42 @@ public class SearchBean
 		
 		
 		return "";
+	}
+	
+	public String searchStudyData()
+	{
+		SearchBll bll = new SearchBll();
+		System.out.println("In searchStudyData method");
+		
+		if(validateStudyDates())
+		{
+			this.studiesListMain = bll.searchStudy(toSearchPatient, toSearchStudy, dateFrom, dateTo);
+			System.out.println("Study list size :: " + this.studiesListMain.size());
+		
+		}
+		else
+		{
+			MessageUtils.error(MessageConstants.Messages.INVALID_DATE);
+		}
+		
+		
+		
+		return "";
+	}
+	
+	private Boolean validateStudyDates()
+	{
+		if(this.dateFrom == null && this.dateTo == null)
+		{
+			return true;
+		}
+		else if(this.dateFrom != null && this.dateTo != null && this.dateFrom.after(dateTo))
+		{
+			System.out.println("dateFrom.after dateTo");
+			return false;
+		} 
+		
+		return true;
 	}
 	
 	
@@ -194,6 +235,26 @@ public class SearchBean
 
 	public void setSeriesList(List<Series> seriesList) {
 		this.seriesList = seriesList;
+	}
+
+
+	public Study getToSearchStudy() {
+		return toSearchStudy;
+	}
+
+
+	public void setToSearchStudy(Study toSearchStudy) {
+		this.toSearchStudy = toSearchStudy;
+	}
+
+
+	public List<Study> getStudiesListMain() {
+		return studiesListMain;
+	}
+
+
+	public void setStudiesListMain(List<Study> studiesListMain) {
+		this.studiesListMain = studiesListMain;
 	}
 	
 	

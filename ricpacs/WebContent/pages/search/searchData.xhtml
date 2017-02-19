@@ -25,27 +25,32 @@
  					 <p:inputText value="#{searchBean.toSearchPatient.patIdIssuer}"></p:inputText>
  					</h:panelGroup>
  					
+ 					<p:outputLabel value="Study ID"></p:outputLabel>
+ 					 <p:inputText value="#{searchBean.toSearchStudy.studyId}"></p:inputText>
 					
     				<p:outputLabel value="Study Date / Time From:" />
 				    <p:calendar id="datetimeFrom" value="#{searchBean.dateFrom}" pattern="dd/MM/yyyy HH:mm" />
 				    <p:outputLabel value="Study Date / Time To:" />
 				    <p:calendar id="datetimeTo" value="#{searchBean.dateTo}" pattern="dd/MM/yyyy HH:mm" />
  					
- 					<p:outputLabel value="Location:" rendered="false"/>
-    				<p:autoComplete id="locAuto" dropdown="true"  rendered="false"
-    				value="#{advSearchBean.toSearchPlan.location}" 
-    				completeMethod="#{addPlannerBean.completeLocations}" /> 	
+ 					 	
 				</p:panelGrid>
 				</p:panel>
  
  
+	<p:commandButton value="Search" icon="fa fa-fw fa-search" update="tbl2"
+  	action="#{searchBean.searchStudyData}"/>
  
-  	<p:commandButton value="Search" icon="fa fa-fw fa-search" update="tbl1"
+ 
+  	<p:commandButton value="Search" icon="fa fa-fw fa-search" update="tbl1" rendered="false"
   	action="#{searchBean.searchPatientsData}"/>
+  	 
+  	
   	
   	<br/>
   	
-  	<p:dataTable value="#{searchBean.patientsList}" var="cmt"
+  	<p:dataTable value="#{searchBean.patientsList}" 
+  	var="cmt" rendered="false"
   	
 					paginatorPosition="top" editable="true" rows="12" paginator="true"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -119,6 +124,75 @@
 				            </h:outputText>
 				        </p:column>
 			
+				</p:dataTable>
+				
+		
+				
+				<br/>
+				
+			<p:dataTable value="#{searchBean.studiesListMain}" var="study"
+  	
+					paginatorPosition="top" editable="true" rows="12" paginator="true"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					id="tbl2">
+
+					<f:facet name="header">
+        				Patients/Study Data
+ 
+        				
+    				</f:facet>
+					<p:column headerText="Name" sortBy="#{study.patientFk.patName}">
+				            <h:outputText value="#{study.patientFk.patName}" />
+				        </p:column>
+				        
+				        
+					<p:column headerText="ID" width="10px" sortBy="#{study.patientFk.patId}">
+				            <h:outputText value="#{study.patientFk.patId}" />
+				    </p:column>
+				    
+				    <p:column headerText="Issuer" >
+				            <h:outputText value="#{study.patientFk.patIdIssuer}" />
+				    </p:column>
+				    
+				    
+				    
+				   	<p:column headerText="Study ID">
+            					<h:outputText value="#{study.studyId}"/>
+        					</p:column>
+        					
+        					<p:column headerText="Accession No">
+            					<h:outputText value="#{study.accessionNo}"/>
+        					</p:column>
+        					
+        					<p:column headerText="Modality">
+            					<h:outputText value="#{study.modsInStudy}"/>
+        					</p:column>
+        					
+        					
+        					<p:column headerText="Study Date/Time" >
+				            <h:outputText value="#{study.studyDateTime}" >
+				            	<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"></f:convertDateTime>				            
+				            </h:outputText>
+				   			</p:column>
+				   			
+        					<p:column headerText="Description">
+            					<h:outputText value="#{study.studyDesc}"/>
+        					</p:column>
+				    
+				    <p:column headerText="View Image">
+	            				
+	            				<a href="#{crit.weasisPath}#{study.studyIuid}" >Open Web Viewer</a>
+        					</p:column>
+        					
+        					<p:column headerText="Series Details" > 
+				            <h:commandLink action="#{searchBean.viewSeriesDetails}"
+				            target="_blank" rendered="true">
+				            View Details
+				            <f:setPropertyActionListener value="#{study}" target="#{searchBean.selectedStudy}">
+    						</f:setPropertyActionListener>
+				            </h:commandLink>
+				   		 </p:column>
+				    
 				</p:dataTable>
 				
 				<br/>

@@ -34,7 +34,8 @@
             			<f:selectItems value="#{themeSwitcherView.themes}" var="theme" itemLabel="#{theme.displayName}" itemValue="#{theme.name}"></f:selectItems>
             			<p:ajax listener="#{themeSwitcherView.saveTheme}" />
         			</p:themeSwitcher>
-    				<p:commandButton icon="fa fa-fw fa-power-off" title="Logout" value="Logout" 
+    				<p:commandButton icon="fa fa-fw fa-power-off" title="Logout" rendered="false" 
+    				value="Logout" 
     					action="#{userBean.logoutUser}" ajax="highlight">
 					
 					</p:commandButton>

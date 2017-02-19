@@ -20,7 +20,15 @@
   <mapping class="com.pacs.dal.dao.Mpps"/>
   <mapping class="com.pacs.dal.dao.Code"/>
   <mapping class="com.pacs.dal.dao.Issuer"/>
+  <mapping class="com.pacs.dal.dao.Files"/>
+  <mapping class="com.pacs.dal.dao.FileSystem"/>
+  <mapping class="com.pacs.dal.dao.Instance"/>
+  <mapping class="com.pacs.dal.dao.StudyOnFs"/>
   
+  <mapping class="com.pacs.dal.dao.priv.PrivInstance"/>
+  <mapping class="com.pacs.dal.dao.priv.PrivPatient"/>
+  <mapping class="com.pacs.dal.dao.priv.PrivSeries"/>
+  <mapping class="com.pacs.dal.dao.priv.PrivStudy"/> 
   
  </session-factory>
 </hibernate-configuration>
