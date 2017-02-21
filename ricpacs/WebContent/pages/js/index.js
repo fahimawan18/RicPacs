@@ -14,13 +14,13 @@ function runAuthenticating() {
   $state.html('Authenticating');
   setTimeout(function() {
     $this.addClass('ok');
-    $state.html('Welcome back!');
+    $state.html('Oops! System is busy.');
     setTimeout(function() {
-      $state.html('Log inaaa');
+      $state.html('Log in');
       $this.removeClass('ok loading');
       working = false;
     }, 1000);
-  }, 10000);
+  }, 20000);
   return true;
 };
 
