@@ -180,9 +180,12 @@
         					</p:column>
 				    
 				    <p:column headerText="View Image">
-	            				
-	            				<a href="#{crit.weasisPath}#{study.studyIuid}" >Open Web Viewer</a>
-        					</p:column>
+	            		<p:link href="#{crit.weasisPath}#{study.studyIuid}" >
+	            			<h:graphicImage url="/resources/images/openViewer.png" >
+	            			</h:graphicImage>
+	            		</p:link>			
+	            		
+        			</p:column>
         					
         					<p:column headerText="Series Details" > 
 				            <h:commandLink action="#{searchBean.viewSeriesDetails}"
