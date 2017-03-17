@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
 
+import com.pacs.bll.admin.CriteriaBll;
 import com.pacs.utils.Environment;
 import com.pacs.utils.MessageConstants;
 
@@ -18,18 +19,26 @@ public class CriteriaBean
 	private List<SelectItem> twoOptionsList; //Yes, No
 	private List<SelectItem> threeOptionsList; //NA, Yes, No
 	private List<SelectItem> negPosOptionsList ; //Negative, positive
+	private List<SelectItem> srcAetList ; //SrcAet values from lu_aet_vw view
+	private List<SelectItem> modalityList ; //Modalities values from lu_modality_vw view
 
 	private String maxFileSize;
  
 	private String pageTitle;
 	private String weasisPath;
+	
+	private CriteriaBll bll;
+	
 	public CriteriaBean() 
 	{
 		// TODO Auto-generated constructor stub
 		this.twoOptionsList = new ArrayList<SelectItem>();
 		this.threeOptionsList = new ArrayList<SelectItem>();
 		this.negPosOptionsList = new ArrayList<SelectItem>();
+		this.srcAetList = new ArrayList<SelectItem>();
+		this.modalityList = new ArrayList<SelectItem>();
 		this.weasisPath = Environment.getWeasisServerPath();
+		this.bll = new CriteriaBll();
 
 	}
 	
@@ -136,6 +145,47 @@ public class CriteriaBean
 
 	public void setWeasisPath(String weasisPath) {
 		this.weasisPath = weasisPath;
+	}
+
+
+
+
+	public List<SelectItem> getSrcAetList() 
+	{
+//		bll = new CriteriaBll();
+//		this.srcAetList.clear();
+		if(this.srcAetList.size()==0)
+		{
+			this.srcAetList=bll.getSrcAetSelectItemList();
+		}
+		
+		
+		return srcAetList;
+	}
+
+
+
+	public void setSrcAetList(List<SelectItem> srcAetList) {
+		this.srcAetList = srcAetList;
+	}
+
+
+
+
+	public List<SelectItem> getModalityList() 
+	{
+		if(this.modalityList.size()==0)
+		{
+			this.modalityList=bll.getModalitySelectItemList();
+		}
+		return modalityList;
+	}
+
+
+
+
+	public void setModalityList(List<SelectItem> modalityList) {
+		this.modalityList = modalityList;
 	}
 	
 	

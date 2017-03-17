@@ -1,10 +1,14 @@
 package com.pacs.dal.dao;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -12,7 +16,7 @@ import javax.persistence.Table;
 public class ApplicationUsers 
 {
 	
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id // @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "user_id")
 	private String userId;
 	
@@ -21,6 +25,12 @@ public class ApplicationUsers
 	
 	@Column(name="THEME", insertable=false)
 	private String theme;
+	
+	@OneToMany(mappedBy = "userId" , cascade = CascadeType.ALL)
+	private  List<RolesApplAet> rolesAetFk;
+	
+	@OneToMany(mappedBy = "userId" , cascade = CascadeType.ALL)
+	private  List<RolesApplModality> rolesModFk;
 	
 	
 	public ApplicationUsers() 
@@ -60,7 +70,26 @@ public class ApplicationUsers
 	public void setTheme(String theme) {
 		this.theme = theme;
 	}
-	
+
+
+	public List<RolesApplAet> getRolesAetFk() {
+		return rolesAetFk;
+	}
+
+
+	public void setRolesAetFk(List<RolesApplAet> rolesAetFk) {
+		this.rolesAetFk = rolesAetFk;
+	}
+
+
+	public List<RolesApplModality> getRolesModFk() {
+		return rolesModFk;
+	}
+
+
+	public void setRolesModFk(List<RolesApplModality> rolesModFk) {
+		this.rolesModFk = rolesModFk;
+	}
 	
 
 }

@@ -1,0 +1,88 @@
+
+	<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		template="/pages/includes/templatePage.xhtml">
+		<ui:define name="title">Lab Software</ui:define>
+		<ui:define name="top">Lab Software</ui:define>
+		<ui:define name="content">
+
+<h:form>
+  
+
+  	<p:panel id="panel2"  header="#{crit.pageTitle}" style="text-align: center;">
+					<p:panelGrid style="margin-top:20px; width: 70%; margin: 0 auto"
+					columns="2">
+					
+					<p:outputLabel value="Enter Username / ID"></p:outputLabel>
+ 					 <p:inputText value="#{adminBean.toSearchUser.userId}"></p:inputText>
+ 					 
+					
+ 					 
+					</p:panelGrid>
+				</p:panel>
+ 
+ 
+ 
+  	<p:commandButton value="Search" action="#{adminBean.searchUsers}" icon="fa fa-fw fa-search" update="tbl1"/>
+  	
+  	<br/>
+  	
+  	<p:dataTable value="#{adminBean.usersList}" var="mylist" id="tbl1"
+					paginatorPosition="top" editable="true" rows="12" paginator="true"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					>
+
+					<p:column headerText="Username / ID" style="width:150px;">
+						<h:outputText value="#{mylist.userId}" />
+					</p:column>
+					
+					
+					<p:column headerText="Reset Password" style="width:100px;">
+					<p:commandButton action="#{adminBean.resetPassword}" style="width:100px;" 
+					icon="fa fa-fw fa-refresh"	>
+							<f:setPropertyActionListener target="#{adminBean.toSearchUser}" value="#{mylist}" />
+						</p:commandButton>
+						
+					</p:column>
+					
+					<p:column headerText="Roles" style="width:700px;">
+					<p:panelGrid columns="2">
+						<p:dataTable value="#{mylist.rolesAetFk}" var="aet" style="width:350px;">
+							<p:column headerText="AET" style="width:150px;">
+								<h:outputText value="#{aet.userRoleAet}" />
+							</p:column>
+						</p:dataTable>
+						
+						<p:dataTable value="#{mylist.rolesModFk}" var="moda" style="width:350px;">
+							<p:column headerText="Modality" style="width:150px;">
+								<h:outputText value="#{moda.userRoleModality}" />
+							</p:column>
+						</p:dataTable>
+						</p:panelGrid>
+					</p:column>
+					
+					<p:column headerText="Edit Roles" style="width:100px;">
+					<p:commandButton action="#{adminBean.navigateToManageDetails}" 
+					style="width:100px;" 
+					icon="fa fa-fw fa-edit"	>
+							<f:setPropertyActionListener 
+							target="#{adminBean.selectedUser}" value="#{mylist}" />
+					</p:commandButton>
+						
+					</p:column>
+					
+
+				</p:dataTable>
+				
+				
+				<br/>
+				
+					<p:commandButton rendered="false" 
+					value="Update" action="#{adminBean.updateUsers}" icon="fa fa-fw fa-save" ajax="false"></p:commandButton>
+</h:form>
+</ui:define>
+	</ui:composition>
+

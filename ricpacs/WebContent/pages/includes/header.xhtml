@@ -21,13 +21,24 @@
 						action="#{navBean.navSearchPatientPage}" update=":content" />
 						
 					
-				
+				<p:submenu label="Admin" icon="fa fa-fw fa-gear"
+					>
+					
+						<p:menuitem value="Add New Users"  
+						action="#{navBean.navAdminAddUsersPage}" update=":content"
+						icon="fa fa-fw fa-plus-square" />	
+						<p:separator />
+						<p:menuitem value="Manage Users"
+						action="#{navBean.navAdminManageUsersPage}" update=":content"
+						icon="fa fa-fw fa-wrench" />					
+					
+					<p:separator />
 					<p:menuitem value="Change Password"
 						action="#{navBean.navAdminChangePassword}" update=":content"
 						icon="fa fa-fw fa-lock"/>
 					
 					
-			
+			</p:submenu>
 
 			</p:menubar>
 		</f:ajax>

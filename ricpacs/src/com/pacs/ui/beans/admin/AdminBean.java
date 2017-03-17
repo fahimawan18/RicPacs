@@ -5,10 +5,16 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.model.SelectItem;
+
+import org.primefaces.model.DualListModel;
 
 import com.iac.web.util.FacesUtils;
 import com.pacs.bll.admin.AdminBll;
 import com.pacs.dal.dao.ApplicationUsers;
+import com.pacs.dal.dao.RolesApplAet;
+import com.pacs.dal.dao.RolesApplModality;
+import com.pacs.dal.dao.vw.LuAetVw;
 import com.pacs.ui.beans.UserBean;
 import com.pacs.utils.Environment;
 import com.pacs.utils.MessageConstants;
@@ -23,22 +29,35 @@ public class AdminBean
 	
 	private ApplicationUsers toAddUser;
 	private ApplicationUsers toSearchUser;
+	private ApplicationUsers selectedUser;
 	private List<ApplicationUsers> usersList;
+	private List<RolesApplAet> selectedRolesList;
+	private List<RolesApplModality> selectedModalitiesList;
 	private ApplicationUsers currentUser;
 	private String newPassword = "";
 	private String newPasswordAgain = "";
 	
 	
+	private DualListModel<String> aetRolesDual;
+	private List<String> srcAetList;
+	private List<String> tgtAetList;
+	
+	private DualListModel<String> modRolesDual;
+	private List<String> srcModList;
+	private List<String> tgtModList;
+	
 	private String scannedFileType;
-	
-	
+	private CriteriaBean crt = (CriteriaBean)FacesUtils.getManagedBean("crit");
 	
 	public AdminBean() 
 	{		
 		// TODO Auto-generated constructor stub
 		toAddUser = new ApplicationUsers();
 		toSearchUser = new ApplicationUsers();
+		this.selectedUser = new ApplicationUsers();
 		this.usersList = new ArrayList<ApplicationUsers>();
+		this.selectedRolesList = new ArrayList<RolesApplAet>();
+		
 		
 	}
 	
@@ -46,11 +65,19 @@ public class AdminBean
 	{
 		
 		AdminBll bll =new AdminBll();
-		if(bll.addNewUser(toAddUser))
+		System.out.println("roles list size="+this.selectedRolesList.size());
+		if(toAddUser==null || toAddUser.getUserId()==null || toAddUser.getUserId().trim().length()<1)
+		{
+			MessageUtils.error(MessageConstants.Messages.INVALID_USERNAME);
+			return "";
+		}
+		
+		if(bll.addNewUser(toAddUser,this.selectedRolesList,this.selectedModalitiesList))
 		{
 //			FacesUtils.addInfoMessage("Login credentials", MessageConstants.Messages.SAVE_SUCCESS);
 			MessageUtils.info(MessageConstants.Messages.SAVE_SUCCESS);
 			this.toAddUser = new ApplicationUsers();
+			this.selectedRolesList.clear();
 		}
 		else
 		{
@@ -65,12 +92,26 @@ public class AdminBean
 	{
 //		if(this.usersList.size()==0)
 		{
+			
 			AdminBll bll =new AdminBll();
 			this.usersList = bll.searchAllUser(toSearchUser);			
+
 		}
 		return "";
 	}
 	
+	
+	public String testMethod()
+	{
+		System.out.println("tgt aet list elmns method");
+		for(String s:aetRolesDual.getTarget())
+		{
+			System.out.println("tgt aet list elmns ="+s);
+		}
+		return "";
+	}
+	
+//	Not being used now---- see updateRoles()
 	public String updateUsers()
 	{
 
@@ -84,6 +125,24 @@ public class AdminBean
 		else
 		{
 //			FacesUtils.addErrorMessage(MessageConstants.Messages.UPDATE_FAILURE);
+			MessageUtils.error(MessageConstants.Messages.UPDATE_FAILURE);
+		}
+
+		return "";
+	}
+	
+	public String updateRoles()
+	{
+
+		AdminBll bll =new AdminBll();
+		if(bll.updateRoles(selectedUser,this.aetRolesDual,this.modRolesDual))
+		{
+			MessageUtils.info(MessageConstants.Messages.UPDATE_SUCCESS);
+			this.usersList = bll.searchAllUser(toSearchUser);	
+			return "manageUsers";
+		}
+		else
+		{
 			MessageUtils.error(MessageConstants.Messages.UPDATE_FAILURE);
 		}
 
@@ -142,7 +201,67 @@ public class AdminBean
 		return "";
 	}
 	
+	public String navigateToManageDetails()
+	{
 		
+		populateAetTargetList();
+		populateModTargetList();
+		
+		populateAetSourceList();
+		populateModSourceList();
+		
+		
+		this.aetRolesDual = new DualListModel<String>(srcAetList, tgtAetList);
+		this.modRolesDual = new DualListModel<String>(srcModList, tgtModList);
+		
+		return NavigationConstants.ADMIN_MANAGE_USERS_DETAILS_NAVIGATION;
+	}
+	
+	private void populateAetSourceList()
+	{		
+		this.srcAetList=new ArrayList<String>();
+		this.srcAetList.clear();
+		for(SelectItem i:crt.getSrcAetList())
+		{
+			if(!this.tgtAetList.contains(i.getLabel()))
+			{
+				this.srcAetList.add(i.getLabel());
+			}
+		}
+		
+	}
+	private void populateAetTargetList()
+	{		
+		this.tgtAetList=new ArrayList<String>();
+		this.tgtAetList.clear();
+		for(RolesApplAet i:this.selectedUser.getRolesAetFk())
+		{
+			this.tgtAetList.add(i.getUserRoleAet());
+		}
+	}
+	private void populateModSourceList()
+	{		
+		this.srcModList = new ArrayList<String>();
+		this.srcModList.clear();
+		for(SelectItem i:crt.getModalityList())
+		{
+			if(!this.tgtModList.contains(i.getLabel()))
+			{
+				this.srcModList.add(i.getLabel());
+			}
+			
+		}
+		
+	}
+	private void populateModTargetList()
+	{		
+		this.tgtModList=new ArrayList<String>();
+		this.tgtModList.clear();
+		for(RolesApplModality i:this.selectedUser.getRolesModFk())
+		{
+			this.tgtModList.add(i.getUserRoleModality());
+		}
+	}	
 	public ApplicationUsers getToAddUser() {
 		return toAddUser;
 	}
@@ -190,5 +309,45 @@ public class AdminBean
 		this.scannedFileType = scannedFileType;
 	}
 
+	public List<RolesApplAet> getSelectedRolesList() {
+		return selectedRolesList;
+	}
 
+	public void setSelectedRolesList(List<RolesApplAet> selectedRolesList) {
+		this.selectedRolesList = selectedRolesList;
+	}
+
+	public List<RolesApplModality> getSelectedModalitiesList() {
+		return selectedModalitiesList;
+	}
+
+	public void setSelectedModalitiesList(
+			List<RolesApplModality> selectedModalitiesList) {
+		this.selectedModalitiesList = selectedModalitiesList;
+	}
+
+	public ApplicationUsers getSelectedUser() {
+		return selectedUser;
+	}
+
+	public void setSelectedUser(ApplicationUsers selectedUser) {
+		this.selectedUser = selectedUser;
+	}
+
+	public DualListModel<String> getAetRolesDual() {
+		return aetRolesDual;
+	}
+
+	public void setAetRolesDual(DualListModel<String> aetRolesDual) {
+		this.aetRolesDual = aetRolesDual;
+	}
+
+	public DualListModel<String> getModRolesDual() {
+		return modRolesDual;
+	}
+
+	public void setModRolesDual(DualListModel<String> modRolesDual) {
+		this.modRolesDual = modRolesDual;
+	}
+	
 }

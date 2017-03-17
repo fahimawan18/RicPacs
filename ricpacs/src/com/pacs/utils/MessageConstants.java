@@ -22,6 +22,9 @@ public final class MessageConstants {
 
 	public static final class Constants 
 	{
+		public static final String ALL_STRING = "All";
+		public static final String NONE_STRING = "None";
+		
 		public static final String DISPLAY_UNIT = "Display";
 		public static final String PASSWORD_KEY = "1";
 		public static final String PROFILE_CURRENT = "Current";

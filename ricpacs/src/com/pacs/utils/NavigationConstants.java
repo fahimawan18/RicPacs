@@ -35,6 +35,7 @@ public class NavigationConstants {
 
 	public static String ADMIN_ADD_USERS_NAVIGATION = "/pages/admin/addUsers.xhtml?faces-redirect=true";
 	public static String ADMIN_MANAGE_USERS_NAVIGATION = "/pages/admin/manageUsers.xhtml?faces-redirect=true";
+	public static String ADMIN_MANAGE_USERS_DETAILS_NAVIGATION = "/pages/admin/manageUsersDetails.xhtml?faces-redirect=true";
 	public static String ADMIN_CHANGE_PASSWORD = "/pages/admin/changePassword.xhtml?faces-redirect=true";
 	
 	public static String ADMIN_RESET_CLIENT = "/pages/admin/resetClient.xhtml?faces-redirect=true";

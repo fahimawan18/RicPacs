@@ -33,6 +33,12 @@
   <mapping class="com.pacs.dal.dao.FileSystem"/>
   <mapping class="com.pacs.dal.dao.Instance"/>
   <mapping class="com.pacs.dal.dao.StudyOnFs"/>
+  <mapping class="com.pacs.dal.dao.RolesApplAet"/>
+  <mapping class="com.pacs.dal.dao.RolesApplModality"/>
+  
+  <mapping class="com.pacs.dal.dao.vw.LuAetVw"/>
+  <mapping class="com.pacs.dal.dao.vw.LuModalityVw"/>
+  
   
   <mapping class="com.pacs.dal.dao.priv.PrivInstance"/>
   <mapping class="com.pacs.dal.dao.priv.PrivPatient"/>

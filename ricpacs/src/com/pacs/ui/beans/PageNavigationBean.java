@@ -88,6 +88,13 @@ public class PageNavigationBean implements Serializable
 		cb.setPageTitle(MessageConstants.Constants.PageTitles.ADMIN);
 		return pageName;
 	}
+	
+	public String navAdminManageUsersDetailsPage() {
+		System.out.println("PageNavigationBean admin/manageUsersDetails.xhtml");
+		pageName = NavigationConstants.ADMIN_MANAGE_USERS_DETAILS_NAVIGATION;
+		cb.setPageTitle(MessageConstants.Constants.PageTitles.ADMIN);
+		return pageName;
+	}
 
 	public String navAdminChangePassword() 
 	{
