@@ -8,7 +8,7 @@
 
 		<ui:define name="content">
 
-<h:form>
+<h:form id="form1">
  
 				 	
   	<p:panel id="panel2"  header="#{crit.pageTitle}" style="text-align: center;">
@@ -19,19 +19,22 @@
 					<p:outputLabel value="Patient Name"></p:outputLabel>
  					 <p:inputText value="#{searchBean.toSearchPatient.patName}"></p:inputText> 
 
-					<p:outputLabel value="Patient ID / Issuer"></p:outputLabel>
+					<p:outputLabel value="Patient MR No / Issuer"></p:outputLabel>
 					<h:panelGroup>
  					 <p:inputText value="#{searchBean.toSearchPatient.patId}"></p:inputText> /
  					 <p:inputText value="#{searchBean.toSearchPatient.patIdIssuer}"></p:inputText>
  					</h:panelGroup>
  					
- 					<p:outputLabel value="Study ID"></p:outputLabel>
- 					 <p:inputText value="#{searchBean.toSearchStudy.studyId}"></p:inputText>
+ 					<p:outputLabel value="Study ID" rendered="false"></p:outputLabel>
+ 					 <p:inputText value="#{searchBean.toSearchStudy.studyId}" rendered="false" 
+ 					 ></p:inputText>
 					
     				<p:outputLabel value="Study Date / Time From:" />
-				    <p:calendar id="datetimeFrom" value="#{searchBean.dateFrom}" pattern="dd/MM/yyyy HH:mm" />
+				    <p:calendar id="datetimeFrom" value="#{searchBean.dateFrom}" 
+				    pattern="dd/MM/yyyy HH:mm" />
 				    <p:outputLabel value="Study Date / Time To:" />
-				    <p:calendar id="datetimeTo" value="#{searchBean.dateTo}" pattern="dd/MM/yyyy HH:mm" />
+				    <p:calendar id="datetimeTo" value="#{searchBean.dateTo}" 
+				    pattern="dd/MM/yyyy HH:mm" />
  					
  					
 				</p:panelGrid>
@@ -49,82 +52,7 @@
   	
   	<br/>
   	
-  	<p:dataTable value="#{searchBean.patientsList}" 
-  	var="cmt" rendered="false"
   	
-					paginatorPosition="top" editable="true" rows="12" paginator="true"
-					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					id="tbl1">
-
-					<f:facet name="header">
-        				Patients Data
- 
-        				<p:commandButton rendered="false"
-        				id="toggler" type="button" value="Columns" 
-        				style="float:right" icon="ui-icon-calculator" />
-        				<p:columnToggler datasource="tbl1" trigger="toggler" rendered="false"/>
-    				</f:facet>
-					<p:column headerText="Name" sortBy="#{cmt.patName}">
-				            <h:outputText value="#{cmt.patName}" />
-				        </p:column>
-				        
-				        
-					<p:column headerText="ID" width="10px" sortBy="#{cmt.patId}">
-				            <h:outputText value="#{cmt.patId}" />
-				    </p:column>
-				    
-				    <p:column headerText="Issuer" >
-				            <h:outputText value="#{cmt.patIdIssuer}" />
-				    </p:column>
-				    
-				    <p:column headerText="Birth Date" >
-				            <h:outputText value="#{cmt.patBirthdate}" >
-				            	<f:convertDateTime pattern="dd/MM/yyyy HH:mm"></f:convertDateTime>				            
-				            </h:outputText>
-				    </p:column>
-				    
-				    <p:column headerText="Sex" >
-				            <h:outputText value="#{cmt.patSex}" />
-				    </p:column>
-				    
-				    <p:column headerText="Study Details" >
-				            <h:commandLink  
-				            actionListener="#{searchBean.testMethod}"
-				            action="/pages/search/details/studyDetails.xhtml"
-				            target="_blank" rendered="false">
-				            View Details-
-				            <f:setPropertyActionListener value="#{cmt}" target="#{searchBean.selectedPatient}">
-    					</f:setPropertyActionListener>
-				            </h:commandLink>
-				            
-				            <h:commandLink action="#{searchBean.viewStudyDetails}"
-				            
-				            target="_blank" rendered="true">
-				            View Details
-				            <f:setPropertyActionListener value="#{cmt}" 
-				            target="#{searchBean.selectedPatient}">
-    					</f:setPropertyActionListener>
-				            </h:commandLink>
-				            
-				          <p:commandLink id="link" rendered="false" 
-				          actionListener="#{searchBean.testMethod}" 
-   						 oncomplete="popupwindow('details/studyDetails.jsf', 'newwindow');" >  
-    					<h:outputText value="View Details" />
-    					<f:setPropertyActionListener value="#{cmt}" target="#{searchBean.selectedPatient}">
-    					</f:setPropertyActionListener>
-						</p:commandLink>
-				    </p:column>
-				    
-				   
-				        <p:column filterBy="#{cmt.eventTime}" rendered="false"
-				         headerText="Date - Time" filterMatchMode="contains" sortBy="#{cmt.eventTime}">
-
-				            <h:outputText value="#{cmt.eventTime}" >
-				            	<f:convertDateTime pattern="dd/MM/yyyy HH:mm"></f:convertDateTime>
-				            </h:outputText>
-				        </p:column>
-			
-				</p:dataTable>
 				
 		
 				
@@ -186,19 +114,51 @@
 	            		</p:link>			
 	            		
         			</p:column>
+        			
+        			<p:column headerText="Series Details" > 
+				   		     	<p:commandButton onclick="PF('dlg').show();"
+				             	update=":form1:display" value="Click to View"
+				             	action="#{searchBean.populateSeriesDataForDialog}" 
+				             	>			            
+				            <f:setPropertyActionListener value="#{study}" 
+				            target="#{searchBean.selectedStudy}">
+    						</f:setPropertyActionListener>
+				            </p:commandButton>
+				             
+				            
+				   		 </p:column>
+				   		 
         					
-        					<p:column headerText="Series Details" > 
+        					<p:column headerText="Series Details" rendered="false"> 
 				            <h:commandLink action="#{searchBean.viewSeriesDetails}"
 				            target="_blank" rendered="true">
 				            View Details
-				            <f:setPropertyActionListener value="#{study}" target="#{searchBean.selectedStudy}">
+				            <f:setPropertyActionListener value="#{study}" 
+				            target="#{searchBean.selectedStudy}">
     						</f:setPropertyActionListener>
 				            </h:commandLink>
 				   		 </p:column>
+				   		 
+				   		 
 				    
 				</p:dataTable>
 				
+				<p:dialog header="Series Details" widgetVar="dlg" height="200" width="650"
+				closeOnEscape="true" footer="Press escape to close"
+				showEffect="explode" >
+        			<p:panelGrid columns="1" style="margin-top:20px; 
+        			width: 100%; margin: 0 auto" id="display">
+   
+   						<ui:include src="/pages/search/details/seriesDetails.xhtml"></ui:include>
+   
+					
+		
+		</p:panelGrid>
+    			</p:dialog>
+    			
 				<br/>
+				
+				
 				
 				
 				

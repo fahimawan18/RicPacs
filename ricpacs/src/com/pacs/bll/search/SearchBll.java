@@ -9,21 +9,30 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
+import com.iac.web.util.FacesUtils;
 import com.pacs.dal.dao.Patient;
 import com.pacs.dal.dao.Study;
+import com.pacs.ui.beans.UserBean;
 import com.pacs.utils.HibernateUtilsAnnot;
+import com.pacs.utils.MessageConstants;
+import com.pacs.utils.MessageUtils;
 
 public class SearchBll 
 {
+	UserBean ub = (UserBean)FacesUtils.getManagedBean("userBean");
 	
 	public SearchBll() 
 	{
 		// TODO Auto-generated constructor stub
+		init();
 	}
 
+	private void init()
+	{
+		
+	}
 	
 	public List<Patient> searchPatients(Patient toSearchPatient, Date dateFrom , Date dateTo)
 	{
@@ -87,9 +96,28 @@ public class SearchBll
 	{
 		Session session = null;
 		List<Study> list = new ArrayList<Study>();
+		List<String> aetList = ub.getAetRoles();
+		List<String> modList = ub.getModRoles();
+		
+		
+		/*
+		 * Following code clears roles list and displays all records to user if roles contain "All" role 
+		 */
+		if(aetList.contains(MessageConstants.Constants.ALL_STRING))
+		{
+			aetList.clear();
+		}
+		if(modList.contains(MessageConstants.Constants.ALL_STRING))
+		{
+			modList.clear();
+		}
+//		**********
+		
 		System.out.println("In search study Method bll");
 		try
 		{
+			
+			
 			session = HibernateUtilsAnnot.currentSession();			
 			Criteria mainCr = session.createCriteria(Study.class);
 			
@@ -102,6 +130,30 @@ public class SearchBll
 				mainCr.add(Restrictions.le("studyDateTime", dateTo));
 			}
 			
+			/*
+			 * Following is for restricting results as per roles.
+			 */
+			if(aetList.size()>0 || modList.size()>0)
+			{
+				Criteria seriesCr = mainCr.createCriteria("seriesFk");
+				if(aetList.size()>0 && modList.size()>0)
+				{
+					System.out.println("in aetlist and modlist");
+					seriesCr.add(Restrictions.in("srcAet", aetList));
+					seriesCr.add(Restrictions.in("modality", modList));
+				}
+				else if(aetList.size()>0)
+				{
+					System.out.println("in aetlist only");
+					seriesCr.add(Restrictions.in("srcAet", aetList));					
+				}
+				else if(modList.size()>0)
+				{
+					System.out.println("in modlist only");
+					seriesCr.add(Restrictions.in("modality", modList));
+				}
+				
+			}
 					
 			if(toSearchStudy!=null)
 			{
@@ -139,8 +191,10 @@ public class SearchBll
 				Hibernate.initialize(c.getSeriesFk());			
 				
 			}
-			
-
+			if(list.size()==0)
+			{
+				MessageUtils.info("No results found");
+			}
 			
 		}
 		catch(HibernateException e)

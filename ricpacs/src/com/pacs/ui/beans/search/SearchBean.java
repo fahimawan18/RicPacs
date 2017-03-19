@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.event.ActionEvent;
 
 import com.pacs.bll.search.SearchBll;
 import com.pacs.dal.dao.Patient;
@@ -83,6 +84,16 @@ public class SearchBean
 		this.seriesList.addAll(this.selectedStudy.getSeriesFk());
 		
 		return NavigationConstants.SERIES_DETAILS_NAVIGATION;
+	}
+	
+	public String populateSeriesDataForDialog()
+	{
+		System.out.println("In populateSeriesDataForDialog method, selectedstudy is ="+this.selectedStudy.getId());
+		this.seriesList.clear();
+		this.seriesList.addAll(this.selectedStudy.getSeriesFk());
+
+		return "";
+		
 	}
 	
 	public String searchPatientsData()

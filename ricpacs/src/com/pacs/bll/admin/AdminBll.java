@@ -10,6 +10,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.jasypt.util.text.StrongTextEncryptor;
 import org.primefaces.model.DualListModel;
@@ -231,6 +232,22 @@ public class AdminBll
 				{
 					cr.add(Restrictions.eq("userId", toSearchUser.getUserId()));
 				}
+				
+				if(toSearchUser.getUserName()!=null && toSearchUser.getUserName().trim().length()>0)
+				{
+					cr.add(Restrictions.ilike("userName", toSearchUser.getUserName(),MatchMode.ANYWHERE));
+				}
+				
+				if(toSearchUser.getAppt()!=null && toSearchUser.getAppt().trim().length()>0)
+				{
+					cr.add(Restrictions.ilike("appt", toSearchUser.getAppt(),MatchMode.ANYWHERE));
+				}
+				
+				if(toSearchUser.getDept()!=null && toSearchUser.getDept().trim().length()>0)
+				{
+					cr.add(Restrictions.ilike("dept", toSearchUser.getDept(),MatchMode.ANYWHERE));
+				}
+				
 				
 			}
 			list = cr.list();

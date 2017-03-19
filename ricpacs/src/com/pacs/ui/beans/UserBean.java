@@ -2,7 +2,9 @@ package com.pacs.ui.beans;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -39,12 +41,17 @@ public class UserBean
 	private Date currDate = new Date();
 	private String defaultPassword;
 	
+	private List<String> aetRoles;
+	private List<String> modRoles;
+	
 	public UserBean() 
 	{
 		// TODO Auto-generated constructor stub
 		this.toSearchUser = new ApplicationUsers();
 		this.checkSession = true;
 		this.defaultPassword = Environment.getDefaultPassword();
+		this.aetRoles = new ArrayList<String>();
+		this.modRoles = new ArrayList<String>();
 	}
 	
 	
@@ -69,7 +76,8 @@ public class UserBean
 			UserDal dal = new UserDal();
 			ApplicationUsers currentUser = dal.localLogin(this.toSearchUser.getUserId());
 			
-			if(currentUser!=null && currentUser.getUserId()!=null && currentUser.getUserId().trim().length()>0)
+			if(currentUser!=null && currentUser.getUserId()!=null && 
+					currentUser.getUserId().trim().length()>0)
 			{
 				String hashedPassword = computeHashedPassword(this.toSearchUser.getPassword());
 				if(hashedPassword.equals(currentUser.getPassword()))
@@ -77,24 +85,20 @@ public class UserBean
 					FacesUtils.putIntoSession(KEY_CURRENT_USER, currentUser);
 					System.out.println(KEY_CURRENT_USER);
 					System.out.println("Abt to return");
-					//(( AddPlannerBean )FacesUtils.getManagedBean( "addPlannerBean" ) ).searchCurrentCmts();
 					this.loggedUserString = ((ApplicationUsers) FacesUtils.getFromSession(KEY_CURRENT_USER))
 							.getLoggedUserString();
 					System.out.println(this.loggedUserString);
 					
+					this.aetRoles = dal.populateAetRoles(currentUser.getUserId());
+					this.modRoles = dal.populateModRoles(currentUser.getUserId());
 					
 					(( ThemeSwitcherView )FacesUtils.getManagedBean( "themeSwitcherView" ))
 						.setSelectedTheme(currentUser.getTheme());
 				    	  
-					
-//					if(currentUser.getSection().equals(MessageConstants.Constants.DISPLAY_UNIT) )
-//						return (( PageNavigationBean )FacesUtils.getManagedBean( "navBean" ) ).navDisplayPage();
-//					else
 						return (( PageNavigationBean )FacesUtils.getManagedBean( "navBean" ) ).navHomePage();
 				}
 				else 
 				{
-//					FacesUtils.addErrorMessage("Login credentials", MessageConstants.Messages.INVALID_PASSWORD);
 					MessageUtils.error(MessageConstants.Messages.INVALID_PASSWORD);
 					return  "";
 				}
@@ -102,7 +106,6 @@ public class UserBean
 			}
 			else 
 			{
-//				FacesUtils.addErrorMessage("Login credentials", MessageConstants.Messages.INVALID_USERNAME);
 				MessageUtils.error(MessageConstants.Messages.INVALID_USERNAME);
 				return  "";
 			}
@@ -287,6 +290,20 @@ public class UserBean
 
 	public void setDefaultPassword(String defaultPassword) {
 		this.defaultPassword = defaultPassword;
+	}
+
+
+
+
+	public List<String> getAetRoles() {
+		return aetRoles;
+	}
+
+
+
+
+	public List<String> getModRoles() {
+		return modRoles;
 	}
 	
 

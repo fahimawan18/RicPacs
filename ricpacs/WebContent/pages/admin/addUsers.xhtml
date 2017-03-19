@@ -16,20 +16,34 @@
 					<p:panelGrid style="margin-top:20px; width: 90%; margin: 0 auto"
 					columns="2">
 					
-					<p:outputLabel value="Enter Username"></p:outputLabel>
-  <p:inputText value="#{adminBean.toAddUser.userId}"></p:inputText>
+					<p:outputLabel value="Enter User ID/Login ID"></p:outputLabel>
+  					<p:inputText value="#{adminBean.toAddUser.userId}"></p:inputText>
+  					
+  					<p:outputLabel value="Enter Name"></p:outputLabel>
+  					<p:inputText value="#{adminBean.toAddUser.userName}"></p:inputText>
+  					
+  					<p:outputLabel value="Enter Appointment"></p:outputLabel>
+  					<p:inputText value="#{adminBean.toAddUser.appt}"></p:inputText>
+  					
+  					<p:outputLabel value="Enter Dept"></p:outputLabel>
+  					<p:inputText value="#{adminBean.toAddUser.dept}"></p:inputText>
+  					
+  					<p:outputLabel value="System Admin" rendered="true"></p:outputLabel>
+					  <p:selectOneMenu value="#{adminBean.toAddUser.roleAdmin}" rendered="true"
+					  style="width:40px">
+					  	<f:selectItem itemLabel="N" itemValue="N"></f:selectItem>
+					  	<f:selectItem itemLabel="Y" itemValue="Y"></f:selectItem>
+					 </p:selectOneMenu>
+					 
+					 
+  					
  
  </p:panelGrid>
  <p:panelGrid style="margin-top:20px; width: 90%; margin: 0 auto"
-					columns="4">
-  <p:outputLabel value="System Admin" rendered="false"></p:outputLabel>
-  <p:selectOneMenu value="#{adminBean.toAddUser.roleAdmin}" rendered="false">
-  	<f:selectItem itemLabel="N" itemValue="N"></f:selectItem>
-  	<f:selectItem itemLabel="Y" itemValue="Y"></f:selectItem>
-  </p:selectOneMenu>
+					columns="4" >
   
   <p:outputLabel value="AET Roles" ></p:outputLabel>
-  <p:selectManyMenu   scrollHeight="60" value="#{adminBean.selectedRolesList}">
+  <p:selectManyMenu   scrollHeight="60" value="#{adminBean.selectedRolesList}" >
   	<f:selectItems value="#{crit.srcAetList}"/>
   </p:selectManyMenu>
   
