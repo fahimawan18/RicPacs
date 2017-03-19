@@ -58,9 +58,9 @@
 				
 				<br/>
 				
-			<p:dataTable value="#{searchBean.studiesListMain}" var="study"
+			<p:dataTable value="#{searchBean.studiesListMain}" var="study" 
   	
-					paginatorPosition="top" editable="true" rows="12" paginator="true"
+					paginatorPosition="top" editable="true" rows="5" paginator="true"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					id="tbl2">
 
@@ -69,12 +69,12 @@
  
         				
     				</f:facet>
-					<p:column headerText="Name" sortBy="#{study.patientFk.patName}">
+					<p:column headerText="Name" sortBy="#{study.patientFk.patName}" filterBy="#{study.patientFk.patName}" filterMatchMode="contains">
 				            <h:outputText value="#{study.patientFk.patName}" />
 				        </p:column>
 				        
 				        
-					<p:column headerText="ID" width="10px" sortBy="#{study.patientFk.patId}">
+					<p:column headerText="MR No" width="10px" sortBy="#{study.patientFk.patId}" filterBy="#{study.patientFk.patId}" filterMatchMode="contains">
 				            <h:outputText value="#{study.patientFk.patId}" />
 				    </p:column>
 				    
@@ -84,7 +84,7 @@
 				    
 				    
 				    
-				   	<p:column headerText="Study ID">
+				   	<p:column headerText="Study ID" filterBy="#{study.studyId}" sortBy="#{study.studyId}">
             					<h:outputText value="#{study.studyId}"/>
         					</p:column>
         					
@@ -92,12 +92,18 @@
             					<h:outputText value="#{study.accessionNo}"/>
         					</p:column>
         					
-        					<p:column headerText="Modality">
+        					<p:column headerText="Modality" sortBy="#{study.modsInStudy}">
+					            <!--  f:facet name="filter">
+					                <p:selectOneMenu onchange="PF('tbl2').filter()" >
+					                    <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+					                    <f:selectItems value="#{crit.modalityList}" />
+					                </p:selectOneMenu>
+					            </f:facet -->
             					<h:outputText value="#{study.modsInStudy}"/>
         					</p:column>
         					
         					
-        					<p:column headerText="Study Date/Time" >
+        					<p:column headerText="Study Date/Time" sortBy="#{study.studyDateTime}">
 				            <h:outputText value="#{study.studyDateTime}" >
 				            	<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"></f:convertDateTime>				            
 				            </h:outputText>
