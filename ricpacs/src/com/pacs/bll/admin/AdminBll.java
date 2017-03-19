@@ -15,7 +15,7 @@ import org.hibernate.criterion.Restrictions;
 import org.jasypt.util.text.StrongTextEncryptor;
 import org.primefaces.model.DualListModel;
 
-import com.lowagie.text.pdf.PRStream;
+//import com.lowagie.text.pdf.PRStream;
 import com.pacs.dal.dao.ApplicationUsers;
 import com.pacs.dal.dao.RolesApplAet;
 import com.pacs.dal.dao.RolesApplModality;
