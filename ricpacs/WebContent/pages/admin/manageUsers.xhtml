@@ -9,7 +9,7 @@
 		<ui:define name="top">Lab Software</ui:define>
 		<ui:define name="content">
 
-<h:form>
+<h:form id="form_mu">
   
 
   	<p:panel id="panel2"  header="#{crit.pageTitle}" style="text-align: center;">
@@ -91,7 +91,8 @@
 						</p:panelGrid>
 					</p:column>
 					
-					<p:column headerText="Edit AET And Modality Roles" style="width:75px;">
+					<p:column headerText="Edit AET And Modality Roles" rendered="false" 
+					style="width:75px;">
 					<p:commandButton action="#{adminBean.navigateToManageDetails}" 
 					style="width:70px;" 
 					icon="fa fa-fw fa-edit"	>
@@ -101,8 +102,34 @@
 						
 					</p:column>
 					
+					<p:column headerText="AET And Modality Roles" style="width:75px;"> 
+				   		     	<p:commandButton onclick="PF('dlg').show();"
+				             	update=":form_mu:display" value="Click to View/Update"
+				             	action="#{adminBean.popUpManageDetailsDialog}" 
+				             	>			            
+				            <f:setPropertyActionListener value="#{mylist}" 
+				            target="#{adminBean.selectedUser}">
+    						</f:setPropertyActionListener>
+				            </p:commandButton>
+				             
+				            
+				   		 </p:column>
+					
 
 				</p:dataTable>
+				
+				<p:dialog header="AET and Modality Roles" widgetVar="dlg" height="450" 
+				closeOnEscape="true" footer="Press escape to close"
+				>
+        			<p:panelGrid columns="1" style="margin-top:20px; 
+        			width: 100%; margin: 0 auto" id="display">
+   
+   						<ui:include src="/pages/admin/dialogs/manageUserDetails.xhtml"></ui:include>
+   
+					
+		
+		</p:panelGrid>
+    			</p:dialog>
 				
 				
 				<br/>

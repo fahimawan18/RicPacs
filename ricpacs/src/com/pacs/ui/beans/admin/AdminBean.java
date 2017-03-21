@@ -58,6 +58,13 @@ public class AdminBean
 		this.usersList = new ArrayList<ApplicationUsers>();
 		this.selectedRolesList = new ArrayList<RolesApplAet>();
 		
+		this.srcAetList = new ArrayList<String>();
+		this.tgtAetList = new ArrayList<String>();
+		this.srcModList = new ArrayList<String>();
+		this.tgtModList = new ArrayList<String>();
+		this.aetRolesDual = new DualListModel<String>(srcAetList, tgtAetList);
+		this.modRolesDual = new DualListModel<String>(srcModList, tgtModList);
+		
 		
 	}
 	
@@ -149,6 +156,24 @@ public class AdminBean
 		return "";
 	}
 	
+	public String updateRolesFromDialog()
+	{
+
+		AdminBll bll =new AdminBll();
+		if(bll.updateRoles(selectedUser,this.aetRolesDual,this.modRolesDual))
+		{
+			MessageUtils.info(MessageConstants.Messages.UPDATE_SUCCESS);
+			this.usersList = bll.searchAllUser(toSearchUser);	
+			
+		}
+		else
+		{
+			MessageUtils.error(MessageConstants.Messages.UPDATE_FAILURE);
+		}
+
+		return "";
+	}
+	
 	public String resetPassword()
 	{
 		AdminBll bll =new AdminBll();
@@ -215,6 +240,23 @@ public class AdminBean
 		this.modRolesDual = new DualListModel<String>(srcModList, tgtModList);
 		
 		return NavigationConstants.ADMIN_MANAGE_USERS_DETAILS_NAVIGATION;
+	}
+	
+	public String popUpManageDetailsDialog()
+	{
+		
+		populateAetTargetList();
+		populateModTargetList();
+		
+		populateAetSourceList();
+		populateModSourceList();
+		
+		
+		this.aetRolesDual = new DualListModel<String>(srcAetList, tgtAetList);
+		this.modRolesDual = new DualListModel<String>(srcModList, tgtModList);
+		
+		return "";
+	
 	}
 	
 	private void populateAetSourceList()
