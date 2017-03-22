@@ -38,6 +38,9 @@
   
   <mapping class="com.pacs.dal.dao.vw.LuAetVw"/>
   <mapping class="com.pacs.dal.dao.vw.LuModalityVw"/>
+  <mapping class="com.pacs.dal.dao.vw.DiskUsageAetVw"/>
+  <mapping class="com.pacs.dal.dao.vw.DiskUsageModalityVw"/>
+  
   
   
   <mapping class="com.pacs.dal.dao.priv.PrivInstance"/>

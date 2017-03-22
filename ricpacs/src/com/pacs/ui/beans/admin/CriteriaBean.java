@@ -1,5 +1,6 @@
 package com.pacs.ui.beans.admin;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,10 @@ public class CriteriaBean
  
 	private String pageTitle;
 	private String weasisPath;
+	
+//	Implemented For Windows Operating System only
+	private Long onlineStorageFreeSpace = 0l;
+	private String onlineStorageDrive;
 	
 	private CriteriaBll bll;
 	
@@ -186,6 +191,36 @@ public class CriteriaBean
 
 	public void setModalityList(List<SelectItem> modalityList) {
 		this.modalityList = modalityList;
+	}
+
+
+
+
+	private String getOnlineStorageDrive() 
+	{
+		if(onlineStorageDrive==null || onlineStorageDrive.trim().length()==0)
+		{
+			onlineStorageDrive = bll.getOnlineStorageDrive();
+		}
+		return onlineStorageDrive;
+	}
+
+
+	public Long getOnlineStorageFreeSpace() 
+	{
+		File file = new File(getOnlineStorageDrive());
+		this.onlineStorageFreeSpace = file.getFreeSpace();
+		
+		return onlineStorageFreeSpace;
+	}
+
+
+
+
+	public void setOnlineStorageFreeSpace(Long onlineStorageFreeSpace) 
+	{
+		
+		this.onlineStorageFreeSpace = onlineStorageFreeSpace;
 	}
 	
 	

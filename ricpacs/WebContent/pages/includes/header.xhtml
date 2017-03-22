@@ -19,7 +19,14 @@
 					<p:menuitem value="Search Patient / Studies" icon="fa fa-fw fa-search"
 						ajax="true" name="pageViewID"
 						action="#{navBean.navSearchPatientPage}" update=":content" />
+					
+					
+					<p:menuitem value="Dash Board" rendered="#{userBean.currentUser.roleAdmin=='Y'}" 
+					icon="fa fa-fw fa-hospital-o"
+						ajax="true" 
+						action="#{navBean.navDashBoardPage}" update=":content" >
 						
+					</p:menuitem>	
 					
 				<p:submenu label="Admin" icon="fa fa-fw fa-gear"
 				

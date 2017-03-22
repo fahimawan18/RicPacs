@@ -52,6 +52,15 @@ public class PageNavigationBean implements Serializable
 		return pageName;
 	}
 	
+	public String navDashBoardPage() 
+	{
+		System.out.println("PageNavigationBean dashBoard.xhtml");
+		FacesUtils.resetManagedBean("chartBean");
+		pageName = NavigationConstants.ADMIN_DASHBOARD_NAVIGATION;
+		cb.setPageTitle(MessageConstants.Constants.PageTitles.DASHBOARD);
+		return pageName;
+	}
+	
 	public String navLogOut() {
 		System.out.println("PageNavigationBean logout.xhtml");
 //		UserBean.KEY_CURRENT_USER = null;

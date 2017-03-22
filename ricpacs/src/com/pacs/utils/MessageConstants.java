@@ -92,6 +92,8 @@ public final class MessageConstants {
 			
 			public static final String ADMIN = "Admin Tasks";
 			
+			public static final String DASHBOARD = "Dash Board";
+			
 			
 		}
 		
