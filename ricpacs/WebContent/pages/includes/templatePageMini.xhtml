@@ -7,8 +7,10 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<h:outputStylesheet library="css" name="style.css" />
-	<link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.ico']}"/>
-	<title>RIC- PACS</title>
+	<link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.ico']}">
+		
+	</link>
+	<title><h:outputText value="#{envmtBean.applFullName}"/> </title>
 	
 </h:head>
 <h:body>

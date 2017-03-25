@@ -27,6 +27,12 @@ public class Environment
 		return getProperty("applName");
 	}
 	
+	public static String getBusinessClientName()
+	{
+		return getProperty("businessClientName");
+	}
+	
+	
 	public static String getDefaultPassword()
 	{
 		return getProperty("defaultPassword");
@@ -37,98 +43,13 @@ public class Environment
 		return getProperty("weasisServerPath");
 	}
 	
-	public static String getBarCodePrinterName()
-	{
-		return getProperty("barCodePrinterName");
-	}
 	
-	public static String getGamcaNameFormat()
-	{
-		return getProperty("gamcaNameFormat");
-	}
-	
-	public static String getPassportNameFormat()
-	{
-		return getProperty("passportNameFormat");
-	}
-	
-	
-	public static String getReportIconFile()
-	{
-		return getProperty("reportIconFile");
-	}
-	public static String getFilePreviewPath()
-	{
-		return getProperty("filePreviewPath");
-	}
-	public static String getBarCodePreviewPath()
-	{
-		return getProperty("barCodePreviewPath");
-	}
-	
-	public static String getBarCodesStoragePath()
-	{
-		return getProperty("barCodesStoragePath");
-	}
-	
-	
-	public static String getBarCodesNameFormat()
-	{
-		return getProperty("barCodesNameFormat");
-	}
-	
-	public static String getMedicalReportsStoragePath()
-	{
-		return getProperty("medicalReportsStoragePath");
-	}
-	
-	public static String getReportsTemplatePath()
-	{
-		return getProperty("reportTemplatePath");
-	}
-	
-	public static String getPrintCopies()
-	{
-		return getProperty("noOfPrintCopies");
-	}
-	
-	public static String getMedicalReportsNameFormat()
-	{
-		return getProperty("medicalReportsNameFormat");
-	}
-	
-	public static String getCashReceiptNameFormat()
-	{
-		return getProperty("cashReceiptNameFormat");
-	}
 	
 	public static String getFileMaxSize()
 	{
 		return getProperty("fileMaxSize");
 	}
 	
-	public static String getCashReceiptsStoragePath()
-	{
-		return getProperty("cashReceiptsStoragePath");
-	}
-	
-	public static String getScannedFilesStoragePath()
-	{
-		return getProperty("scannedFilesStoragePath");
-	}
-	public static String getMedicalReportTemplateFile()
-	{
-		return getProperty("medReportTemplateFile");
-	}
-	public static String getCashReceiptTemplateFile()
-	{
-		return getProperty("cashReceiptTemplateFile");
-	}
-	
-	public static String getBarCodesTemplateFile()
-	{
-		return getProperty("barCodesTemplateFile");
-	}
 	
 	public static String getProperty(String key) {
 		String value = resources.getString(key);

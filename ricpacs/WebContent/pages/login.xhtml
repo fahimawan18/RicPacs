@@ -5,7 +5,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-<title>RIC - PACS</title>
+<title> <h:outputText value="#{envmtBean.applFullName}" /> </title>
   <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.ico']}"></link>
 	<link rel="stylesheet" href="css/font-awesome.min.css"></link>
   	<link rel="stylesheet" href="css/normalize.min.css"></link>
@@ -207,7 +207,9 @@ footer a, footer a:link {
   		<h:messages style="color:red !important;" severity="info, error, fatal" id="messag"
   			showDetail="true" autoUpdate="true" closable="true" />
   		<div align="center">
-    	<h1 style="font-size:24px;font-weight:bold;">Welcome to RIC - PACS</h1>
+    	<h1 style="font-size:24px;font-weight:bold;">Welcome to  
+    	<p:outputLabel value="#{envmtBean.applFullName}"/>
+    	</h1>
   	</div>	
     <p class="title">Log in</p>
     <p:inputText  value="#{userBean.toSearchUser.userId}" label="Username" placeholder="Username"  ></p:inputText>

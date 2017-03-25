@@ -13,7 +13,7 @@
 .banner_holderImage{
     height: 100%;
     position:relative;
-    background:   url(#{request.contextPath}/resources/images/banner.png)no-repeat;
+    
     -webkit-background-size: 100%, auto;
   	-moz-background-size: 100%, auto;
   	-o-background-size: 100%, auto;
