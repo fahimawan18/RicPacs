@@ -16,8 +16,8 @@ public class ChartBean
 	private PieChartModel aetUsedSpaceChart;
 	private PieChartModel modalityUsedSpaceChart;
 	
-	private Integer showFreeSpaceOptionAet=0;
-	private Integer showFreeSpaceOptionModality=0;
+	private Integer showFreeSpaceOptionAet=1;
+	private Integer showFreeSpaceOptionModality=1;
 //	0-> Do not Show, 1-> Show
 	
 	private Integer conversionOption =1;
