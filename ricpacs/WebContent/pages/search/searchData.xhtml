@@ -19,22 +19,22 @@
 					<p:outputLabel value="Patient Name"></p:outputLabel>
  					 <p:inputText value="#{searchBean.toSearchPatient.patName}"></p:inputText> 
 
-					<p:outputLabel value="Patient MR No / Issuer"></p:outputLabel>
+					<p:outputLabel value="Patient MR No"></p:outputLabel>
 					<h:panelGroup>
- 					 <p:inputText value="#{searchBean.toSearchPatient.patId}"></p:inputText> /
- 					 <p:inputText value="#{searchBean.toSearchPatient.patIdIssuer}"></p:inputText>
+ 					 <p:inputText value="#{searchBean.toSearchPatient.patId}"></p:inputText> 
+ 					 <p:inputText value="#{searchBean.toSearchPatient.patIdIssuer}" rendered="false"></p:inputText>
  					</h:panelGroup>
  					
  					<p:outputLabel value="Study ID" rendered="false"></p:outputLabel>
  					 <p:inputText value="#{searchBean.toSearchStudy.studyId}" rendered="false" 
  					 ></p:inputText>
 					
-    				<p:outputLabel value="Study Date / Time From:" />
+    				<p:outputLabel value="Study Date From:" />
 				    <p:calendar id="datetimeFrom" value="#{searchBean.dateFrom}" 
-				    pattern="dd/MM/yyyy HH:mm" />
-				    <p:outputLabel value="Study Date / Time To:" />
+				    pattern="dd/MM/yyyy" />
+				    <p:outputLabel value="Study Date To:" />
 				    <p:calendar id="datetimeTo" value="#{searchBean.dateTo}" 
-				    pattern="dd/MM/yyyy HH:mm" />
+				    pattern="dd/MM/yyyy" />
  					
  					
 				</p:panelGrid>
@@ -60,7 +60,10 @@
 				
 			<p:dataTable value="#{searchBean.studiesListMain}" var="study" 
   	
-					paginatorPosition="top" editable="true" rows="5" paginator="true"
+					paginatorPosition="top" editable="true" rows="10"
+					rowsPerPageLabel="Rows per page" 
+					rowsPerPageTemplate="10,20,50"
+					paginator="true"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					id="tbl2">
 

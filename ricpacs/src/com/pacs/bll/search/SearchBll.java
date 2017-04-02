@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.text.WordUtils;
+import org.apache.poi.util.StringUtil;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -11,6 +13,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 
+import com.iac.util.StringUtils;
 import com.iac.web.util.FacesUtils;
 import com.pacs.dal.dao.Patient;
 import com.pacs.dal.dao.Study;
@@ -18,6 +21,7 @@ import com.pacs.ui.beans.UserBean;
 import com.pacs.utils.HibernateUtilsAnnot;
 import com.pacs.utils.MessageConstants;
 import com.pacs.utils.MessageUtils;
+import com.sun.xml.internal.fastinfoset.algorithm.BuiltInEncodingAlgorithm.WordListener;
 
 public class SearchBll 
 {
@@ -154,7 +158,8 @@ public class SearchBll
 				}
 				
 			}
-					
+			
+								
 			if(toSearchStudy!=null)
 			{
 				if(toSearchStudy.getStudyId()!=null && toSearchStudy.getStudyId().trim().length()>0)
@@ -188,7 +193,13 @@ public class SearchBll
 			list = mainCr.list();
 			for(Study c:list)
 			{
-				Hibernate.initialize(c.getSeriesFk());			
+				Hibernate.initialize(c.getSeriesFk());	
+				String name = c.getPatientFk().getPatName();
+				System.out.println("Name before: "+name);
+				name = WordUtils.capitalizeFully(name);
+				name=name.replaceAll("[\\^]", "");
+				System.out.println("Name after: "+name);
+				c.getPatientFk().setPatName(name);
 				
 			}
 			if(list.size()==0)
