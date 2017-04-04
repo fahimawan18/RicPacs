@@ -10,7 +10,8 @@
 
 <h:form id="form1">
  
-				 	
+	<p:defaultCommand target="btnSearch" />	
+	<p:focus context="panel2" for="btnSearch"></p:focus> 		 	
   	<p:panel id="panel2"  header="#{crit.pageTitle}" style="text-align: center;">
 					<p:panelGrid style="margin-top:20px; width: 70%; margin: 0 auto"
 					columns="4">
@@ -30,42 +31,36 @@
  					 ></p:inputText>
 					
     				<p:outputLabel value="Study Date From:" />
-				    <p:calendar id="datetimeFrom" value="#{searchBean.dateFrom}" 
-				    pattern="dd/MM/yyyy" />
+				    <p:calendar id="datetimeFrom" value="#{searchBean.dateFrom}"  
+				    pattern="dd/MM/yyyy" effect="fold" navigator="true"/>
 				    <p:outputLabel value="Study Date To:" />
 				    <p:calendar id="datetimeTo" value="#{searchBean.dateTo}" 
-				    pattern="dd/MM/yyyy" />
+				    pattern="dd/MM/yyyy" effect="fold" navigator="true"/>
  					
  					
 				</p:panelGrid>
-				</p:panel>
+				
  
  
-	<p:commandButton value="Search" icon="fa fa-fw fa-search" update="tbl2"
-  	action="#{searchBean.searchStudyData}"/>
+
+	<p:commandButton value="Search" icon="fa fa-fw fa-search" update="tbl2" id="btnSearch"
+  	action="#{searchBean.searchStudyData}" />
  
  
   	<p:commandButton value="Search" icon="fa fa-fw fa-search" update="tbl1" rendered="false"
   	action="#{searchBean.searchPatientsData}"/>
   	 
-  	
-  	
-  	<br/>
-  	
-  	
-				
-		
-				
-				<br/>
+  	</p:panel>
+  
 				
 			<p:dataTable value="#{searchBean.studiesListMain}" var="study" 
-  	
+  					
 					paginatorPosition="top" editable="true" rows="10"
-					rowsPerPageLabel="Rows per page" 
+					rowsPerPageLabel=" Rows" 
 					rowsPerPageTemplate="10,20,50"
 					paginator="true"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					id="tbl2">
+					id="tbl2" >
 
 					<f:facet name="header">
         				Patients/Study Data
@@ -77,11 +72,11 @@
 				        </p:column>
 				        
 				        
-					<p:column headerText="MR No" width="10px" sortBy="#{study.patientFk.patId}" filterBy="#{study.patientFk.patId}" filterMatchMode="contains">
+					<p:column headerText="MR No"   sortBy="#{study.patientFk.patId}" filterBy="#{study.patientFk.patId}" filterMatchMode="contains">
 				            <h:outputText value="#{study.patientFk.patId}" />
 				    </p:column>
 				    
-				    <p:column headerText="Issuer" >
+				    <p:column headerText="Issuer" rendered="false">
 				            <h:outputText value="#{study.patientFk.patIdIssuer}" />
 				    </p:column>
 				    
@@ -91,18 +86,20 @@
             					<h:outputText value="#{study.studyId}"/>
         					</p:column>
         					
-        					<p:column headerText="Accession No">
+        					<p:column headerText="Accession No"  rendered="false">
             					<h:outputText value="#{study.accessionNo}"/>
         					</p:column>
         					
-        					<p:column headerText="Modality" sortBy="#{study.modsInStudy}">
+        					<p:column headerText="Modality" sortBy="#{study.modsInStudy}" width="8%">
 					            <!--  f:facet name="filter">
 					                <p:selectOneMenu onchange="PF('tbl2').filter()" >
 					                    <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
 					                    <f:selectItems value="#{crit.modalityList}" />
 					                </p:selectOneMenu>
 					            </f:facet -->
+					            <center>
             					<h:outputText value="#{study.modsInStudy}"/>
+            					</center>
         					</p:column>
         					
         					
@@ -116,25 +113,28 @@
             					<h:outputText value="#{study.studyDesc}"/>
         					</p:column>
 				    
-				    <p:column headerText="View Image">
-	            		<p:link href="#{crit.weasisPath}#{study.studyIuid}" >
+				    <p:column headerText="View" width="6%">
+				    <center>
+	            		<p:link href="#{crit.weasisPath}#{study.studyIuid}" title="View Study in PACS viewer">
 	            			<h:graphicImage url="/resources/images/openViewer.png" >
 	            			</h:graphicImage>
 	            		</p:link>			
-	            		
+	            		</center>
         			</p:column>
         			
-        			<p:column headerText="Series Details" > 
+        			<p:column headerText="Details" width="6%"> 
+        			 <center>
 				   		     	<p:commandButton onclick="PF('dlg').show();"
-				             	update=":form1:display" value="Click to View"
+				             	update=":form1:display" value="View"
 				             	action="#{searchBean.populateSeriesDataForDialog}" 
 				             	>			            
 				            <f:setPropertyActionListener value="#{study}" 
 				            target="#{searchBean.selectedStudy}">
     						</f:setPropertyActionListener>
-				            </p:commandButton>
+    						
+				      </p:commandButton>
 				             
-				            
+				         </center>    
 				   		 </p:column>
 				   		 
         					

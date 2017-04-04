@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.text.WordUtils;
-import org.apache.poi.util.StringUtil;
+
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -193,13 +193,19 @@ public class SearchBll
 			list = mainCr.list();
 			for(Study c:list)
 			{
-				Hibernate.initialize(c.getSeriesFk());	
+				//Hibernate.initialize(c.getSeriesFk());	
 				String name = c.getPatientFk().getPatName();
 				System.out.println("Name before: "+name);
-				name = WordUtils.capitalizeFully(name);
 				name=name.replaceAll("[\\^]", "");
+				name = WordUtils.capitalizeFully(name);
+				
 				System.out.println("Name after: "+name);
 				c.getPatientFk().setPatName(name);
+				name = c.getPatientFk().getPatId();
+				
+//				name=name.replaceAll("[\\^]", "");
+				name = WordUtils.capitalizeFully(name);
+				c.getPatientFk().setPatId(name);
 				
 			}
 			if(list.size()==0)

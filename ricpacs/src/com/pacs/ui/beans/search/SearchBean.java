@@ -42,10 +42,10 @@ public class SearchBean
 		// TODO Auto-generated constructor stub
 		this.toSearchPatient = new Patient();
 		this.toSearchStudy = new Study();
-		Calendar calendar = Calendar.getInstance();	
-		this.dateTo =calendar.getTime();
-		calendar.add(Calendar.MONTH, -1);
-		this.dateFrom = calendar.getTime();
+//		Calendar calendar = Calendar.getInstance();	
+//		this.dateTo =calendar.getTime();
+//		calendar.add(Calendar.MONTH, -1);
+//		this.dateFrom = calendar.getTime();
 		this.testValue = "";
 		this.selectedPatient = new Patient();
 		this.selectedStudy = new Study();
