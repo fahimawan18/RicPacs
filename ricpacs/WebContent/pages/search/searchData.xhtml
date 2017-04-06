@@ -11,14 +11,14 @@
 <h:form id="form1">
  
 	<p:defaultCommand target="btnSearch" />	
-	<p:focus context="panel2" for="btnSearch"></p:focus> 		 	
+	<p:focus context="panel2" for="patientName"></p:focus> 		 	
   	<p:panel id="panel2"  header="#{crit.pageTitle}" style="text-align: center;">
-					<p:panelGrid style="margin-top:20px; width: 70%; margin: 0 auto"
+					<p:panelGrid style="margin-top:10px; width: 80%; margin: 0 auto"
 					columns="4">
 					
 					
 					<p:outputLabel value="Patient Name"></p:outputLabel>
- 					 <p:inputText value="#{searchBean.toSearchPatient.patName}"></p:inputText> 
+ 					 <p:inputText value="#{searchBean.toSearchPatient.patName}" id="patientName"></p:inputText> 
 
 					<p:outputLabel value="Patient MR No"></p:outputLabel>
 					<h:panelGroup>
@@ -64,7 +64,6 @@
 
 					<f:facet name="header">
         				Patients/Study Data
- 
         				
     				</f:facet>
 					<p:column headerText="Name" sortBy="#{study.patientFk.patName}" filterBy="#{study.patientFk.patName}" filterMatchMode="contains">
@@ -109,11 +108,11 @@
 				            </h:outputText>
 				   			</p:column>
 				   			
-        					<p:column headerText="Description">
+        					<p:column headerText="Description" width="8%">
             					<h:outputText value="#{study.studyDesc}"/>
         					</p:column>
 				    
-				    <p:column headerText="View" width="6%">
+				    <p:column headerText="View" width="5%">
 				    <center>
 	            		<p:link href="#{crit.weasisPath}#{study.studyIuid}" title="View Study in PACS viewer">
 	            			<h:graphicImage url="/resources/images/openViewer.png" >
@@ -122,9 +121,9 @@
 	            		</center>
         			</p:column>
         			
-        			<p:column headerText="Details" width="6%"> 
+        			<p:column headerText="Details" width="5%"> 
         			 <center>
-				   		     	<p:commandButton onclick="PF('dlg').show();"
+				   		     	<p:commandButton onclick="PF('dlg').show();" title="View Study Details"
 				             	update=":form1:display" value="View"
 				             	action="#{searchBean.populateSeriesDataForDialog}" 
 				             	>			            
