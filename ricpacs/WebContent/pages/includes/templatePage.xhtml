@@ -16,7 +16,7 @@
 <h:body>
 	<p:layout fullPage="true"> 
 
-		<p:layoutUnit position="center" style="margin-top:70px;" >
+		<p:layoutUnit position="center"  >
 		
 			<!--  f:facet name="header" -->
 				<h:form>
@@ -26,7 +26,7 @@
     				<div class="banner_holderImage">
     					<p:graphicImage name="#{envmtBean.bannerFile}" width="100%" 
     					></p:graphicImage>
-    				</div>  
+    				 
 				<p:toolbar style="background: none !important;border: none !important;position:absolute;top:0px;right:0px;color:black !important;">	
 				
 
@@ -47,10 +47,54 @@
 				
 				
 						</p:toolbar>
+						
+						<f:ajax render=":content">
+			<p:menubar style="position:absolute;top:75%;left:8%;border: none !important;opacity: 0.8;">
+				<p:menuitem value="Home" action="#{navBean.navHomePage}"
+					update=":content" icon="fa fa-fw fa-home" rendered="true">
+				</p:menuitem>
+
+				
+					
+					<p:menuitem value="Search Patient / Studies" icon="fa fa-fw fa-search"
+						ajax="true" name="pageViewID"
+						action="#{navBean.navSearchPatientPage}" update=":content" />
+					
+					
+					<p:menuitem value="Dash Board" rendered="#{userBean.currentUser.roleAdmin=='Y'}" 
+					icon="fa fa-fw fa-hospital-o"
+						ajax="true" 
+						action="#{navBean.navDashBoardPage}" update=":content" >
+						
+					</p:menuitem>	
+					
+				<p:submenu label="Admin" icon="fa fa-fw fa-gear"
+				
+					>
+					
+						<p:menuitem value="Add New Users"  rendered="#{userBean.currentUser.roleAdmin=='Y'}"
+						action="#{navBean.navAdminAddUsersPage}" update=":content"
+						icon="fa fa-fw fa-plus-square" />	
+						<p:separator />
+						<p:menuitem value="Manage Users" rendered="#{userBean.currentUser.roleAdmin=='Y'}"
+						action="#{navBean.navAdminManageUsersPage}" update=":content"
+						icon="fa fa-fw fa-wrench" />					
+					
+					<p:separator />
+					<p:menuitem value="Change Password"
+						action="#{navBean.navAdminChangePassword}" update=":content"
+						icon="fa fa-fw fa-lock"/>
+					
+					
+			</p:submenu>
+
+			</p:menubar>
+		</f:ajax>
+						</div> 
 				 </div>
 				
 				
-			<ui:include src="/pages/includes/header.xhtml" />
+			<!--  ui:include src="/pages/includes/header.xhtml" / -->
 			
 				
 			

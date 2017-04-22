@@ -2,11 +2,12 @@
 
 .banner_holder{
     width: 100%;
-    height: 140px;
+    height: 15%;
     min-height: 80px;
     position: relative;
     float: top left;
-    
+    border:thick;
+    border-color: green;
     background: none;
 }
 

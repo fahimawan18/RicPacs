@@ -226,6 +226,8 @@ public class UserBean
 
 
 	public String getLoggedUserString() {
+		this.loggedUserString = ((ApplicationUsers) FacesUtils.getFromSession(KEY_CURRENT_USER))
+				.getLoggedUserString();
 		return loggedUserString;
 	}
 
