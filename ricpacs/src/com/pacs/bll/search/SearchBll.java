@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.text.WordUtils;
-
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.iac.util.StringUtils;
@@ -190,6 +190,7 @@ public class SearchBll
 //				cr.add(Restrictions.between("eventTime", dateFrom, dateTo));
 			}
 //			cr.addOrder(Order.asc("eventTime"));
+			mainCr.addOrder(Order.desc("studyDateTime"));
 			list = mainCr.list();
 			for(Study c:list)
 			{

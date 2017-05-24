@@ -1,21 +1,37 @@
 package com.pacs.ui.beans.search;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import org.primefaces.util.Base64;
+
+import com.google.gson.Gson;
+import com.iac.web.util.FacesUtils;
 import com.pacs.bll.search.SearchBll;
+import com.pacs.dal.dao.ApplicationUsers;
 import com.pacs.dal.dao.Patient;
 import com.pacs.dal.dao.Series;
 import com.pacs.dal.dao.Study;
+import com.pacs.dal.dao.StudyJson;
+import com.pacs.ui.beans.UserBean;
+import com.pacs.ui.beans.admin.CriteriaBean;
+import com.pacs.utils.Environment;
 import com.pacs.utils.MessageConstants;
 import com.pacs.utils.MessageUtils;
 import com.pacs.utils.NavigationConstants;
+
 
 
 @ManagedBean(name="searchBean")
@@ -153,6 +169,84 @@ public class SearchBean
 		return true;
 	}
 	
+	
+	public void renderJson() throws IOException {
+	    FacesContext facesContext = FacesContext.getCurrentInstance();
+	    ExternalContext externalContext = facesContext.getExternalContext();
+	    Map<String, String> requestParams = externalContext.getRequestParameterMap();
+	    String passwword = requestParams.get("PASSWORD");
+	    String encodedPasswword = requestParams.get("ENCODED_PASSWORD");
+	    System.out.println("Received MR No :: " + requestParams.get("MRNO")) ;
+	    System.out.println("Received Username :: " + requestParams.get("USERNAME")) ;
+	    System.out.println("Received Password :: " + requestParams.get("PASSWORD")) ;
+	    System.out.println("Received encoded Password :: " + requestParams.get("ENCODED_PASSWORD")) ;
+	    String decoded  = "";
+//	    String encoded = Base64.encodeToString(requestParams.get("PASSWORD").getBytes(), false);
+//	    System.out.println("Encoded :: " + encoded ) ; 
+	    if(encodedPasswword!=null && encodedPasswword.length()>0)
+	    {
+	    	decoded = new String(Base64.decode(encodedPasswword));
+	    	System.out.println(" Decoded Password :: " + decoded) ;
+	    }
+	    
+	    
+	    UserBean userBean = new UserBean();
+	    
+	    ApplicationUsers loginUser =  new ApplicationUsers();
+	    loginUser.setUserId(requestParams.get("USERNAME"));
+	    if(passwword!=null && passwword.length()>0)
+	    	loginUser.setPassword(passwword);
+	    else
+	    	loginUser.setPassword(decoded);	
+	    userBean.setToSearchUser(loginUser);
+	    String returnString = userBean.loginAction();
+	    if(returnString.equals(NavigationConstants.HOME_NAVIGATION)){
+	    	externalContext.setResponseContentType("application/json");
+		    externalContext.setResponseCharacterEncoding("UTF-8");
+		    
+		    SearchBll bll = new SearchBll();
+		    Patient patient = new Patient();
+		    patient.setPatId(requestParams.get("MRNO"));
+		    List<Study> studyList = bll.searchStudy(patient, null, null, null);
+			System.out.println("Study list size :: " + studyList.size());
+		    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		    String path = Environment.getWeasisServerPath();
+		    List<StudyJson> studies = new ArrayList<StudyJson>();
+		    StudyJson studyJson = null;
+		    for (Study study : studyList) {
+		    	studyJson = new StudyJson();
+		    	studyJson.setPatientName( study.getPatientFk().getPatName());
+		    	studyJson.setPatientMRNo( study.getPatientFk().getPatId());
+		    	if(study.getStudyId()!=null)
+		    		studyJson.setStudyId( study.getStudyId());
+		    	else
+		    		studyJson.setStudyId( "");
+		    	if(study.getStudyDateTime()!=null)
+		    		studyJson.setDateTime( format.format(study.getStudyDateTime()));
+		    	else
+		    		studyJson.setDateTime("");
+		    	studyJson.setModality( study.getModsInStudy());
+		    	studyJson.setStudyUrl( path + study.getStudyIuid());
+				
+		    	studies.add(studyJson);
+			}
+		    Gson gson = new Gson();
+		    String json = gson.toJson(studies);
+		    
+		    externalContext.getResponseOutputWriter().write(json);
+	    }
+	    
+	    else
+	    {
+	    	
+	    	 FacesMessage message =  FacesContext.getCurrentInstance().getMessages().next();
+	    	 externalContext.getResponseOutputWriter().write(message.getSummary()+ message.getDetail());
+	    }
+	    
+	    
+	    
+	    facesContext.responseComplete();
+	}
 	
 	
 	
