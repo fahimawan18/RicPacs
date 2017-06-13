@@ -6,7 +6,9 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpServletRequest;
 
 import com.pacs.bll.admin.CriteriaBll;
 import com.pacs.utils.Environment;
@@ -42,7 +44,17 @@ public class CriteriaBean
 		this.negPosOptionsList = new ArrayList<SelectItem>();
 		this.srcAetList = new ArrayList<SelectItem>();
 		this.modalityList = new ArrayList<SelectItem>();
-		this.weasisPath = Environment.getWeasisServerPath();
+		HttpServletRequest request = (HttpServletRequest)(FacesContext.getCurrentInstance().getExternalContext().getRequest());
+//		System.out.println("*********************************" +request.getLocalAddr());
+//		System.out.println("*********************************" +request.getRemoteAddr());
+//		System.out.println("*********************************" +request.getPathInfo());
+//		System.out.println("*********************************" +request.getRequestURL());
+		System.out.println("*********************************" +request.getServerPort());
+		System.out.println("*********************************" +request.getServerName());
+//		System.out.println("*********************************" +request.getServletPath());
+		
+		
+		this.weasisPath = "http://" + request.getServerName() + ":"+ request.getServerPort() + Environment.getWeasisServerPath();
 		this.bll = new CriteriaBll();
 
 	}
