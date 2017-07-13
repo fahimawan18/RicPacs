@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+
+
 @Entity
 @Table(name = "files")
 public class Files 
@@ -21,8 +23,9 @@ public class Files
 	@Column(name = "pk")
 	private Integer id;
 	
-//	@Column(name="instance_fk")
-//	private Instance instanceFk;
+	@ManyToOne
+	@JoinColumn (name="instance_fk")
+	private Instance instanceFk;
 	
 	@ManyToOne 
 	@JoinColumn (name = "filesystem_fk")
@@ -48,7 +51,7 @@ public class Files
 	private Date md5CheckTime;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="cretaed_time")
+	@Column(name="created_time")
 	private Date createdTime;
 	
 	public Files() 
@@ -126,6 +129,14 @@ public class Files
 
 	public void setFileSystemFk(FileSystem fileSystemFk) {
 		this.fileSystemFk = fileSystemFk;
+	}
+
+	public Instance getInstanceFk() {
+		return instanceFk;
+	}
+
+	public void setInstanceFk(Instance instanceFk) {
+		this.instanceFk = instanceFk;
 	}
 
 }

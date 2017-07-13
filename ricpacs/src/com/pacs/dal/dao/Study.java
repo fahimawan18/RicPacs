@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "study")
@@ -24,7 +25,7 @@ public class Study
 	@Column(name = "pk")
 	private Integer id;
 	
-	@ManyToOne 
+	@ManyToOne (cascade=CascadeType.ALL)
 	@JoinColumn (name = "patient_fk")
 	private Patient patientFk;
 	
@@ -120,14 +121,24 @@ public class Study
 	@Column(name= "study_attrs")
 	private byte[] studyAttrs;
 	
+	@Column(name="is_delete")
+	private String isDelete;
+	
 	@OneToMany(mappedBy = "studyFk" , cascade = CascadeType.ALL)
 //	@OrderBy("id DESC")
 	private  List<Series> seriesFk;
 	
+	@OneToMany(mappedBy = "studyFk" , cascade = CascadeType.ALL)
+//	@OrderBy("id DESC")
+	private  List<StudyOnFs> studyOnFsFk;
+	
+	@Transient
+	private boolean selectedForAction;
 	
 	public Study() 
 	{
 		// TODO Auto-generated constructor stub
+		this.selectedForAction = false;
 	}
 
 
@@ -448,6 +459,36 @@ public class Study
 
 	public void setSeriesFk(List<Series> seriesFk) {
 		this.seriesFk = seriesFk;
+	}
+
+
+	public String getIsDelete() {
+		return isDelete;
+	}
+
+
+	public void setIsDelete(String isDelete) {
+		this.isDelete = isDelete;
+	}
+
+
+	public boolean isSelectedForAction() {
+		return selectedForAction;
+	}
+
+
+	public void setSelectedForAction(boolean selectedForAction) {
+		this.selectedForAction = selectedForAction;
+	}
+
+
+	public List<StudyOnFs> getStudyOnFsFk() {
+		return studyOnFsFk;
+	}
+
+
+	public void setStudyOnFsFk(List<StudyOnFs> studyOnFsFk) {
+		this.studyOnFsFk = studyOnFsFk;
 	}
 	
 	

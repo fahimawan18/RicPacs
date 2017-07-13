@@ -1,7 +1,9 @@
 package com.pacs.dal.dao;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -76,7 +79,7 @@ public class Instance
 	@Column(name="inst_status")
 	private Integer instStatus;
 	
-	@Column(name = "allAttrs", columnDefinition="BIT")
+	@Column(name = "all_attrs", columnDefinition="BIT")
 	private Boolean allAttrs;
 	
 	@Column(name = "commitment", columnDefinition="BIT")
@@ -86,7 +89,7 @@ public class Instance
 	private Boolean archived;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="cretaed_time")
+	@Column(name="created_time")
 	private Date createdTime;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -95,6 +98,10 @@ public class Instance
 	
 	@Column(name= "inst_attrs")
 	private byte[] instAttrs;
+	
+	@OneToMany(mappedBy = "instanceFk" , cascade = CascadeType.ALL)
+//	@OrderBy("id DESC")
+	private  List<Files> filesFk;
 	
 	public Instance() 
 	{
@@ -275,5 +282,13 @@ public class Instance
 
 	public void setArchived(Boolean archived) {
 		this.archived = archived;
+	}
+
+	public List<Files> getFilesFk() {
+		return filesFk;
+	}
+
+	public void setFilesFk(List<Files> filesFk) {
+		this.filesFk = filesFk;
 	}
 }

@@ -1,5 +1,7 @@
 package com.pacs.bll.search;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,12 +11,14 @@ import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.iac.util.StringUtils;
 import com.iac.web.util.FacesUtils;
+import com.pacs.dal.dao.Files;
 import com.pacs.dal.dao.Patient;
 import com.pacs.dal.dao.Study;
 import com.pacs.ui.beans.UserBean;
@@ -96,10 +100,11 @@ public class SearchBll
 	
 	
 	public List<Study> searchStudy(Patient toSearchPatient, Study toSearchStudy,
-			Date dateFrom , Date dateTo)
+			Date dateFrom , Date dateTo, String isStudyDeletedOption)
 	{
 		Session session = null;
 		List<Study> list = new ArrayList<Study>();
+		list.clear();
 		List<String> aetList = ub.getAetRoles();
 		List<String> modList = ub.getModRoles();
 		
@@ -124,7 +129,7 @@ public class SearchBll
 			
 			session = HibernateUtilsAnnot.currentSession();			
 			Criteria mainCr = session.createCriteria(Study.class);
-			
+			mainCr.add(Restrictions.eq("isDelete", isStudyDeletedOption));
 			if(dateFrom!=null)
 			{
 				mainCr.add(Restrictions.ge("studyDateTime", dateFrom));
@@ -190,7 +195,9 @@ public class SearchBll
 //				cr.add(Restrictions.between("eventTime", dateFrom, dateTo));
 			}
 //			cr.addOrder(Order.asc("eventTime"));
+			
 			mainCr.addOrder(Order.desc("studyDateTime"));
+			
 			list = mainCr.list();
 			for(Study c:list)
 			{
@@ -226,6 +233,142 @@ public class SearchBll
 		}
 		
 		return list;
+	}
+	
+	
+	public boolean deleteStudyData(Study selectedStudy)
+	{
+		Session session = null;
+		Transaction tx = null;
+		System.out.println("In deleteStudyData Method bll");
+		try
+		{
+			
+			
+			session = HibernateUtilsAnnot.currentSession();
+			tx = session.beginTransaction();
+			
+			selectedStudy.setIsDelete(MessageConstants.Constants.YES_STRING);
+			session.update(selectedStudy);
+			tx.commit();
+			
+		}
+		catch(HibernateException e)
+		{
+			e.printStackTrace();
+			tx.rollback();
+			return false;
+		}
+		finally
+		{
+			HibernateUtilsAnnot.closeSession();
+		}
+		
+		return true;
+	}
+	
+	public boolean deletePermStudyData(List<Study> selectedStudies)
+	{
+		Session session = null;
+		Transaction tx = null;
+		System.out.println("In deleteStudyData Method bll");
+		try
+		{
+			
+			
+			session = HibernateUtilsAnnot.currentSession();
+			tx = session.beginTransaction();
+			for(Study selectedStudy:selectedStudies)
+			{
+				if(selectedStudy.isSelectedForAction())
+				{
+					
+					session.delete(selectedStudy);
+					
+					Criteria fileCr = session.createCriteria(Files.class);
+					Criteria instanceCr = fileCr.createCriteria("instanceFk");
+					Criteria seriesCr = instanceCr.createCriteria("seriesFk");
+					seriesCr.add(Restrictions.eq("studyFk.id", selectedStudy.getId()));
+					List<Files> list = fileCr.list();
+					if(list.size()>0)
+					{
+//						Following code delete physical files from storage path
+						File file=null;
+						for(Files f:list)
+						{
+							String fileSysDir = f.getFileSystemFk().getDirPath();
+							System.out.println("File to be deleted is :"+f.getFilePath());
+							file = new File(fileSysDir+"\\"+ f.getFilePath());
+							file.delete();
+							
+						}
+						
+					}
+					
+					
+				}
+				
+			}			
+			
+			tx.commit();
+			
+		}
+		catch(HibernateException e)
+		{
+			e.printStackTrace();
+			tx.rollback();
+			return false;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			tx.rollback();
+			return false;
+		}
+		finally
+		{
+			HibernateUtilsAnnot.closeSession();
+		}
+		
+		return true;
+	}
+	
+	public boolean restoreStudyData(List<Study> selectedStudies)
+	{
+		Session session = null;
+		Transaction tx = null;
+		System.out.println("In restoreStudyData Method bll");
+		try
+		{
+			
+			
+			session = HibernateUtilsAnnot.currentSession();
+			tx = session.beginTransaction();
+			for(Study selectedStudy:selectedStudies)
+			{
+				if(selectedStudy.isSelectedForAction())
+				{
+					selectedStudy.setIsDelete(MessageConstants.Constants.NO_STRING);
+					session.update(selectedStudy);
+				}
+				
+			}			
+			
+			tx.commit();
+			
+		}
+		catch(HibernateException e)
+		{
+			e.printStackTrace();
+			tx.rollback();
+			return false;
+		}
+		finally
+		{
+			HibernateUtilsAnnot.closeSession();
+		}
+		
+		return true;
 	}
 	
 	

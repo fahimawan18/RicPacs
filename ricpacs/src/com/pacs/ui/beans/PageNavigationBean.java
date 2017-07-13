@@ -80,6 +80,16 @@ public class PageNavigationBean implements Serializable
 		cb.setPageTitle(MessageConstants.Constants.PageTitles.SEARCH);
 		return pageName;
 	}
+	
+	public String navRecycleBinPage() 
+	{
+		System.out.println("PageNavigationBean search/recycleBinData.xhtml");
+		FacesUtils.resetManagedBean("searchBean");
+		
+		pageName = NavigationConstants.RECYCLE_BIN_NAVIGATION;
+		cb.setPageTitle(MessageConstants.Constants.PageTitles.RECYCLE_BIN);
+		return pageName;
+	}
 
 	public String navAdminAddUsersPage() {
 		System.out.println("PageNavigationBean admin/addUsers.xhtml");

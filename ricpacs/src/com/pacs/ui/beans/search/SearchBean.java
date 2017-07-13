@@ -137,10 +137,11 @@ public class SearchBean
 	{
 		SearchBll bll = new SearchBll();
 		System.out.println("In searchStudyData method");
-		
+		studiesListMain = new ArrayList<Study>();
 		if(validateStudyDates())
 		{
-			this.studiesListMain = bll.searchStudy(toSearchPatient, toSearchStudy, dateFrom, dateTo);
+			this.studiesListMain = bll.searchStudy(toSearchPatient, toSearchStudy, dateFrom, dateTo,
+				MessageConstants.Constants.NO_STRING);
 			System.out.println("Study list size :: " + this.studiesListMain.size());
 		
 		}
@@ -151,6 +152,85 @@ public class SearchBean
 		
 		
 		
+		return "";
+	}
+	
+	public String searchDeletedStudyData()
+	{
+		SearchBll bll = new SearchBll();
+		System.out.println("In searchDeletedStudyData method");
+		studiesListMain = new ArrayList<Study>();
+		if(validateStudyDates())
+		{
+			this.studiesListMain = bll.searchStudy(toSearchPatient, toSearchStudy, dateFrom, dateTo,
+					MessageConstants.Constants.YES_STRING);
+			System.out.println("Deleted Study list size :: " + this.studiesListMain.size());
+		
+		}
+		else
+		{
+			MessageUtils.error(MessageConstants.Messages.INVALID_DATE);
+		}
+		
+		
+		
+		return "";
+	}
+	
+	public String deleteStudyData()
+	{
+		SearchBll bll = new SearchBll();
+		System.out.println("In deleteStudyData method");
+		
+		System.out.println(this.selectedStudy.getStudyDesc());
+		if(bll.deleteStudyData(this.selectedStudy))
+		{
+			MessageUtils.info("Study data deleted successfully");
+//			searchStudyData();
+			this.studiesListMain.remove(this.selectedStudy);
+		}
+		else
+		{
+			MessageUtils.error("Error deleting data");
+		}
+		return "";
+	}
+	
+	public String deletePermStudyData()
+	{
+		SearchBll bll = new SearchBll();
+		System.out.println("In deletePermStudyData method");
+		
+		
+		if(bll.deletePermStudyData(this.studiesListMain))
+		{
+			MessageUtils.info("Study data deleted permanently");
+			searchDeletedStudyData();
+			
+		}
+		else
+		{
+			MessageUtils.error("Error deleting data");
+		}
+		return "";
+	}
+	
+	public String restoreStudyData()
+	{
+		SearchBll bll = new SearchBll();
+		System.out.println("In restoreStudyData method");
+		
+		
+		if(bll.restoreStudyData(this.studiesListMain))
+		{
+			MessageUtils.info("Study data restored successfully");
+			searchDeletedStudyData();
+			
+		}
+		else
+		{
+			MessageUtils.error("Error restoring data");
+		}
 		return "";
 	}
 	
@@ -207,7 +287,7 @@ public class SearchBean
 		    SearchBll bll = new SearchBll();
 		    Patient patient = new Patient();
 		    patient.setPatId(requestParams.get("MRNO"));
-		    List<Study> studyList = bll.searchStudy(patient, null, null, null);
+		    List<Study> studyList = bll.searchStudy(patient, null, null, null,MessageConstants.Constants.NO_STRING);
 			System.out.println("Study list size :: " + studyList.size());
 		    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		    String path = Environment.getWeasisServerPath();

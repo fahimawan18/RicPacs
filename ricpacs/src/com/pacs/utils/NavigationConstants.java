@@ -29,6 +29,7 @@ public class NavigationConstants {
 	public static String STUDY_DETAILS_NAVIGATION = "/pages/search/details/studyDetails.xhtml?faces-redirect=true";
 	public static String SERIES_DETAILS_NAVIGATION = "/pages/search/details/seriesDetails.xhtml?faces-redirect=true";
 	
+	public static String RECYCLE_BIN_NAVIGATION = "/pages/search/recycleBinData.xhtml?faces-redirect=true";
 	
 	public static String CONTACTUS_NAVIGATION = "/pages/contactUs.xhtml?faces-redirect=true";
 

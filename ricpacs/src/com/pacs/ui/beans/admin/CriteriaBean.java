@@ -55,6 +55,10 @@ public class CriteriaBean
 		
 		
 		this.weasisPath = "http://" + request.getServerName() + ":"+ request.getServerPort() + Environment.getWeasisServerPath();
+		
+//		To be commented while deploying on production
+//		this.weasisPath = "http://" + request.getServerName() + ":8081"+ Environment.getWeasisServerPath();
+		
 		this.bll = new CriteriaBll();
 
 	}

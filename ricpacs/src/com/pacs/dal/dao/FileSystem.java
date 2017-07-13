@@ -36,7 +36,7 @@ public class FileSystem
 	@Column(name="fs_status")
 	private Integer fsStatus;
 	
-	@Column(name="userInfo")
+	@Column(name="user_info")
 	private String userInfo;
 	
 	public FileSystem() 

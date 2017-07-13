@@ -31,6 +31,7 @@ public final class MessageConstants {
 		public static final String SELECT_ONE_STRING = "Select One";
 		public static final String NA_STRING = "NA";
 		public static final String YES_STRING = "Yes";
+		public static final String YES_PERM_STRING = "Yes_Permanent";
 		public static final String NO_STRING = "No";
 		public static final Integer AUTO_COMPLETE_SIZE = new Integer(30);		
 		public static final Integer ID_OFFSET = new Integer(12345);
@@ -89,6 +90,8 @@ public final class MessageConstants {
 			public static final String PRINT_REPORT = "Print Report";
 			
 			public static final String SEARCH = "Search Data";
+			
+			public static final String RECYCLE_BIN = "Recycle Bin";
 			
 			public static final String ADMIN = "Admin Tasks";
 			

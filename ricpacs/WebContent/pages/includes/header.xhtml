@@ -15,11 +15,19 @@
 				</p:menuitem>
 
 				
+				
+				<p:submenu label="Patient / Studies" icon="fa fa-fw fa-ambulance">
 					
-					<p:menuitem value="Search Patient / Studies" icon="fa fa-fw fa-search"
+					<p:menuitem value="Search Data" icon="fa fa-fw fa-search"
 						ajax="true" name="pageViewID"
 						action="#{navBean.navSearchPatientPage}" update=":content" />
-					
+								
+				<p:separator/>
+				
+				<p:menuitem value="Recycle Bin" icon="fa fa-fw fa-trash-o"
+						ajax="true" name="pageViewID"
+						action="#{navBean.navSearchPatientPage}" update=":content" />
+				</p:submenu>
 					
 					<p:menuitem value="Dash Board" rendered="#{userBean.currentUser.roleAdmin=='Y'}" 
 					icon="fa fa-fw fa-hospital-o"

@@ -44,11 +44,8 @@
  
 
 	<p:commandButton value="Search" icon="fa fa-fw fa-search" update="tbl2" id="btnSearch"
-  	action="#{searchBean.searchStudyData}" />
+  	action="#{searchBean.searchDeletedStudyData}" />
  
- 
-  	<p:commandButton value="Search" icon="fa fa-fw fa-search" update="tbl1" rendered="false"
-  	action="#{searchBean.searchPatientsData}"/>
   	 
   	</p:panel>
   
@@ -63,7 +60,7 @@
 					id="tbl2" >
 
 					<f:facet name="header">
-        				Patients/Study Data
+        				Recycle Bin Data
         				
     				</f:facet>
 					<p:column headerText="Name" sortBy="#{study.patientFk.patName}" filterBy="#{study.patientFk.patName}" filterMatchMode="contains">
@@ -90,12 +87,7 @@
         					</p:column>
         					
         					<p:column headerText="Modality" sortBy="#{study.modsInStudy}" width="8%">
-					            <!--  f:facet name="filter">
-					                <p:selectOneMenu onchange="PF('tbl2').filter()" >
-					                    <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
-					                    <f:selectItems value="#{crit.modalityList}" />
-					                </p:selectOneMenu>
-					            </f:facet -->
+					            
 					            <center>
             					<h:outputText value="#{study.modsInStudy}"/>
             					</center>
@@ -108,21 +100,8 @@
 				            </h:outputText>
 				   			</p:column>
 				   			
-        					<p:column headerText="Description" width="8%">
-            					<h:outputText value="#{study.studyDesc}"/>
-        					</p:column>
-        					
-				    
-				    <p:column headerText="View" width="5%">
-				    <center>
-	            		<p:link href="#{crit.weasisPath}#{study.studyIuid}" title="View Study in PACS viewer">
-	            			<h:graphicImage url="/resources/images/openViewer.png" >
-	            			</h:graphicImage>
-	            		</p:link>			
-	            		</center>
-        			</p:column>
-        			
-        			<p:column headerText="Details" width="5%"> 
+        					        			
+        			<p:column headerText="Details" width="5%" rendered="false"> 
         			 <center>
 				   		     	<p:commandButton onclick="PF('dlg').show();" title="View Study Details"
 				             	update=":form1:display" value="View"
@@ -137,31 +116,26 @@
 				         </center>    
 				   		 </p:column>
 				   	
-				   	<p:column headerText="Delete" width="5%">
-				    <center>
-				    <p:commandButton action="#{searchBean.deleteStudyData}" update="tbl2"
-				    value="Del" icon="fa fa-fw fa-trash-o"
-				    >
-				    
-				    <f:setPropertyActionListener value="#{study}" 
-				            target="#{searchBean.selectedStudy}">
-    						</f:setPropertyActionListener>
-				    </p:commandButton>
-	            		</center>
+				   	<p:column headerText="Select" width="5%">
+				    <p:selectBooleanCheckbox value="#{study.selectedForAction}" />
         			</p:column>
 				   		 
         					
-        					<p:column headerText="Series Details" rendered="false"> 
-				            <h:commandLink action="#{searchBean.viewSeriesDetails}"
-				            target="_blank" rendered="true">
-				            View Details
-				            <f:setPropertyActionListener value="#{study}" 
-				            target="#{searchBean.selectedStudy}">
-    						</f:setPropertyActionListener>
-				            </h:commandLink>
-				   		 </p:column>
-				   		 
-				   		 
+        					
+				   	 <f:facet name="footer">
+            			<p:commandButton  
+            			update=":form1:tbl2" 
+            			action="#{searchBean.deletePermStudyData}"
+            			icon="ui-icon-remove" 
+            			value="Delete Permanently"/>
+            			
+            				<p:commandButton  
+            			update=":form1:tbl2" 
+            			action="#{searchBean.restoreStudyData}"
+            			icon="ui-icon-undo" 
+            			value="Restore Data"/>
+        			</f:facet>
+        				 
 				    
 				</p:dataTable>
 				
