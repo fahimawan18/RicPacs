@@ -24,7 +24,7 @@
 								
 				<p:separator/>
 				
-				<p:menuitem value="Recycle Bin" icon="fa fa-fw fa-trash-o"
+				<p:menuitem value="Recycle Bin" icon="fa fa-fw fa-trash-o" rendered="#{userBean.currentUser.roleAdmin=='Y'}" 
 						ajax="true" name="pageViewID"
 						action="#{navBean.navSearchPatientPage}" update=":content" />
 				</p:submenu>

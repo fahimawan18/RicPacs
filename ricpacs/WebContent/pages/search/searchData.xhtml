@@ -137,9 +137,9 @@
 				         </center>    
 				   		 </p:column>
 				   	
-				   	<p:column headerText="Delete" width="5%">
+				   	<p:column headerText="Delete" width="5%" rendered="#{userBean.currentUser.roleAdmin=='Y'}" >
 				    <center>
-				    <p:commandButton action="#{searchBean.deleteStudyData}" update="tbl2"
+				    <p:commandButton action="#{searchBean.deleteStudyData}" update="tbl2" 
 				    value="Del" icon="fa fa-fw fa-trash-o"
 				    >
 				    

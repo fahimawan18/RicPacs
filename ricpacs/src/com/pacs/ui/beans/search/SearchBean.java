@@ -185,7 +185,7 @@ public class SearchBean
 		System.out.println(this.selectedStudy.getStudyDesc());
 		if(bll.deleteStudyData(this.selectedStudy))
 		{
-			MessageUtils.info("Study data deleted successfully");
+			MessageUtils.info("Study data moved to Recycle Bin successfully");
 //			searchStudyData();
 			this.studiesListMain.remove(this.selectedStudy);
 		}
