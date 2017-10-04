@@ -49,12 +49,13 @@ public class CriteriaBean
 //		System.out.println("*********************************" +request.getRemoteAddr());
 //		System.out.println("*********************************" +request.getPathInfo());
 //		System.out.println("*********************************" +request.getRequestURL());
-		System.out.println("*********************************" +request.getServerPort());
+//		System.out.println("*********************************" +request.getServerPort());
+		System.out.println("*********************************" +request.getScheme());
 		System.out.println("*********************************" +request.getServerName());
 //		System.out.println("*********************************" +request.getServletPath());
 		
 		
-		this.weasisPath = "http://" + request.getServerName() + ":"+ request.getServerPort() + Environment.getWeasisServerPath();
+		this.weasisPath = request.getScheme()+"://" + request.getServerName() + ":"+ request.getServerPort() + Environment.getWeasisServerPath();
 		
 //		To be commented while deploying on production
 //		this.weasisPath = "http://" + request.getServerName() + ":8081"+ Environment.getWeasisServerPath();
