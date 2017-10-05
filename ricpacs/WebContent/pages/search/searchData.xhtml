@@ -89,7 +89,8 @@
             					<h:outputText value="#{study.accessionNo}"/>
         					</p:column>
         					
-        					<p:column headerText="Modality" sortBy="#{study.modsInStudy}" width="8%">
+        					<p:column headerText="Modality" sortBy="#{study.modsInStudy}" 
+        					filterBy="#{study.modsInStudy}"	width="8%">
 					            <!--  f:facet name="filter">
 					                <p:selectOneMenu onchange="PF('tbl2').filter()" >
 					                    <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
@@ -98,6 +99,14 @@
 					            </f:facet -->
 					            <center>
             					<h:outputText value="#{study.modsInStudy}"/>
+            					</center>
+        					</p:column>
+        					
+        					<p:column headerText="Modality Alias"  sortBy="#{study.modalityAlias.modalityAlias}"
+        					filterBy="#{study.modalityAlias.modalityAlias}"	width="12%">
+					            
+					            <center>
+            					<h:outputText value="#{study.modalityAlias.modalityAlias}"/>
             					</center>
         					</p:column>
         					

@@ -15,8 +15,10 @@ import org.hibernate.criterion.Restrictions;
 import org.jasypt.util.text.StrongTextEncryptor;
 import org.primefaces.model.DualListModel;
 
+
 //import com.lowagie.text.pdf.PRStream;
 import com.pacs.dal.dao.ApplicationUsers;
+import com.pacs.dal.dao.LuModalityAlias;
 import com.pacs.dal.dao.RolesApplAet;
 import com.pacs.dal.dao.RolesApplModality;
 import com.pacs.utils.Environment;
@@ -273,6 +275,75 @@ public class AdminBll
 		
 		return list;
 	}
+	
+	
+	public List<LuModalityAlias> searchModAliasList(LuModalityAlias obj)
+	{
+		Session session = null;
+		List<LuModalityAlias> list = new ArrayList<LuModalityAlias>();
+		System.out.println("In searchModAliasList bll");
+		try
+		{
+			session = HibernateUtilsAnnot.currentSession();
+			Criteria cr = session.createCriteria(LuModalityAlias.class);
+			if(obj!=null)
+			{
+				if(obj.getModality()!=null && obj.getModality().trim().length()>0)
+				{
+					cr.add(Restrictions.ilike("modality", obj.getModality()));
+				}
+			}
+			list = cr.list();
+			
+		}
+		catch(HibernateException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			HibernateUtilsAnnot.closeSession();
+		}
+		
+		return list;
+	}
+	
+	public boolean updateModAliasList(List<LuModalityAlias> list)
+	{
+		Session session = null;
+		Transaction tx = null;
+		System.out.println("In updateModAliasList bll");
+		try
+		{
+			session = HibernateUtilsAnnot.currentSession();
+			tx = session.beginTransaction();
+			
+			for(LuModalityAlias a:list)
+			{
+				if(a.getModalityAlias()==null || a.getModalityAlias().trim().length()==0)
+				{
+					a.setModalityAlias(a.getModality());
+				}
+				session.update(a);
+			}
+			
+			
+			tx.commit();
+		}
+		catch(HibernateException e)
+		{
+			e.printStackTrace();
+			tx.rollback();
+			return false;
+		}
+		finally
+		{
+			HibernateUtilsAnnot.closeSession();
+		}
+		
+		return true;
+	}
+	
 	
 	public boolean changePassword(ApplicationUsers user,String newPassword)
 	{

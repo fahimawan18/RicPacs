@@ -35,6 +35,7 @@
   <mapping class="com.pacs.dal.dao.StudyOnFs"/>
   <mapping class="com.pacs.dal.dao.RolesApplAet"/>
   <mapping class="com.pacs.dal.dao.RolesApplModality"/>
+  <mapping class="com.pacs.dal.dao.LuModalityAlias"/>
   
   <mapping class="com.pacs.dal.dao.vw.LuAetVw"/>
   <mapping class="com.pacs.dal.dao.vw.LuModalityVw"/>

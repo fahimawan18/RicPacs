@@ -115,6 +115,15 @@ public class PageNavigationBean implements Serializable
 		return pageName;
 	}
 
+	public String navAdminModalityAliasPage() {
+		System.out.println("PageNavigationBean admin/modalityAlias.xhtml");
+		FacesUtils.resetManagedBean("adminBean");
+		pageName = NavigationConstants.ADMIN_MODALITY_ALIAS_NAVIGATION;
+		cb.setPageTitle(MessageConstants.Constants.PageTitles.ADMIN);
+		return pageName;
+	}
+	
+	
 	public String navAdminChangePassword() 
 	{
 		FacesUtils.resetManagedBean("adminBean");

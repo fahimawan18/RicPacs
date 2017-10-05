@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
 import org.primefaces.model.DualListModel;
@@ -12,6 +13,7 @@ import org.primefaces.model.DualListModel;
 import com.iac.web.util.FacesUtils;
 import com.pacs.bll.admin.AdminBll;
 import com.pacs.dal.dao.ApplicationUsers;
+import com.pacs.dal.dao.LuModalityAlias;
 import com.pacs.dal.dao.RolesApplAet;
 import com.pacs.dal.dao.RolesApplModality;
 import com.pacs.dal.dao.vw.LuAetVw;
@@ -30,9 +32,15 @@ public class AdminBean
 	private ApplicationUsers toAddUser;
 	private ApplicationUsers toSearchUser;
 	private ApplicationUsers selectedUser;
+	
+	private LuModalityAlias modAliasObj;
+	
+	
 	private List<ApplicationUsers> usersList;
 	private List<RolesApplAet> selectedRolesList;
 	private List<RolesApplModality> selectedModalitiesList;
+	private List<LuModalityAlias> modAliasList;
+	
 	private ApplicationUsers currentUser;
 	private String newPassword = "";
 	private String newPasswordAgain = "";
@@ -55,8 +63,10 @@ public class AdminBean
 		toAddUser = new ApplicationUsers();
 		toSearchUser = new ApplicationUsers();
 		this.selectedUser = new ApplicationUsers();
+		this.modAliasObj = new LuModalityAlias();
 		this.usersList = new ArrayList<ApplicationUsers>();
 		this.selectedRolesList = new ArrayList<RolesApplAet>();
+		this.modAliasList = new ArrayList<LuModalityAlias>();
 		
 		this.srcAetList = new ArrayList<String>();
 		this.tgtAetList = new ArrayList<String>();
@@ -107,6 +117,31 @@ public class AdminBean
 		return "";
 	}
 	
+	public void searchModAlias(ActionEvent e)
+	{
+		AdminBll bll =new AdminBll();
+		this.modAliasList.clear();
+		this.modAliasList = bll.searchModAliasList(this.modAliasObj);
+	}
+	
+	
+	public void updateModAlias(ActionEvent e)
+	{
+
+		AdminBll bll =new AdminBll();
+		if(bll.updateModAliasList(this.modAliasList))
+		{
+			MessageUtils.info(MessageConstants.Messages.UPDATE_SUCCESS);
+			this.modAliasList = bll.searchModAliasList(modAliasObj);	
+			
+		}
+		else
+		{
+			MessageUtils.error(MessageConstants.Messages.UPDATE_FAILURE);
+		}
+
+		
+	}
 	
 	public String testMethod()
 	{
@@ -390,6 +425,22 @@ public class AdminBean
 
 	public void setModRolesDual(DualListModel<String> modRolesDual) {
 		this.modRolesDual = modRolesDual;
+	}
+
+	public LuModalityAlias getModAliasObj() {
+		return modAliasObj;
+	}
+
+	public void setModAliasObj(LuModalityAlias modAliasObj) {
+		this.modAliasObj = modAliasObj;
+	}
+
+	public List<LuModalityAlias> getModAliasList() {
+		return modAliasList;
+	}
+
+	public void setModAliasList(List<LuModalityAlias> modAliasList) {
+		this.modAliasList = modAliasList;
 	}
 	
 }

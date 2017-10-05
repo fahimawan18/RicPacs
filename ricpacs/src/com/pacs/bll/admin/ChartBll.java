@@ -76,7 +76,14 @@ public class ChartBll
 				{
 					Double s = v.getFileSize();
 					s=convertBytes(s, option);
-					modalityModel.set(v.getModality(), s);
+					if(v.getModalityAlias()==null || v.getModalityAlias().trim().length()==0)
+					{
+						modalityModel.set(v.getModality(), s);
+					}
+					else
+					{
+						modalityModel.set(v.getModalityAlias(), s);
+					}
 				}
 			}
 			Double d =convertBytes(freeSpace.doubleValue(), option);

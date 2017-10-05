@@ -83,11 +83,17 @@
 					
 						<p:menuitem value="Add New Users"  rendered="#{userBean.currentUser.roleAdmin=='Y'}"
 						action="#{navBean.navAdminAddUsersPage}" update=":content"
-						icon="fa fa-fw fa-plus-square" />	
+						icon="fa fa-fw fa-user-plus" />	
 						<p:separator />
 						<p:menuitem value="Manage Users" rendered="#{userBean.currentUser.roleAdmin=='Y'}"
 						action="#{navBean.navAdminManageUsersPage}" update=":content"
-						icon="fa fa-fw fa-wrench" />					
+						icon="fa fa-fw fa-users" />
+						
+						<p:separator />
+						<p:menuitem value="Modality Alias" 
+						rendered="#{userBean.currentUser.roleAdmin=='Y'}"
+						action="#{navBean.navAdminModalityAliasPage}" update=":content"
+						icon="fa fa-fw fa-user" />					
 					
 					<p:separator />
 					<p:menuitem value="Change Password"

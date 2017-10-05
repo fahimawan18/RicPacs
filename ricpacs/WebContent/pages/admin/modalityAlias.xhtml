@@ -1,0 +1,67 @@
+
+	<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		template="/pages/includes/templatePage.xhtml">
+		
+		<ui:define name="content">
+
+<h:form id="form_ma">
+  
+
+  	<p:panel id="panel2"  header="#{crit.pageTitle}" style="text-align: center;">
+					<p:panelGrid style="margin-top:20px; width: 70%; margin: 0 auto"
+					columns="2">
+					
+					<p:outputLabel value="Modality Name"></p:outputLabel>
+ 					 <p:inputText value="#{adminBean.modAliasObj.modality}"></p:inputText>
+ 					 
+					</p:panelGrid>
+					
+			 	<p:commandButton value="Search" actionListener="#{adminBean.searchModAlias}" 
+  	icon="fa fa-fw fa-search" update="tbl1"/>
+					
+				</p:panel>
+ 
+ 
+ 
+ 
+  	
+  	<br/>
+  	
+  	<p:dataTable value="#{adminBean.modAliasList}" var="mylist" id="tbl1" 
+					paginatorPosition="top" editable="true" rows="12" paginator="true"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					>
+
+					<p:column headerText="Modality" style="width:100px;">
+						<h:outputText value="#{mylist.modality}" />
+					</p:column>
+					
+					<p:column headerText="Alias" style="width:125px;">
+						<h:inputText value="#{mylist.modalityAlias}" />
+					</p:column>
+					
+					<f:facet name="footer">
+            			<p:commandButton  
+            			update=":form_ma:tbl1" 
+            			actionListener="#{adminBean.updateModAlias}"
+            			icon="fa fa-fw fa-save" 
+            			value="Update"/>
+            			
+            			
+        			</f:facet>
+        				 
+					
+				</p:dataTable>
+				
+				
+				
+				<br/>
+			
+</h:form>
+</ui:define>
+	</ui:composition>
+

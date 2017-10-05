@@ -79,6 +79,10 @@ public class Study
 	@Column(name="mods_in_study")
 	private String modsInStudy;
 	
+	@ManyToOne 
+	@JoinColumn (name = "mods_in_study", insertable=false, updatable=false)
+	private LuModalityAlias modalityAlias;
+	
 	@Column(name="cuids_in_study")
 	private String cuidsInStudy;
 	
@@ -489,6 +493,16 @@ public class Study
 
 	public void setStudyOnFsFk(List<StudyOnFs> studyOnFsFk) {
 		this.studyOnFsFk = studyOnFsFk;
+	}
+
+
+	public LuModalityAlias getModalityAlias() {
+		return modalityAlias;
+	}
+
+
+	public void setModalityAlias(LuModalityAlias modalityAlias) {
+		this.modalityAlias = modalityAlias;
 	}
 	
 	

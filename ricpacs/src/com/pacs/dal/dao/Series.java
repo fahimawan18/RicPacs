@@ -46,6 +46,7 @@ public class Series
 	@Column(name="modality")
 	private String modality;
 	
+	
 	@Column(name="body_part")
 	private String bodyPart;
 	
@@ -406,4 +407,5 @@ public class Series
 	public void setInstanceFk(List<Instance> instanceFk) {
 		this.instanceFk = instanceFk;
 	}
+
 }
