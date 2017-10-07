@@ -11,9 +11,13 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.jasypt.util.text.StrongTextEncryptor;
 import org.primefaces.model.DualListModel;
+
+
 
 
 //import com.lowagie.text.pdf.PRStream;
@@ -21,6 +25,7 @@ import com.pacs.dal.dao.ApplicationUsers;
 import com.pacs.dal.dao.LuModalityAlias;
 import com.pacs.dal.dao.RolesApplAet;
 import com.pacs.dal.dao.RolesApplModality;
+import com.pacs.dal.dao.vw.LuModalityVw;
 import com.pacs.utils.Environment;
 import com.pacs.utils.HibernateUtilsAnnot;
 import com.pacs.utils.MessageConstants;
@@ -343,6 +348,68 @@ public class AdminBll
 		
 		return true;
 	}
+	
+	
+	public boolean populateModAliasList()
+	{
+		Session session = null;
+		Transaction tx = null;
+		System.out.println("In populateModAliasList bll");
+		try
+		{
+			session = HibernateUtilsAnnot.currentSession();
+			tx = session.beginTransaction();
+			
+			Criteria cr = session.createCriteria(LuModalityVw.class);
+			cr.add(Restrictions.ne("modality", MessageConstants.Constants.ALL_STRING));
+			ProjectionList proList=Projections.projectionList();
+			proList.add(Projections.property("modality"));
+			cr.setProjection(proList);
+			List<String> modList = new ArrayList<String>();
+			modList = cr.list();
+			
+			cr = session.createCriteria(LuModalityAlias.class);
+			proList=Projections.projectionList();
+			proList.add(Projections.property("modality"));
+			cr.setProjection(proList);
+			List<String> aliasList = new ArrayList<String>();
+			aliasList=cr.list();
+			
+			
+			for(String a:modList)
+			{
+				if(aliasList.contains(a))
+				{
+					System.out.println(a+" modality already in the table");
+				}
+				else
+				{
+					LuModalityAlias alias = new LuModalityAlias();
+					alias.setModality(a);
+					alias.setModalityAlias(a);
+					session.save(alias);
+				}
+				
+			}
+			
+			
+			tx.commit();
+		}
+		catch(HibernateException e)
+		{
+			e.printStackTrace();
+			tx.rollback();
+			return false;
+		}
+		finally
+		{
+			HibernateUtilsAnnot.closeSession();
+		}
+		
+		return true;
+	}
+	
+	
 	
 	
 	public boolean changePassword(ApplicationUsers user,String newPassword)

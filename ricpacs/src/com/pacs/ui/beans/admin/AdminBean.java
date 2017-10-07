@@ -143,6 +143,24 @@ public class AdminBean
 		
 	}
 	
+	public void populateModAlias(ActionEvent e)
+	{
+
+		AdminBll bll =new AdminBll();
+		System.out.println("In populateModAlias Method");
+		if(bll.populateModAliasList())
+		{
+			System.out.println("populateModAlias Method executed successfully");
+		}
+		else
+		{
+			System.out.println("populateModAlias Method execution failed");
+		}
+		
+
+		
+	}
+	
 	public String testMethod()
 	{
 		System.out.println("tgt aet list elmns method");
