@@ -93,12 +93,6 @@
         					headerText="Modality" 
         					sortBy="#{study.modsInStudy}" 
         					filterBy="#{study.modsInStudy}"	width="8%">
-					            <!--  f:facet name="filter">
-					                <p:selectOneMenu onchange="PF('tbl2').filter()" >
-					                    <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
-					                    <f:selectItems value="#{crit.modalityList}" />
-					                </p:selectOneMenu>
-					            </f:facet -->
 					            <center>
             					<h:outputText value="#{study.modsInStudy}"/>
             					</center>
