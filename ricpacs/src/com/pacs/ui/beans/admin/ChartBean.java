@@ -5,7 +5,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 
+import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.PieChartModel;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
 
 import com.pacs.bll.admin.ChartBll;
 
@@ -15,6 +18,7 @@ public class ChartBean
 {
 	private PieChartModel aetUsedSpaceChart;
 	private PieChartModel modalityUsedSpaceChart;
+	private BarChartModel modalityCountChart;
 	
 	private Integer showFreeSpaceOptionAet=1;
 	private Integer showFreeSpaceOptionModality=1;
@@ -29,6 +33,7 @@ public class ChartBean
 		
 		this.aetUsedSpaceChart = new PieChartModel();
 		this.modalityUsedSpaceChart = new PieChartModel();
+		this.modalityCountChart = new BarChartModel();
 		
 	}
 
@@ -38,6 +43,7 @@ public class ChartBean
 	{
 		initAetChart();
 		initModalityChart();
+		initModalityCountChart();
 		
 	}
 	
@@ -65,6 +71,25 @@ public class ChartBean
 		modalityUsedSpaceChart.setShowDataLabels(true);
 		modalityUsedSpaceChart.setShowDatatip(true);
 	}
+	
+	
+	private void initModalityCountChart()
+	{
+		ChartBll bll = new ChartBll();
+		System.out.println("In initModalityCountChart PostConstruct");
+		this.modalityCountChart = new BarChartModel();
+		this.modalityCountChart = bll.populateModalityCountChart(modalityCountChart);
+		modalityCountChart.setTitle("Studies Against Modalities ");
+		modalityCountChart.setLegendPosition("ne");
+		Axis xAxis = modalityCountChart.getAxis(AxisType.X);
+        xAxis.setLabel("Modalities");
+         
+        Axis yAxis = modalityCountChart.getAxis(AxisType.Y);
+        yAxis.setLabel("Number of Studies");
+		modalityCountChart.setShowDatatip(true);
+	}
+	
+	
 	
 	public void onAetConversionSelect(AjaxBehaviorEvent event) 
 	 {
@@ -124,6 +149,16 @@ public class ChartBean
 
 	public void setShowFreeSpaceOptionModality(Integer showFreeSpaceOptionModality) {
 		this.showFreeSpaceOptionModality = showFreeSpaceOptionModality;
+	}
+
+
+	public BarChartModel getModalityCountChart() {
+		return modalityCountChart;
+	}
+
+
+	public void setModalityCountChart(BarChartModel modalityCountChart) {
+		this.modalityCountChart = modalityCountChart;
 	}
 
 }

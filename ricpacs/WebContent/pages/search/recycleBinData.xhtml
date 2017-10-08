@@ -86,7 +86,9 @@
             					<h:outputText value="#{study.accessionNo}"/>
         					</p:column>
         					
-        					<p:column headerText="Modality" sortBy="#{study.modsInStudy}" 
+        					<p:column rendered="false" 
+        					headerText="Modality" 
+        					sortBy="#{study.modsInStudy}" 
         					filterBy="#{study.modsInStudy}" width="8%">
 					            
 					            <center>
@@ -94,7 +96,7 @@
             					</center>
         					</p:column>
         					
-        					<p:column headerText="Modality Alias"  sortBy="#{study.modalityAlias.modalityAlias}"
+        					<p:column headerText="Modality"  sortBy="#{study.modalityAlias.modalityAlias}"
         					filterBy="#{study.modalityAlias.modalityAlias}"	width="12%">
 					            
 					            <center>
