@@ -50,6 +50,11 @@ public class Environment
 		return getProperty("fileMaxSize");
 	}
 	
+	public static String getSyncStatusOption()
+	{
+		return getProperty("syncStatusOption");
+	}
+	
 	
 	public static String getProperty(String key) {
 		String value = resources.getString(key);

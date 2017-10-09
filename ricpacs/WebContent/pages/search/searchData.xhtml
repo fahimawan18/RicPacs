@@ -113,8 +113,10 @@
 				            </h:outputText>
 				   			</p:column>
 				   			
-        					<p:column headerText="File Sync Status" width="8%">
-            					<h:outputText value="#{study.studyDesc}"/>
+        					<p:column headerText="Sync Progress"
+        					rendered="#{crit.syncStatusOption}" 
+        					width="6%">
+            					<h:outputText value="#{study.syncStatus}%"/>
         					</p:column>
         					
 				    

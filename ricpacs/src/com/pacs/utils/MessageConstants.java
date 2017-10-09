@@ -22,6 +22,8 @@ public final class MessageConstants {
 
 	public static final class Constants 
 	{
+		public static final String TRUE_STRING = "true";
+		public static final String FALSE_STRING = "false";
 		public static final String ALL_STRING = "All";
 		public static final String NONE_STRING = "None";
 		

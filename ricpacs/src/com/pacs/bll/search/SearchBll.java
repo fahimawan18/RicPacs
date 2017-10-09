@@ -2,6 +2,7 @@ package com.pacs.bll.search;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,9 +20,12 @@ import org.hibernate.criterion.Restrictions;
 import com.iac.util.StringUtils;
 import com.iac.web.util.FacesUtils;
 import com.pacs.dal.dao.Files;
+import com.pacs.dal.dao.Instance;
 import com.pacs.dal.dao.Patient;
+import com.pacs.dal.dao.Series;
 import com.pacs.dal.dao.Study;
 import com.pacs.ui.beans.UserBean;
+import com.pacs.ui.beans.admin.CriteriaBean;
 import com.pacs.utils.HibernateUtilsAnnot;
 import com.pacs.utils.MessageConstants;
 import com.pacs.utils.MessageUtils;
@@ -30,6 +34,7 @@ import com.sun.xml.internal.fastinfoset.algorithm.BuiltInEncodingAlgorithm.WordL
 public class SearchBll 
 {
 	UserBean ub = (UserBean)FacesUtils.getManagedBean("userBean");
+	private CriteriaBean crit = (CriteriaBean)FacesUtils.getManagedBean("crit");
 	
 	public SearchBll() 
 	{
@@ -215,6 +220,12 @@ public class SearchBll
 				name = WordUtils.capitalizeFully(name);
 				c.getPatientFk().setPatId(name);
 				
+				if(crit.isSyncStatusOption())
+				{
+					String status=identifySyncStatus(session,c);
+					c.setSyncStatus(status);
+				}
+				
 			}
 			if(list.size()==0)
 			{
@@ -227,12 +238,76 @@ public class SearchBll
 			e.printStackTrace();
 			return null;
 		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 		finally
 		{
 			HibernateUtilsAnnot.closeSession();
 		}
 		
 		return list;
+	}
+	
+	private String identifySyncStatus(Session session,Study study)
+			throws HibernateException, Exception
+	{
+		String onlineStorageDrive = crit.getOnlineStoragePath();
+		Integer counterAll=0,counterHit=0,percent=0;
+		
+		List<Series> seriesList = new ArrayList<Series>();
+		seriesList = study.getSeriesFk();
+		if(seriesList.size()>0)
+		{
+			List<Instance> instanceList = new ArrayList<Instance>();
+			for(Series seriesObj:seriesList)
+			{
+				instanceList = seriesObj.getInstanceFk();
+				if(instanceList.size()>0)
+				{
+					List<Files> filesList = new ArrayList<Files>();
+					for(Instance instanceObj:instanceList)
+					{
+						filesList = instanceObj.getFilesFk();
+						if(filesList.size()>0)
+						{
+							for(Files files:filesList)
+							{
+								String path = onlineStorageDrive+"/"+ files.getFilePath();
+								System.out.println("File path: "+path);
+								Path p = Paths.get(path);
+								counterAll++;
+								boolean exists = java.nio.file.Files.exists(p);
+								if (exists) 
+								{
+								    System.out.println("File exists!");
+								    counterHit++;
+								} 
+								else
+								{
+									System.out.println("File does not exist!");
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			if(counterAll > 0)
+			{
+				percent = counterHit/counterAll*100;
+			}
+			else
+			{
+				percent=0;
+			}
+			System.out.println("Percentage="+percent);
+		}
+		
+		
+		return percent.toString();
 	}
 	
 	

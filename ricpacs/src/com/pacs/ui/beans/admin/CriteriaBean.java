@@ -33,6 +33,9 @@ public class CriteriaBean
 //	Implemented For Windows Operating System only
 	private Long onlineStorageFreeSpace = 0l;
 	private String onlineStorageDrive;
+	private String onlineStoragePath;
+	
+	private boolean syncStatusOption;
 	
 	private CriteriaBll bll;
 	
@@ -60,6 +63,7 @@ public class CriteriaBean
 //		To be commented while deploying on production
 //		this.weasisPath = "http://" + request.getServerName() + ":8081"+ Environment.getWeasisServerPath();
 		
+		this.syncStatusOption=false;
 		this.bll = new CriteriaBll();
 
 	}
@@ -217,7 +221,8 @@ public class CriteriaBean
 	{
 		if(onlineStorageDrive==null || onlineStorageDrive.trim().length()==0)
 		{
-			onlineStorageDrive = bll.getOnlineStorageDrive();
+//			onlineStorageDrive = bll.getOnlineStorageDrive();
+			onlineStorageDrive = getOnlineStoragePath().substring(0, 2);
 		}
 		return onlineStorageDrive;
 	}
@@ -238,6 +243,35 @@ public class CriteriaBean
 	{
 		
 		this.onlineStorageFreeSpace = onlineStorageFreeSpace;
+	}
+
+
+
+
+	public boolean isSyncStatusOption() 
+	{
+		if(Environment.getSyncStatusOption()!=null && Environment.getSyncStatusOption().trim().length()>0
+				&& Environment.getSyncStatusOption().equalsIgnoreCase(MessageConstants.Constants.TRUE_STRING))
+		{
+			this.syncStatusOption=true;
+		}
+		else
+		{
+			this.syncStatusOption=false;
+		}
+		return syncStatusOption;
+	}
+
+
+
+
+	public String getOnlineStoragePath()
+	{
+		if(onlineStoragePath==null || onlineStoragePath.trim().length()==0)
+		{
+			onlineStoragePath = bll.getOnlineStoragePath();
+		}
+		return onlineStoragePath;
 	}
 	
 	

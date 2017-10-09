@@ -139,10 +139,14 @@ public class Study
 	@Transient
 	private boolean selectedForAction;
 	
+	@Transient
+	private String syncStatus;
+	
 	public Study() 
 	{
 		// TODO Auto-generated constructor stub
 		this.selectedForAction = false;
+		this.syncStatus="";
 	}
 
 
@@ -503,6 +507,16 @@ public class Study
 
 	public void setModalityAlias(LuModalityAlias modalityAlias) {
 		this.modalityAlias = modalityAlias;
+	}
+
+
+	public String getSyncStatus() {
+		return syncStatus;
+	}
+
+
+	public void setSyncStatus(String syncStatus) {
+		this.syncStatus = syncStatus;
 	}
 	
 	

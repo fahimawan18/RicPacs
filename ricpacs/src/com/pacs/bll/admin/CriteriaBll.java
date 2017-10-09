@@ -52,6 +52,33 @@ public class CriteriaBll
 		return drive.substring(0, 2);
 	}
 	
+	public String getOnlineStoragePath()
+	{
+		
+		Session session = null;
+		String drive = "c:";
+		try
+		{
+			session = HibernateUtilsAnnot.currentSession();
+			Criteria cr=session.createCriteria(FileSystem.class);
+			ProjectionList proList=Projections.projectionList();
+			proList.add(Projections.property("dirPath"));
+			cr.setProjection(proList);
+			if(cr.list().size()>0)
+			{
+				drive = (String)cr.list().get(0);
+			}
+			System.out.println("file system drive ="+drive);
+			
+		}
+		catch(HibernateException e)
+		{
+			e.printStackTrace();			
+		}
+//		return drive.substring(0, 2);
+		return drive;
+	}
+	
 	public List<SelectItem> getSrcAetSelectItemList()
 	{
 		List<SelectItem> list = new ArrayList<SelectItem>();
