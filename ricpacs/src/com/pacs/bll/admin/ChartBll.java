@@ -123,11 +123,12 @@ public class ChartBll
 			session = HibernateUtilsAnnot.currentSession();
 			Criteria cr = session.createCriteria(StudyModalityCountVw.class);
 			list = cr.list();
+			Integer s = 0;
 			if(list.size()>0)
 			{
 				for(StudyModalityCountVw v:list)
 				{
-					Integer s = v.getStudyCount();
+					s = v.getStudyCount();
 				
 					if(v.getModalityAlias()==null || v.getModalityAlias().trim().length()==0)
 					{
@@ -137,8 +138,10 @@ public class ChartBll
 					{
 						countSeries.set(v.getModalityAlias(), s);
 					}
+					
 				}
 			}
+			
 			modalityModel.addSeries(countSeries);
 			
 			

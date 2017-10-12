@@ -11,6 +11,7 @@ import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 
 import com.pacs.bll.admin.ChartBll;
+import com.pacs.utils.Environment;
 
 @ManagedBean(name="chartBean")
 @SessionScoped
@@ -86,7 +87,24 @@ public class ChartBean
          
         Axis yAxis = modalityCountChart.getAxis(AxisType.Y);
         yAxis.setLabel("Number of Studies");
-		modalityCountChart.setShowDatatip(true);
+        Integer width;
+        try
+        {
+        	width =Integer.valueOf(Environment.getBarChartWidth());
+        }
+        catch(NumberFormatException e)
+        {
+        	width = 40;
+        }
+        catch(Exception e)
+        {
+        	width = 40;
+        }
+        System.out.println("width of bar ="+width);
+		modalityCountChart.setBarWidth(width);
+		modalityCountChart.setShowDatatip(false);
+		modalityCountChart.setShowPointLabels(true);
+		
 	}
 	
 	

@@ -10,9 +10,15 @@
 
 <h:form id="form_ma">
   
-  <p:remoteCommand name="onload" actionListener="#{adminBean.populateModAlias}" autoRun="true"></p:remoteCommand>
+  <p:remoteCommand name="onload" actionListener="#{adminBean.populateModAlias}" autoRun="true">
+  </p:remoteCommand>
+  
+  <p:remoteCommand name="onload" actionListener="#{adminBean.searchModAlias}" autoRun="true"
+  				update="tbl1"	>
+  </p:remoteCommand>
 
-  	<p:panel id="panel2"  header="#{crit.pageTitle}" style="text-align: center;">
+  	<p:panel id="panel2" rendered="false" 
+  	 header="#{crit.pageTitle}" style="text-align: center;">
 					<p:panelGrid style="margin-top:20px; width: 70%; margin: 0 auto"
 					columns="2">
 					

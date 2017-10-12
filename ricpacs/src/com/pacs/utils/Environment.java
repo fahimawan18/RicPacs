@@ -55,6 +55,11 @@ public class Environment
 		return getProperty("syncStatusOption");
 	}
 	
+	public static String getBarChartWidth()
+	{
+		return getProperty("barChartWidth");
+	}
+	
 	
 	public static String getProperty(String key) {
 		String value = resources.getString(key);
