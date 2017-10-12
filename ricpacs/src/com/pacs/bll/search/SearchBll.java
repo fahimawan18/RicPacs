@@ -15,6 +15,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.iac.util.StringUtils;
@@ -222,7 +224,7 @@ public class SearchBll
 				
 				if(crit.isSyncStatusOption())
 				{
-					String status=identifySyncStatus(session,c);
+					String status=calculateSyncStatus(session,c.getId());
 					c.setSyncStatus(status);
 				}
 				
@@ -251,60 +253,51 @@ public class SearchBll
 		return list;
 	}
 	
-	private String identifySyncStatus(Session session,Study study)
+	
+
+	private String calculateSyncStatus(Session session,Integer studyId)
 			throws HibernateException, Exception
 	{
 		String onlineStorageDrive = crit.getOnlineStoragePath();
 		Integer counterAll=0,counterHit=0,percent=0;
 		
-		List<Series> seriesList = new ArrayList<Series>();
-		seriesList = study.getSeriesFk();
-		if(seriesList.size()>0)
+		Criteria cr = session.createCriteria(Files.class);
+		ProjectionList proList=Projections.projectionList();
+		proList.add(Projections.property("filePath"));
+		cr.setProjection(proList);
+		Criteria instanceCr=cr.createCriteria("instanceFk");
+		Criteria seriesCr = instanceCr.createCriteria("seriesFk");
+		Criteria studyCr = seriesCr.createCriteria("studyFk");
+		studyCr.add(Restrictions.eq("id", studyId));
+		
+		List<String> filePathList = cr.list();
+		for(String filePath:filePathList)
 		{
-			List<Instance> instanceList = new ArrayList<Instance>();
-			for(Series seriesObj:seriesList)
+			String path = onlineStorageDrive+"/"+ filePath;
+			System.out.println("File path: "+path);
+			Path p = Paths.get(path);
+			counterAll++;
+			boolean exists = java.nio.file.Files.exists(p);
+			if (exists) 
 			{
-				instanceList = seriesObj.getInstanceFk();
-				if(instanceList.size()>0)
-				{
-					List<Files> filesList = new ArrayList<Files>();
-					for(Instance instanceObj:instanceList)
-					{
-						filesList = instanceObj.getFilesFk();
-						if(filesList.size()>0)
-						{
-							for(Files files:filesList)
-							{
-								String path = onlineStorageDrive+"/"+ files.getFilePath();
-								System.out.println("File path: "+path);
-								Path p = Paths.get(path);
-								counterAll++;
-								boolean exists = java.nio.file.Files.exists(p);
-								if (exists) 
-								{
-								    System.out.println("File exists!");
-								    counterHit++;
-								} 
-								else
-								{
-									System.out.println("File does not exist!");
-								}
-							}
-						}
-					}
-				}
-			}
-			
-			if(counterAll > 0)
-			{
-				percent = counterHit/counterAll*100;
-			}
+			    System.out.println("File exists!");
+			    counterHit++;
+			} 
 			else
 			{
-				percent=0;
+				System.out.println("File does not exist!");
 			}
-			System.out.println("Percentage="+percent);
 		}
+		
+		if(counterAll > 0)
+		{
+			percent = counterHit/counterAll*100;
+		}
+		else
+		{
+			percent=0;
+		}
+		System.out.println("Percentage="+percent);
 		
 		
 		return percent.toString();
