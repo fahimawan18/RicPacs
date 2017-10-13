@@ -17,6 +17,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import com.pacs.dal.dao.vw.StudyFilePathVw;
+
 @Entity
 @Table(name = "study")
 public class Study 
@@ -135,6 +137,9 @@ public class Study
 	@OneToMany(mappedBy = "studyFk" , cascade = CascadeType.ALL)
 //	@OrderBy("id DESC")
 	private  List<StudyOnFs> studyOnFsFk;
+	
+	@OneToMany(mappedBy = "studyObj")
+	private  List<StudyFilePathVw> studyFiles;
 	
 	@Transient
 	private boolean selectedForAction;
@@ -517,6 +522,16 @@ public class Study
 
 	public void setSyncStatus(String syncStatus) {
 		this.syncStatus = syncStatus;
+	}
+
+
+	public List<StudyFilePathVw> getStudyFiles() {
+		return studyFiles;
+	}
+
+
+	public void setStudyFiles(List<StudyFilePathVw> studyFiles) {
+		this.studyFiles = studyFiles;
 	}
 	
 	

@@ -116,7 +116,20 @@
         					<p:column headerText="Sync Progress"
         					rendered="#{crit.syncStatusOption}" 
         					width="6%">
-            					<h:outputText value="#{study.syncStatus}%"/>
+            					<h:outputText value="#{study.syncStatus}" 
+            					rendered="#{study.syncStatus!='N/A'}"/>
+            					
+            					<p:commandButton onclick="PF('dlg2').show();"
+            					rendered="#{study.syncStatus=='N/A'}" 
+            					title="Show Progress"
+				             	update=":form1:display2" value="Show"
+				             	action="#{searchBean.populateFileSyncProgressForDialog}" 
+				             	>			            
+				            		<f:setPropertyActionListener value="#{study}" 
+				            			target="#{searchBean.selectedStudy}">
+    								</f:setPropertyActionListener>
+    						
+				      		</p:commandButton>
         					</p:column>
         					
 				    
@@ -183,6 +196,15 @@
 					
 		
 		</p:panelGrid>
+    			</p:dialog>
+    			
+    			<p:dialog header="File Sync Progress" widgetVar="dlg2" height="100" width="250"
+				closeOnEscape="true" footer="Press escape to close"
+				showEffect="explode" id="filesyncprogress">
+        			<p:panelGrid columns="1" style="margin-top:20px; 
+        			width: 100%; margin: 0 auto" id="display2">
+        			 <h:outputText value="#{searchBean.selectedStudy.syncStatus}%"></h:outputText>
+        			</p:panelGrid>
     			</p:dialog>
     			
 				<br/>

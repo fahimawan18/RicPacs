@@ -26,6 +26,7 @@ import com.pacs.dal.dao.Instance;
 import com.pacs.dal.dao.Patient;
 import com.pacs.dal.dao.Series;
 import com.pacs.dal.dao.Study;
+import com.pacs.dal.dao.vw.StudyFilePathVw;
 import com.pacs.ui.beans.UserBean;
 import com.pacs.ui.beans.admin.CriteriaBean;
 import com.pacs.utils.HibernateUtilsAnnot;
@@ -208,7 +209,7 @@ public class SearchBll
 			list = mainCr.list();
 			for(Study c:list)
 			{
-				//Hibernate.initialize(c.getSeriesFk());	
+				Hibernate.initialize(c.getSeriesFk());	
 				String name = c.getPatientFk().getPatName();
 				System.out.println("Name before: "+name);
 				name=name.replaceAll("[\\^]", "");
@@ -224,7 +225,8 @@ public class SearchBll
 				
 				if(crit.isSyncStatusOption())
 				{
-					String status=calculateSyncStatus(session,c.getId());
+//					String status=calculateSyncStatus(session,c.getId());
+					String status=calculateSyncStatusFromView(session,c);
 					c.setSyncStatus(status);
 				}
 				
@@ -253,51 +255,108 @@ public class SearchBll
 		return list;
 	}
 	
-	
-
-	private String calculateSyncStatus(Session session,Integer studyId)
+	private String calculateSyncStatusFromView(Session session,Study study)
 			throws HibernateException, Exception
 	{
 		String onlineStorageDrive = crit.getOnlineStoragePath();
 		Integer counterAll=0,counterHit=0,percent=0;
+		String percentString="0%";
 		
-		Criteria cr = session.createCriteria(Files.class);
-		ProjectionList proList=Projections.projectionList();
-		proList.add(Projections.property("filePath"));
-		cr.setProjection(proList);
-		Criteria instanceCr=cr.createCriteria("instanceFk");
-		Criteria seriesCr = instanceCr.createCriteria("seriesFk");
-		Criteria studyCr = seriesCr.createCriteria("studyFk");
-		studyCr.add(Restrictions.eq("id", studyId));
 		
-		List<String> filePathList = cr.list();
-		for(String filePath:filePathList)
+		
+		List<StudyFilePathVw> filePathList = study.getStudyFiles();
+			
+		for(StudyFilePathVw filePath:filePathList)
 		{
-			String path = onlineStorageDrive+"/"+ filePath;
+			String path = onlineStorageDrive+"/"+ filePath.getFilePath();
 			System.out.println("File path: "+path);
 			Path p = Paths.get(path);
 			counterAll++;
 			boolean exists = java.nio.file.Files.exists(p);
 			if (exists) 
 			{
-			    System.out.println("File exists!");
+//			    System.out.println("File exists!");
 			    counterHit++;
 			} 
-			else
-			{
-				System.out.println("File does not exist!");
-			}
+			
 		}
 		
-		if(counterAll > 0)
+		if(filePathList.size()==0)
+		{
+			percentString="N/A";
+		}
+		else if(counterAll > 0)
 		{
 			percent = counterHit/counterAll*100;
+			percentString = percent.toString()+"%";
 		}
-		else
+		
+		System.out.println("Percentage="+percentString);
+		
+		
+		return percentString;
+	}
+
+	public String calculateSyncStatusFromTables(Integer studyId)
+	{
+		String onlineStorageDrive = crit.getOnlineStoragePath();
+		Integer counterAll=0,counterHit=0,percent=0;
+		
+		Session session =null;
+		try
 		{
-			percent=0;
+			session = HibernateUtilsAnnot.currentSession();
+			Criteria cr = session.createCriteria(Files.class);
+			ProjectionList proList=Projections.projectionList();
+			proList.add(Projections.property("filePath"));
+			cr.setProjection(proList);
+			Criteria instanceCr=cr.createCriteria("instanceFk");
+			Criteria seriesCr = instanceCr.createCriteria("seriesFk");
+			Criteria studyCr = seriesCr.createCriteria("studyFk");
+			studyCr.add(Restrictions.eq("id", studyId));
+			
+			List<String> filePathList = cr.list();
+			for(String filePath:filePathList)
+			{
+				String path = onlineStorageDrive+"/"+ filePath;
+				System.out.println("File path: "+path);
+				Path p = Paths.get(path);
+				counterAll++;
+				boolean exists = java.nio.file.Files.exists(p);
+				if (exists) 
+				{
+				    System.out.println("File exists!");
+				    counterHit++;
+				} 
+				else
+				{
+					System.out.println("File does not exist!");
+				}
+			}
+			
+			if(counterAll > 0)
+			{
+				percent = counterHit/counterAll*100;
+			}
+			else
+			{
+				percent=0;
+			}
+			System.out.println("Percentage="+percent);
 		}
-		System.out.println("Percentage="+percent);
+		catch(HibernateException e)
+		{
+			e.printStackTrace();			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			HibernateUtilsAnnot.closeSession();
+		}
+		
 		
 		
 		return percent.toString();

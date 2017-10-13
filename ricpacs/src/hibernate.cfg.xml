@@ -42,6 +42,7 @@
   <mapping class="com.pacs.dal.dao.vw.DiskUsageAetVw"/>
   <mapping class="com.pacs.dal.dao.vw.DiskUsageModalityVw"/>
   <mapping class="com.pacs.dal.dao.vw.StudyModalityCountVw"/>
+  <mapping class="com.pacs.dal.dao.vw.StudyFilePathVw"/>
   
   
   

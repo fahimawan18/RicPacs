@@ -112,6 +112,16 @@ public class SearchBean
 		
 	}
 	
+	public String populateFileSyncProgressForDialog()
+	{
+		System.out.println("In populateFileSyncProgressForDialog method, selectedstudy is ="+this.selectedStudy.getId());
+		SearchBll bll =new SearchBll();
+		String status = bll.calculateSyncStatusFromTables(this.selectedStudy.getId());
+		this.selectedStudy.setSyncStatus(status);
+		return "";
+			
+	}
+	
 	public String searchPatientsData()
 	{
 		SearchBll bll = new SearchBll();
