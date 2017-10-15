@@ -81,7 +81,8 @@ public class ChartBean
 		this.modalityCountChart = new BarChartModel();
 		this.modalityCountChart = bll.populateModalityCountChart(modalityCountChart);
 		modalityCountChart.setTitle("Studies Against Modalities ");
-		modalityCountChart.setLegendPosition("ne");
+//		modalityCountChart.setLegendPosition("ne");
+		
 		Axis xAxis = modalityCountChart.getAxis(AxisType.X);
         xAxis.setLabel("Modalities");
          
@@ -94,16 +95,17 @@ public class ChartBean
         }
         catch(NumberFormatException e)
         {
-        	width = 40;
+        	width = 60;
         }
         catch(Exception e)
         {
-        	width = 40;
+        	width = 60;
         }
-        System.out.println("width of bar ="+width);
+        
 		modalityCountChart.setBarWidth(width);
 		modalityCountChart.setShowDatatip(false);
 		modalityCountChart.setShowPointLabels(true);
+		modalityCountChart.setExtender("ext");
 		
 	}
 	

@@ -81,7 +81,8 @@
 				    
 				    
 				    
-				   	<p:column headerText="Study ID" filterBy="#{study.studyId}" sortBy="#{study.studyId}">
+				   	<p:column headerText="Study ID" filterBy="#{study.studyId}" filterMatchMode="contains" 
+				   	sortBy="#{study.studyId}">
             					<h:outputText value="#{study.studyId}"/>
         					</p:column>
         					
@@ -99,7 +100,8 @@
         					</p:column>
         					
         					<p:column headerText="Modality"  sortBy="#{study.modalityAlias.modalityAlias}"
-        					filterBy="#{study.modalityAlias.modalityAlias}"	width="12%">
+        					filterBy="#{study.modalityAlias.modalityAlias}" filterMatchMode="contains"	
+        					width="12%">
 					            
 					            <center>
             					<h:outputText value="#{study.modalityAlias.modalityAlias}"/>

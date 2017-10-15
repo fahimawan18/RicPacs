@@ -22,10 +22,23 @@
     <param-name>javax.faces.PROJECT_STAGE</param-name>
     <param-value>Production</param-value>
   </context-param>
+  
+  
+  
    <session-config>
       <!-- Session idle timeout in min. -->
-      <session-timeout>60</session-timeout>
+      <session-timeout>10</session-timeout>
     </session-config>
+    
+    
+    <error-page>
+		<exception-type>
+			javax.faces.application.ViewExpiredException
+		</exception-type>
+		<location>/pages/errorpages/expired.jsf</location>
+	</error-page>
+    
+    
     <context-param>
     	<param-name>primefaces.FONT_AWESOME</param-name>
     	<param-value>true</param-value>
