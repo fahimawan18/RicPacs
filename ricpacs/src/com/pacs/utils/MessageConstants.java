@@ -64,6 +64,12 @@ public final class MessageConstants {
 			
 		}
 		
+		public static final class ChartColours {
+			
+			public static final String COLOUR_SEQ = "00749F, 73C774, C7754, 17BDB8, 85802, 228B22, FFD700, 8B0000, 006400, 58BA27,FFCC33,F74A4A,F52F2F,A30303";
+			
+		}
+		
 		
 
 		

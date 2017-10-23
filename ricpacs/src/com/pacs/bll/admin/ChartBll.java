@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.PieChartModel;
@@ -16,6 +17,7 @@ import com.pacs.dal.dao.vw.DiskUsageModalityVw;
 import com.pacs.dal.dao.vw.StudyModalityCountVw;
 import com.pacs.ui.beans.admin.CriteriaBean;
 import com.pacs.utils.HibernateUtilsAnnot;
+import com.pacs.utils.MessageConstants;
 
 public class ChartBll 
 {
@@ -50,6 +52,7 @@ public class ChartBll
 			{
 				aetModel.set("Available", d);
 			}
+			aetModel.setSeriesColors(MessageConstants.Constants.ChartColours.COLOUR_SEQ);
 			
 		}
 		catch(HibernateException e)
@@ -73,6 +76,7 @@ public class ChartBll
 			List<DiskUsageModalityVw> list = new ArrayList<DiskUsageModalityVw>();
 			session = HibernateUtilsAnnot.currentSession();
 			Criteria cr = session.createCriteria(DiskUsageModalityVw.class);
+			cr.addOrder(Order.asc("modality"));
 			list = cr.list();
 			if(list.size()>0)
 			{
@@ -95,6 +99,7 @@ public class ChartBll
 			{
 				modalityModel.set("Available", d);
 			}
+			modalityModel.setSeriesColors(MessageConstants.Constants.ChartColours.COLOUR_SEQ);
 			
 		}
 		catch(HibernateException e)
@@ -122,6 +127,7 @@ public class ChartBll
 			List<StudyModalityCountVw> list = new ArrayList<StudyModalityCountVw>();
 			session = HibernateUtilsAnnot.currentSession();
 			Criteria cr = session.createCriteria(StudyModalityCountVw.class);
+			cr.addOrder(Order.asc("modality"));
 			list = cr.list();
 			Integer s = 0;
 			if(list.size()>0)
@@ -137,12 +143,14 @@ public class ChartBll
 					else
 					{
 						countSeries.set(v.getModalityAlias(), s);
+						
 					}
 					
 				}
 			}
-			
+			modalityModel.setSeriesColors(MessageConstants.Constants.ChartColours.COLOUR_SEQ);
 			modalityModel.addSeries(countSeries);
+			
 			
 			
 		}
