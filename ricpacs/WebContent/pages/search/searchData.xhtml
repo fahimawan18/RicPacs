@@ -4,7 +4,7 @@
 		xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:f="http://java.sun.com/jsf/core"
 		xmlns:p="http://primefaces.org/ui"
-		template="/pages/includes/templatePage.xhtml">
+		template="/pages/includes/templatePageSearch.xhtml">
 
 		<ui:define name="content">
 
@@ -12,30 +12,35 @@
  
 	<p:defaultCommand target="btnSearch" />	
 	<p:focus context="panel2" for="patientName"></p:focus> 		 	
-  	<p:panel id="panel2"  header="#{crit.pageTitle}" style="text-align: center;">
-					<p:panelGrid style="margin-top:10px; width: 80%; margin: 0 auto"
-					columns="4">
+  	<p:panel id="panel2"   style="text-align: center;">
+  				<p:panelGrid style="width: 80%; margin:0 auto;" styleClass="companyHeaderGrid" 
+					columns="6">
 					
 					
-					<p:outputLabel value="Patient Name"></p:outputLabel>
+ 					<p:outputLabel value="Date"></p:outputLabel>
+ 					<div id="reportrange" class="pull-left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+    					<i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+    					<span></span> <b class="caret"></b>
+					</div>
+					
+					<p:outputLabel value="Name"></p:outputLabel>
  					 <p:inputText value="#{searchBean.toSearchPatient.patName}" id="patientName"></p:inputText> 
 
-					<p:outputLabel value="Patient MR No"></p:outputLabel>
-					<h:panelGroup>
- 					 <p:inputText value="#{searchBean.toSearchPatient.patId}"></p:inputText> 
- 					 <p:inputText value="#{searchBean.toSearchPatient.patIdIssuer}" rendered="false"></p:inputText>
- 					</h:panelGroup>
- 					
- 					<p:outputLabel value="Study ID" rendered="false"></p:outputLabel>
- 					 <p:inputText value="#{searchBean.toSearchStudy.studyId}" rendered="false" 
- 					 ></p:inputText>
+					<p:outputLabel value="MR No"></p:outputLabel>
 					
-    				<p:outputLabel value="Study Date From:" />
-				    <p:calendar id="datetimeFrom" value="#{searchBean.dateFrom}"  
-				    pattern="dd/MM/yyyy" effect="fold" navigator="true"/>
-				    <p:outputLabel value="Study Date To:" />
-				    <p:calendar id="datetimeTo" value="#{searchBean.dateTo}" 
-				    pattern="dd/MM/yyyy" effect="fold" navigator="true"/>
+ 					 <p:inputText value="#{searchBean.toSearchPatient.patId}"></p:inputText> 
+ 					 
+ 					 
+ 					<!-- <p:outputLabel value="Study ID" rendered="false"></p:outputLabel>
+ 					 <p:inputText value="#{searchBean.toSearchStudy.studyId}" rendered="false" 
+ 					 ></p:inputText> -->
+					
+    				<!-- <p:outputLabel value="Study Date From:" /> -->
+				    <p:calendar id="datetimeFrom" value="#{searchBean.dateFrom}"  widgetVar="fromDateCalendar"
+				    pattern="dd/MM/yyyy" effect="fold" navigator="true" style="visibility:hidden; display:none"/>
+				   <!--  <p:outputLabel value="Study Date To:" /> -->
+				    <p:calendar id="datetimeTo" value="#{searchBean.dateTo}" widgetVar="toDateCalendar"
+				    pattern="dd/MM/yyyy" effect="fold" navigator="true" style="visibility:hidden; display:none"/>
  					
  					
 				</p:panelGrid>
@@ -43,13 +48,11 @@
  
  
 
-	<p:commandButton value="Search" icon="fa fa-fw fa-search" update="tbl2" id="btnSearch"
+	<p:commandButton value="Search" icon="fa fa-fw fa-search" update="tbl2" id="btnSearch" class="btn btn-primary btn-lg active"
   	action="#{searchBean.searchStudyData}" />
  
  
-  	<p:commandButton value="Search" icon="fa fa-fw fa-search" update="tbl1" rendered="false"
-  	action="#{searchBean.searchPatientsData}"/>
-  	 
+ 	 
   	</p:panel>
   
 				
@@ -62,10 +65,10 @@
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					id="tbl2" >
 
-					<f:facet name="header">
+					<!-- <f:facet name="header">
         				Patients/Study Data
         				
-    				</f:facet>
+    				</f:facet> -->
 					<p:column headerText="Name" sortBy="#{study.patientFk.patName}" filterBy="#{study.patientFk.patName}" filterMatchMode="contains">
 				            <h:outputText value="#{study.patientFk.patName}" />
 				        </p:column>
@@ -146,8 +149,8 @@
         			
         			<p:column headerText="Details" width="5%"> 
         			 <center>
-				   		     	<p:commandButton onclick="PF('dlg').show();" title="View Study Details"
-				             	update=":form1:display" value="View"
+				   		     	<p:commandButton onclick="PF('dlg').show();" title="View Study Details" class="btn btn-info"
+				             	update=":form1:display"  icon="fa fa-fw fa-search fa-lg"
 				             	action="#{searchBean.populateSeriesDataForDialog}" 
 				             	>			            
 				            <f:setPropertyActionListener value="#{study}" 
@@ -161,19 +164,18 @@
 				   	
 				   	<p:column headerText="Delete" width="5%" rendered="#{userBean.currentUser.roleAdmin=='Y'}" >
 				    <center>
-				    <p:commandButton action="#{searchBean.deleteStudyData}" update="tbl2" 
-				    value="Del" icon="fa fa-fw fa-trash-o"
-				    >
+				    <p:commandButton action="#{searchBean.deleteStudyData}" update="tbl2"  class="btn btn-danger"
+				     icon="fa fa-fw fa-trash-o fa-lg" title="Delete Study" >
 				    
-				    <f:setPropertyActionListener value="#{study}" 
+				    	<f:setPropertyActionListener value="#{study}" 
 				            target="#{searchBean.selectedStudy}">
-    						</f:setPropertyActionListener>
+    					</f:setPropertyActionListener>
 				    </p:commandButton>
-	            		</center>
+	            	</center>
         			</p:column>
 				   		 
         					
-        					<p:column headerText="Series Details" rendered="false"> 
+        				<!-- 	<p:column headerText="Series Details" rendered="false"> 
 				            <h:commandLink action="#{searchBean.viewSeriesDetails}"
 				            target="_blank" rendered="true">
 				            View Details
@@ -181,7 +183,7 @@
 				            target="#{searchBean.selectedStudy}">
     						</f:setPropertyActionListener>
 				            </h:commandLink>
-				   		 </p:column>
+				   		 </p:column> -->
 				   		 
 				   		 
 				    
@@ -211,7 +213,7 @@
     			
 				<br/>
 				
-				
+		
 				
 				
 				
@@ -221,7 +223,47 @@
 function popupwindow(url, title) 
 {      
     window.open(url , title, "toolbar=no, scrollbars=yes, resizable=yes, top=170, left=170, width=800, height=600");        
-}    
+}  
+
+$(function() {
+	
+
+	    var start = moment().subtract(29, 'days');
+	    var end = moment();
+
+	    function cb(start, end) {
+	    	$('#reportrange span').html(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));
+		    var end1 = new moment(end._d);
+		    end1.add(1,'days');
+	    	 console.log('New date range selected: ' + start.format('DD/MM/YYYY') + ' to ' + end1.format('DD/MM/YYYY') + ':'+end.format('DD/MM/YYYY')  );
+	    	 PF('fromDateCalendar').setDate(start._d);
+	    	 PF('toDateCalendar').setDate(end1._d);
+	    	 //document.getElementById("form1:datetimeFrom").value = start;
+	    	 //$('#datetimeFrom').html( start.format('DD/MM/YYYY'));
+	    	 //$('#datetimeTo').value = end;
+	        
+	        
+	    }
+
+	    $('#reportrange').daterangepicker({
+	        startDate: start,
+	        endDate: end,
+	        ranges: {
+	           'Today': [moment(), moment()],
+	           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+	           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+	           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+	           'This Month': [moment().startOf('month'), moment().endOf('month')],
+	           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+	        }
+	    }, cb);
+
+	    cb(start, end);
+	    
+	
+});
+	
+
 </script>
 </ui:define>
 	</ui:composition>

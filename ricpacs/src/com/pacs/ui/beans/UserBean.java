@@ -80,6 +80,7 @@ public class UserBean
 					currentUser.getUserId().trim().length()>0)
 			{
 				String hashedPassword = computeHashedPassword(this.toSearchUser.getPassword());
+				System.out.println(hashedPassword);
 				if(hashedPassword.equals(currentUser.getPassword()))
 				{
 					FacesUtils.putIntoSession(KEY_CURRENT_USER, currentUser);

@@ -116,7 +116,7 @@ public class SearchBll
 		List<String> aetList = ub.getAetRoles();
 		List<String> modList = ub.getModRoles();
 		
-		
+		String name = null;
 		/*
 		 * Following code clears roles list and displays all records to user if roles contain "All" role 
 		 */
@@ -190,10 +190,16 @@ public class SearchBll
 				}
 				if(toSearchPatient.getPatId()!=null && toSearchPatient.getPatId().trim().length()>0)
 				{
-					cr.add(Restrictions.ilike("patId", toSearchPatient.getPatId()));
+					// changed from ilike to eq to improve performance
+					cr.add(Restrictions.eq("patId", toSearchPatient.getPatId()));
+//					cr.add(Restrictions.ilike("patId", toSearchPatient.getPatId()));
 				}
 				if(toSearchPatient.getPatName()!=null && toSearchPatient.getPatName().trim().length()>0)
 				{
+					toSearchPatient.setPatName(toSearchPatient.getPatName().replaceAll( " ", "\\^"));
+					
+					System.out.println("Name after: "+toSearchPatient.getPatName());
+					
 					cr.add(Restrictions.ilike("patName", toSearchPatient.getPatName(),MatchMode.ANYWHERE));
 				}
 				if(toSearchPatient.getPatIdIssuer()!=null && toSearchPatient.getPatIdIssuer().trim().length()>0)
@@ -209,19 +215,19 @@ public class SearchBll
 			list = mainCr.list();
 			for(Study c:list)
 			{
-				Hibernate.initialize(c.getSeriesFk());	
-				String name = c.getPatientFk().getPatName();
-				System.out.println("Name before: "+name);
-				name=name.replaceAll("[\\^]", "");
-				name = WordUtils.capitalizeFully(name);
+				//Hibernate.initialize(c.getSeriesFk());	
+//				name = c.getPatientFk().getPatName();
+//				System.out.println("Name before: "+name);
+//				name=c.getPatientFk().getPatName().replaceAll("[\\^]", "");
+				name = WordUtils.capitalizeFully(c.getPatientFk().getPatName().replaceAll("[\\^]", " "));
 				
-				System.out.println("Name after: "+name);
+//				System.out.println("Name after: "+name);
 				c.getPatientFk().setPatName(name);
-				name = c.getPatientFk().getPatId();
+//				name = c.getPatientFk().getPatId();
 				
 //				name=name.replaceAll("[\\^]", "");
-				name = WordUtils.capitalizeFully(name);
-				c.getPatientFk().setPatId(name);
+//				name = WordUtils.capitalizeFully(c.getPatientFk().getPatId());
+//				c.getPatientFk().setPatId(name);
 				
 				if(crit.isSyncStatusOption())
 				{
@@ -255,6 +261,41 @@ public class SearchBll
 		return list;
 	}
 	
+	public List<Series> getStudySeriesFk(Integer selectedStudyId)
+	{
+		List<Series> list = null;
+		Session session = null;
+		try
+		{
+			
+			
+			session = HibernateUtilsAnnot.currentSession();			
+			Criteria mainCr = session.createCriteria(Series.class)
+								.add(Restrictions.eq("studyFk.id", selectedStudyId));
+			list = mainCr.list();					
+			
+		}
+		catch(HibernateException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+		finally
+		{
+			HibernateUtilsAnnot.closeSession();
+		}
+		
+		return list;
+	}
+	
+	
+	
+	
 	private String calculateSyncStatusFromView(Session session,Study study)
 			throws HibernateException, Exception
 	{
@@ -269,7 +310,7 @@ public class SearchBll
 		for(StudyFilePathVw filePath:filePathList)
 		{
 			String path = onlineStorageDrive+"/"+ filePath.getFilePath();
-			System.out.println("File path: "+path);
+			//System.out.println("File path: "+path);
 			Path p = Paths.get(path);
 			counterAll++;
 			boolean exists = java.nio.file.Files.exists(p);

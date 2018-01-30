@@ -97,7 +97,11 @@ public class SearchBean
 		System.out.println("In viewSeriesDetails method");
 		
 		this.seriesList.clear();
-		this.seriesList.addAll(this.selectedStudy.getSeriesFk());
+		SearchBll bll = new SearchBll();
+		
+//		this.seriesList.addAll(this.selectedStudy.getSeriesFk());
+		
+		this.seriesList.addAll(bll.getStudySeriesFk(this.selectedStudy.getId()));
 		
 		return NavigationConstants.SERIES_DETAILS_NAVIGATION;
 	}
@@ -106,8 +110,10 @@ public class SearchBean
 	{
 		System.out.println("In populateSeriesDataForDialog method, selectedstudy is ="+this.selectedStudy.getId());
 		this.seriesList.clear();
-		this.seriesList.addAll(this.selectedStudy.getSeriesFk());
-
+		SearchBll bll = new SearchBll();
+//		this.seriesList.addAll(this.selectedStudy.getSeriesFk());
+		this.seriesList.addAll(bll.getStudySeriesFk(this.selectedStudy.getId()));
+		System.out.println("In populateSeriesDataForDialog method, selectedstudy Series size is ="+this.seriesList.size());	
 		return "";
 		
 	}
@@ -146,7 +152,8 @@ public class SearchBean
 	public String searchStudyData()
 	{
 		SearchBll bll = new SearchBll();
-		System.out.println("In searchStudyData method");
+		System.out.println("In searchStudyData method :: " + dateFrom + " : " + dateTo);
+		
 		studiesListMain = new ArrayList<Study>();
 		if(validateStudyDates())
 		{
