@@ -5,10 +5,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 
-import org.primefaces.model.chart.BarChartModel;
-import org.primefaces.model.chart.PieChartModel;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.PieChartModel;
 
 import com.pacs.bll.admin.ChartBll;
 import com.pacs.utils.Environment;
@@ -21,6 +21,8 @@ public class ChartBean
 	private PieChartModel modalityUsedSpaceChart;
 	private BarChartModel modalityCountChart;
 	
+	
+	
 	private Integer showFreeSpaceOptionAet=1;
 	private Integer showFreeSpaceOptionModality=1;
 //	0-> Do not Show, 1-> Show
@@ -31,10 +33,10 @@ public class ChartBean
 	public ChartBean() 
 	{
 		
-		
 		this.aetUsedSpaceChart = new PieChartModel();
 		this.modalityUsedSpaceChart = new PieChartModel();
 		this.modalityCountChart = new BarChartModel();
+		
 		
 	}
 
@@ -126,6 +128,9 @@ public class ChartBean
 	 }
 	
 	
+	
+	
+	
 
 	public PieChartModel getAetUsedSpaceChart() {
 		return aetUsedSpaceChart;
@@ -181,5 +186,7 @@ public class ChartBean
 		this.modalityCountChart = modalityCountChart;
 	}
 
+
+	
 }
 

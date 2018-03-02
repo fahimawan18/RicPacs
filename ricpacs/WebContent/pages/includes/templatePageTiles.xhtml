@@ -12,7 +12,25 @@
 	</link>
 	<title><h:outputText value="#{envmtBean.applFullName}"/> </title>
 	
-	
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/resources/js/jquery.slimscroll.min.js"></script>
+	<script>          
+    $(function(){
+        $('.most_slim').slimScroll({
+            height: '100%',
+            disableFadeOut: false,
+            width:'auto',
+            railVisible: true,
+            alwaysVisible: true,
+        
+        });
+    });         
+		
+    </script>
+	<h:outputStylesheet library="css" name="style2.css" />
+	<h:outputStylesheet library="css" name="grid.css" />
+	<h:outputStylesheet library="css" name="menu.css" />
+	<h:outputStylesheet library="css" name="hr.css" />
 	
 </h:head>
 <h:body>

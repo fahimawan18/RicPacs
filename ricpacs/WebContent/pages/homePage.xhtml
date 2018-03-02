@@ -1,29 +1,138 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
 
-<h:head></h:head>
-<h:body>
 	<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 		xmlns:ui="http://java.sun.com/jsf/facelets"
 		xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:f="http://java.sun.com/jsf/core"
 		xmlns:p="http://primefaces.org/ui"
-		template="/pages/includes/templatePage.xhtml">
+		template="/pages/includes/templatePageTiles.xhtml">
+		
+		<style>
+.ui-g div {
+    background-color: none !important;
+    text-align: center;
+    border: 0px !important; 
+    }
+div#j_idt27.jqplot-target{
+color:#fff !important;
+}
+	</style>
 		
 		<ui:define name="content">
 			<h:form id="homeform1">
   					<div align="center">
-					<p:graphicImage name="#{envmtBean.homeImage}"  width="100%"
-					title="#{envmtBean.applFullName} Solution"/>
+  					
+  					<!-- Top Tiles -->
+					 <div class="ui-g bgBlue row tile_count" >
+            <div class=" ui-g-4  ui-sm-12 ui-xs-6 tile_stats_count">
+              <span class="count_top"><i class="fa fa-bed"></i> Total Studies</span>
+              <div class="count"><h:outputText value="#{dashboardBean.dtc.studyCount}"/></div>
+              <span class="count_bottom"><i class="orange"><i class="fa fa-sort-asc"></i><h:outputText
+              value="#{dashboardBean.dtc.studyIncInWeek}"/>% </i> From last Week</span>
+            </div>
+            <div class="ui-g-4 ui-sm-12 ui-xs-6 tile_stats_count">
+              <span class="count_top"><i class="fa fa-database"></i> Storage Size</span>
+              <div class="count"><h:outputText value="#{dashboardBean.dtc.storageSizeMb} MB"/></div>
+              <span class="count_bottom"><i class="orange"><i class="fa fa-sort-asc"></i><h:outputText 
+              value="#{dashboardBean.dtc.storageIncInWeek}"/>% </i> From last Week</span>
+            </div>
+            <div class="ui-g-4 ui-sm-12 ui-xs-6 tile_stats_count">
+              <span class="count_top"><i class="fa fa-fax"></i> Total Machines</span>
+              <div class="count"><h:outputText value="#{dashboardBean.dtc.machinesCount}"/></div>
+              <span class="count_bottom"><i class="orange"><i class="fa fa-sort-asc"></i><h:outputText 
+              value="#{dashboardBean.dtc.machinesIncInWeek}"/>% </i> From last Week</span>
+            </div>
+            
+          </div>
+          <!-- /Top Tiles -->
+          
+          <div class="ui-g bg row ">
+          <h3 class="Graph_Title"> Summary Graphs</h3>
+          </div>
+              
+         <div class="ui-g bg row ">
+     
+         <div class="ui-g-6 ">
+         <p:panel id="sports" >
+              
+               <p:chart type="line" model="#{dashboardBean.studiesPerDayChart}"
+               responsive="true"  
+               style="width:90%;" >
+                <h:outputScript>
+				function extStudy() 
+				{	
+					this.cfg.title = 'Studies';
+  					this.cfg.axes.yaxis.tickOptions = 
+  					{
+        				textColor : 'white',
+        				formatString : "%d"
+    				};
+    				this.cfg.axes.yaxis.labelOptions = 
+    				{
+        				textColor : '#ffffff',
+        				min : 0
+        				
+    				};
+    				this.cfg.axes.xaxis.tickOptions = 
+  					{
+        				textColor : 'white',
+        				formatString : "%#d %b",
+        				angle : -50
+    				}; 
+    				this.cfg.axes.xaxis.labelOptions = 
+    				{
+        				textColor : '#ffffff'
+    				};
+  				}
+			</h:outputScript>
+               </p:chart>
+               
+         </p:panel>
+         
+         </div>
+         <div class="ui-g-6 ">
+         <p:panel id="sports2" >
+              
+               <p:chart type="line" model="#{dashboardBean.dataGrowthPerDayChart}"  
+               responsive="true"
+               style="width:90%;" >
+               
+               <h:outputScript>
+				function extData() 
+				{
+					this.cfg.title = 'Storage';
+  					this.cfg.axes.yaxis.tickOptions = 
+  					{
+        				textColor : '#ffffff',
+        				formatString : '%#.2f MB'
+        				
+    				};
+    				this.cfg.axes.yaxis.labelOptions = 
+    				{
+        				textColor : '#ffffff',
+        				min : 0
+    				}; 
+    				this.cfg.axes.xaxis.tickOptions = 
+  					{
+        				textColor : 'white',
+        				formatString : "%#d %b",
+        				angle : -50
+    				};
+    				this.cfg.axes.xaxis.labelOptions = 
+    				{
+        				textColor : '#ffffff'
+    				};
+  				}
+			</h:outputScript>
+               </p:chart>
+               
+         </p:panel>
+         
+         </div>
+</div>
+          
 					
 					
 				</div>
 			</h:form>
 		</ui:define>
 	</ui:composition>
-</h:body>
-</html>

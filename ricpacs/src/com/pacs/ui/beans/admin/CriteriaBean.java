@@ -62,7 +62,7 @@ public class CriteriaBean
 		
 //		To be commented while deploying on production
 //		this.weasisPath = "http://" + request.getServerName() + ":8081"+ Environment.getWeasisServerPath();
-		
+		System.out.println("Viewer path: "+weasisPath);
 		this.syncStatusOption=false;
 		this.bll = new CriteriaBll();
 
