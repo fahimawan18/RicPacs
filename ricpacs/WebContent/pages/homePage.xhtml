@@ -53,14 +53,16 @@ color:#fff !important;
      
          <div class="ui-g-6 ">
          <p:panel id="sports" >
-              
+            
+          <h4 class="Graph_Title"> Studies per Day</h4>
+          
                <p:chart type="line" model="#{dashboardBean.studiesPerDayChart}"
                responsive="true"  
                style="width:90%;" >
                 <h:outputScript>
 				function extStudy() 
 				{	
-					this.cfg.title = 'Studies';
+					
   					this.cfg.axes.yaxis.tickOptions = 
   					{
         				textColor : 'white',
@@ -91,7 +93,7 @@ color:#fff !important;
          </div>
          <div class="ui-g-6 ">
          <p:panel id="sports2" >
-              
+               <h4 class="Graph_Title"> Storage Growth per Day </h4>
                <p:chart type="line" model="#{dashboardBean.dataGrowthPerDayChart}"  
                responsive="true"
                style="width:90%;" >
@@ -99,7 +101,8 @@ color:#fff !important;
                <h:outputScript>
 				function extData() 
 				{
-					this.cfg.title = 'Storage';
+					
+					
   					this.cfg.axes.yaxis.tickOptions = 
   					{
         				textColor : '#ffffff',

@@ -1,5 +1,6 @@
 package com.pacs.dal.dao;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Date;
 
@@ -29,10 +30,16 @@ public class DashBoardTicketsCount
 	
 	@Column(name="storage_size")
 	private Double storageSize;
+	
 	@Transient
-	private Double storageSizeMb;
+	private String storageSizeMb;
 	@Transient
-	private Double storageSizeGb;
+	private String storageSizeGb;
+	
+//	@Transient
+//	private Double storageSizeMb;
+//	@Transient
+//	private Double storageSizeGb;
 	
 	@Column(name="storage_growth")
 	private Double storageGrowth;
@@ -128,45 +135,52 @@ public class DashBoardTicketsCount
 	}
 
 
-	public Double getStorageSizeMb() 
+	public String getStorageSizeMb() 
 	{
+		System.out.println("Storage size : " + storageSize);
 		if(storageSize!=null && storageSize>0)
 		{
 			NumberFormat nf = NumberFormat.getInstance();			
 			nf.setMaximumFractionDigits(2);
-			this.storageSizeMb=Double.valueOf((nf.format((storageSize/1024.00))));
+			DecimalFormat df = new DecimalFormat("###.##");
+//			this.storageSizeMb=Double.valueOf((nf.format((storageSize/1024.00))));
+//			this.storageSizeMb = Double.valueOf((storageSize/1024.00));
+//			this.storageSizeMb = Double.valueOf((storageSize/1024.00));
+//			df.format(storageSize/1024.00);
+			this.storageSizeMb=nf.format((storageSize/1024.00));
 		}
 		else
 		{
-			this.storageSizeMb=0.0;
+			this.storageSizeMb="0.0";
 		}
 		return storageSizeMb;
 	}
 
 
-	public void setStorageSizeMb(Double storageSizeMb) {
+	public void setStorageSizeMb(String storageSizeMb) {
 		this.storageSizeMb = storageSizeMb;
 	}
 
 
-	public Double getStorageSizeGb() 
+	public String getStorageSizeGb() 
 	{
 		if(storageSize!=null && storageSize>0)
 		{
 			NumberFormat nf = NumberFormat.getInstance();			
 			nf.setMaximumFractionDigits(2);
-			this.storageSizeGb= Double.valueOf((nf.format((storageSize/1024.00/1024.00))));
+//			this.storageSizeGb= Double.valueOf((nf.format((storageSize/1024.00/1024.00))));
+			this.storageSizeGb= nf.format((storageSize/1024.00/1024.00));
 			
 		}
 		else
 		{
-			this.storageSizeGb=0.0;
+			this.storageSizeGb="0.0";
 		}
 		return storageSizeGb;
 	}
 
 
-	public void setStorageSizeGb(Double storageSizeGb) {
+	public void setStorageSizeGb(String storageSizeGb) {
 		this.storageSizeGb = storageSizeGb;
 	}
 

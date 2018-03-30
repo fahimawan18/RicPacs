@@ -103,7 +103,8 @@ public class DashboardBean
 		System.out.println("In initStudiesPerDayChart PostConstruct");
 		this.studiesPerDayChart = new LineChartModel();
 		this.studiesPerDayChart = bll.populateStudiesPerDayChart(studiesPerDayChart);
-		studiesPerDayChart.setTitle("Studies per Day");
+//		studiesPerDayChart.setTitle("Studies per Day");
+		studiesPerDayChart.setSeriesColors("C7754C");
 		studiesPerDayChart.setShowPointLabels(true);
 		studiesPerDayChart.setAnimate(true);		
 		studiesPerDayChart.setExtender("extStudy");
@@ -119,8 +120,9 @@ public class DashboardBean
 		System.out.println("In initDataGrowthPerDayChart PostConstruct");
 		this.dataGrowthPerDayChart = new LineChartModel();
 		this.dataGrowthPerDayChart = bll.populateDataGrowthPerDayChart(dataGrowthPerDayChart);
-		dataGrowthPerDayChart.setTitle("Storage Growth per Day");
+//		dataGrowthPerDayChart.setTitle("Storage Growth per Day");
 		dataGrowthPerDayChart.setShowPointLabels(true);
+		dataGrowthPerDayChart.setSeriesColors("00749F");
 		dataGrowthPerDayChart.setAnimate(true);
 		dataGrowthPerDayChart.setExtender("extData");
 

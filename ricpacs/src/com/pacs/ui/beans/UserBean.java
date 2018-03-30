@@ -192,6 +192,7 @@ public class UserBean
 //		UserBean.KEY_CURRENT_USER = null;
 //		FacesUtils.resetManagedBean("themeSwitcherView");
 		FacesUtils.resetManagedBean("themeSwitcherView");
+		FacesUtils.resetManagedBean("dashboardBean");
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 //		FacesContext.getCurrentInstance().getExternalContext().redirect("logout.xhtml");
 		this.checkSession = false;

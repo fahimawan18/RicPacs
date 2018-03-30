@@ -1,29 +1,25 @@
-html, body {
+/*html, body {
 	margin: 0;
 	padding: 0;
 	height: 100%;
-	/* background-image: url(../resources/images/bg.jpg); */
+	
 	 background: linear-gradient(to bottom right, #191654 0%, #43c6ac 100%);
   position: absolute;
 	background-size: cover;
-	/*background-repeat: no-repeat;*/
+	
 	color: #ccc;
-	font: 87.5%/1.5em 'Open Sans', sans-serif;
+	font:  'Open Sans', sans-serif;
 	margin: 5px !important;
-	overflow-y: hidden !important; /* to remove vertical scrolling*/
+	overflow-y: hidden !important;
 	overflow-x: hidden !important;
 	position: inherit;
-}
+}*/
 
 #container {
 	min-height: 100%;
 	position: relative;
 }
 
-#header {
-	background: #ff0;
-	padding: 10px;
-}
 
 #body {
 	padding: 10px;
@@ -45,7 +41,7 @@ html, body {
 
 .ui-widget-content {
 	border: 0px !important;
-	background: none !important;
+	background: none ;
 	color: #d4c9c9 !important;
 }
 
@@ -153,7 +149,7 @@ div#j_idt27.jqplot-target {
 	border-width: 1px;
 	border-style: solid !important;
 	border-color: inherit;
-	padding: 4px 10px;
+	padding: 4px 1px;
 }
 
 
@@ -253,7 +249,7 @@ div#j_idt27.jqplot-target {
 	
 }
 .btn {
-	height: 30px;
+	height: 60px;
 }
 
 .ui-outputlabel-rfi {
@@ -494,7 +490,7 @@ rotate
 b, strong {
     font-weight: bold;
 }
-.Graph_Title{padding:4px 3px 1px 14px;}
+.Graph_Title{padding:4px 3px 1px 4px;}
 
 /* Color styles */
 
