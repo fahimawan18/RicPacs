@@ -24,9 +24,12 @@
   			<f:selectItem itemLabel="Display Available Disk Space" itemValue="1"/>
   			<p:ajax event="change" listener="#{chartBean.onAetConversionSelect}" update="aetChart1" />
   		</p:selectOneMenu>
-  				 
+  			
+  			<h4 class="Graph_Title"> AET Usage Chart</h4>	 
 		<p:chart  type="pie" model="#{chartBean.aetUsedSpaceChart}" style="height:300px;width:500px;"  
-					responsive="true" id="aetChart1" />
+					responsive="true" id="aetChart1" >
+					
+		</p:chart>
 		</h:panelGrid>
 		
 		<h:panelGrid columns="1">
@@ -42,8 +45,11 @@
   			<f:selectItem itemLabel="Display Available Disk Space" itemValue="1"/>
   			<p:ajax event="change" listener="#{chartBean.onModalityConversionSelect}" update="modalityChart1" />
   		</p:selectOneMenu>
+  		<h4 class="Graph_Title"> Modality Usage Chart</h4>
 		<p:chart  type="pie" model="#{chartBean.modalityUsedSpaceChart}" style="height:300px;width:500px" 
-					responsive="true" id="modalityChart1" />
+					responsive="true" id="modalityChart1" >
+			
+		</p:chart>
 		</h:panelGrid>
 		
 		</h:panelGrid>
@@ -56,7 +62,8 @@
 	<p:panel id="panel3" header="Studies Stored Against Modalities">
   	
   		<h:panelGrid columns="1" width="100%">
-  				 
+  		
+  		<h4 class="Graph_Title"> Studies against Modalities</h4>		 
 		<p:chart  type="bar" model="#{chartBean.modalityCountChart}" 
 		style="height:300px;"  
 		responsive="true" id="modalityBarChart1">
@@ -64,6 +71,27 @@
 		<h:outputScript>
 		function ext() {
   			this.cfg.seriesDefaults.rendererOptions.varyBarColor = true;
+  			
+  			this.cfg.axes.yaxis.tickOptions = 
+  					{
+        				textColor : 'white'
+        				
+    				};
+    				this.cfg.axes.yaxis.labelOptions = 
+    				{
+        				textColor : '#ffffff'
+        				
+        				
+    				};
+    				this.cfg.axes.xaxis.tickOptions = 
+  					{
+        				textColor : 'white'
+        				
+    				}; 
+    				this.cfg.axes.xaxis.labelOptions = 
+    				{
+        				textColor : '#ffffff'
+    				};
   			}
 		</h:outputScript>
 		

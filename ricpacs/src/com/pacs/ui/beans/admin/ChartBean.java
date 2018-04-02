@@ -57,10 +57,11 @@ public class ChartBean
 //		aetUsedSpaceChart.set("Brand 4", 421);
 		this.aetUsedSpaceChart = new PieChartModel();
 		this.aetUsedSpaceChart = bll.populateAetChart(aetUsedSpaceChart,conversionOption,showFreeSpaceOptionAet);		
-		aetUsedSpaceChart.setTitle("AET Usage Chart");
+//		aetUsedSpaceChart.setTitle("AET Usage Chart");
 		aetUsedSpaceChart.setLegendPosition("w");
 		aetUsedSpaceChart.setShowDataLabels(true);
 		aetUsedSpaceChart.setShowDatatip(true);
+		
 	}
 	
 	private void initModalityChart()
@@ -69,10 +70,11 @@ public class ChartBean
 		System.out.println("In initModalityChart PostConstruct");
 		this.modalityUsedSpaceChart = new PieChartModel();
 		this.modalityUsedSpaceChart = bll.populateModalityChart(modalityUsedSpaceChart, conversionOption,showFreeSpaceOptionModality);
-		modalityUsedSpaceChart.setTitle("Modality Usage Chart");
+//		modalityUsedSpaceChart.setTitle("Modality Usage Chart");
 		modalityUsedSpaceChart.setLegendPosition("e");
 		modalityUsedSpaceChart.setShowDataLabels(true);
 		modalityUsedSpaceChart.setShowDatatip(true);
+		
 	}
 	
 	
@@ -82,7 +84,7 @@ public class ChartBean
 		System.out.println("In initModalityCountChart PostConstruct");
 		this.modalityCountChart = new BarChartModel();
 		this.modalityCountChart = bll.populateModalityCountChart(modalityCountChart);
-		modalityCountChart.setTitle("Studies Against Modalities ");
+//		modalityCountChart.setTitle("Studies Against Modalities ");
 //		modalityCountChart.setLegendPosition("ne");
 		
 		Axis xAxis = modalityCountChart.getAxis(AxisType.X);
