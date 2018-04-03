@@ -10,48 +10,54 @@
   	<p:panel id="panel2" header="Disk Usage Summary">
   	
   		<h:panelGrid columns="2" width="100%">
-  		
   		<h:panelGrid columns="1">
+  		<h4 class="Graph_Title"> AET Usage Chart</h4>	
+  		<h:panelGrid columns="3">
   		<p:selectOneMenu value="#{chartBean.conversionOption}">
   			<f:selectItem itemLabel="Kilo Bytes" itemValue="0"/>
   			<f:selectItem itemLabel="Mega Bytes" itemValue="1"/>
   			<f:selectItem itemLabel="Giga Bytes" itemValue="2"/>
   			<p:ajax event="change" listener="#{chartBean.onAetConversionSelect}" update="aetChart1" />
   		</p:selectOneMenu> 
-  		
+  		<p:spacer width="10px"></p:spacer>
   		<p:selectOneMenu value="#{chartBean.showFreeSpaceOptionAet}">
   			<f:selectItem itemLabel="Do Not Display Available Disk Space" itemValue="0"/>
   			<f:selectItem itemLabel="Display Available Disk Space" itemValue="1"/>
   			<p:ajax event="change" listener="#{chartBean.onAetConversionSelect}" update="aetChart1" />
   		</p:selectOneMenu>
-  			
-  			<h4 class="Graph_Title"> AET Usage Chart</h4>	 
+  		</h:panelGrid>
+  		<h:panelGrid columns="1">	
+  			 
 		<p:chart  type="pie" model="#{chartBean.aetUsedSpaceChart}" style="height:300px;width:500px;"  
 					responsive="true" id="aetChart1" >
 					
 		</p:chart>
 		</h:panelGrid>
-		
+		</h:panelGrid>
 		<h:panelGrid columns="1">
+		<h4 class="Graph_Title"> Modality Usage Chart</h4>
+		<h:panelGrid columns="3">
 		<p:selectOneMenu value="#{chartBean.conversionOption}">
   			<f:selectItem itemLabel="Kilo Bytes" itemValue="0"/>
   			<f:selectItem itemLabel="Mega Bytes" itemValue="1"/>
   			<f:selectItem itemLabel="Giga Bytes" itemValue="2"/>
   			<p:ajax event="change" listener="#{chartBean.onModalityConversionSelect}" update="modalityChart1" />
   		</p:selectOneMenu>
-  		
+  		<p:spacer width="10px"></p:spacer>
   		<p:selectOneMenu value="#{chartBean.showFreeSpaceOptionModality}">
   			<f:selectItem itemLabel="Do Not Display Available Disk Space" itemValue="0"/>
   			<f:selectItem itemLabel="Display Available Disk Space" itemValue="1"/>
   			<p:ajax event="change" listener="#{chartBean.onModalityConversionSelect}" update="modalityChart1" />
   		</p:selectOneMenu>
-  		<h4 class="Graph_Title"> Modality Usage Chart</h4>
+  		</h:panelGrid>
+  		<h:panelGrid columns="1">
 		<p:chart  type="pie" model="#{chartBean.modalityUsedSpaceChart}" style="height:300px;width:500px" 
 					responsive="true" id="modalityChart1" >
 			
 		</p:chart>
 		</h:panelGrid>
 		
+		</h:panelGrid>
 		</h:panelGrid>
 			<br/>					
 	</p:panel>
